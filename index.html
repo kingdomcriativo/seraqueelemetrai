@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Será que ele me trai? | Análise Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--cinza:#2a2a2a;--cinza-medio:#3d3d3d;--muted:#888}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.screen{display:none;min-height:100vh;position:relative;z-index:10}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
+.intro-wrap{max-width:560px;width:100%;text-align:center}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp .8s .2s forwards}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,11vw,88px);font-weight:400;line-height:0.95;margin-bottom:12px;opacity:0;animation:fadeUp .8s .4s forwards;letter-spacing:3px}
+h1 .linha1{display:block;color:var(--creme)}
+h1 .linha2{display:block;color:#c0392b}
+.subtitle{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:var(--muted);margin-bottom:48px;line-height:1.6;opacity:0;animation:fadeUp .8s .6s forwards;letter-spacing:3px;text-transform:uppercase}
+.divider{width:40px;height:1px;background:var(--dourado);margin:0 auto 32px;opacity:0;animation:fadeUp .6s .7s forwards}
+.intro-text{font-size:14px;line-height:1.85;color:#aaa;max-width:440px;margin:0 auto 48px;opacity:0;animation:fadeUp .8s .8s forwards}
+.badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;opacity:0;animation:fadeUp .8s .9s forwards}
+.badge{font-size:11px;letter-spacing:.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--dourado);flex-shrink:0}
+.btn-start{display:inline-block;padding:16px 48px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;opacity:0;animation:fadeUp .8s 1s forwards;position:relative;overflow:hidden}
+.btn-start::before{content:'';position:absolute;inset:0;background:var(--dourado);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1}
+.btn-start:hover{color:var(--preto)}.btn-start:hover::before{transform:scaleX(1)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.active{display:flex}
+.modal{background:#141414;border:1px solid rgba(201,168,76,.25);max-width:420px;width:100%;padding:36px 32px;position:relative;animation:fadeUp .4s forwards}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;transition:color .2s;line-height:1}
+.modal-close:hover{color:var(--creme)}
+.modal-eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:10px}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:30px;font-weight:400;margin-bottom:6px;line-height:1.1;letter-spacing:2px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:24px}
+.price-big{font-family:'Bebas Neue',sans-serif;font-size:48px;font-weight:400;color:var(--dourado-claro)}
+.price-was{font-size:14px;color:var(--muted);text-decoration:line-through}
+.price-label{font-size:11px;color:var(--muted)}
+.input-group{margin-bottom:14px}
+.input-group label{display:block;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.input-group input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s}
+.input-group input:focus{border-color:rgba(201,168,76,.4)}
+.input-group input::placeholder{color:#555}
+.btn-pix{width:100%;padding:15px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:8px}
+.btn-pix:hover{background:var(--vinho-claro)}.btn-pix:disabled{opacity:.4;cursor:not-allowed}
+.security-note{font-size:11px;color:#555;margin-top:14px;text-align:center}
+.pix-area{display:none;text-align:center}
+.pix-area.show{display:block}
+.form-area.hide{display:none}
+.qr-wrap{background:rgba(255,255,255,.96);border-radius:4px;padding:16px;display:inline-block;margin:20px 0 16px}
+.qr-wrap img{width:180px;height:180px;display:block}
+.qr-fallback{width:180px;height:180px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#333;text-align:center;line-height:1.4;padding:16px}
+.pix-code-label{font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.pix-code-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:10px 14px;font-family:monospace;font-size:10px;color:#aaa;word-break:break-all;text-align:left;margin-bottom:12px;cursor:pointer}
+.btn-copy{background:none;border:1px solid rgba(201,168,76,.3);color:var(--dourado);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 20px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-copy:hover{background:rgba(201,168,76,.08)}
+.timer-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:12px;color:var(--muted)}
+.timer-val{color:var(--dourado-claro);font-weight:500}
+.checking-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#555;margin-top:10px}
+.dot-pulse{display:flex;gap:4px}
+.dot-pulse span{width:4px;height:4px;border-radius:50%;background:var(--dourado);animation:pulse 1.2s infinite}
+.dot-pulse span:nth-child(2){animation-delay:.2s}.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:1}}
+.quiz-wrap{max-width:620px;width:100%}
+.progress-area{margin-bottom:48px}
+.progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-num{font-size:11px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase}
+.progress-pct{font-size:11px;color:var(--muted)}
+.progress-track{height:1px;background:var(--cinza-medio);position:relative}
+.progress-fill{height:1px;background:var(--dourado);transition:width .5s cubic-bezier(.4,0,.2,1);position:absolute;top:0;left:0}
+.q-category{font-size:10px;letter-spacing:2.5px;color:var(--vinho-claro);text-transform:uppercase;margin-bottom:16px}
+.q-text{font-family:'DM Sans',sans-serif;font-size:clamp(18px,3vw,24px);font-weight:300;line-height:1.5;color:var(--creme);margin-bottom:36px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{padding:16px 20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#bbb;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;cursor:pointer;text-align:left;transition:all .25s;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--dourado);transform:scaleY(0);transition:transform .25s}
+.opt:hover{border-color:rgba(201,168,76,.3);color:var(--creme);background:rgba(201,168,76,.04)}.opt:hover::before{transform:scaleY(1)}
+.opt.selected{border-color:var(--dourado);color:var(--dourado-claro);background:rgba(201,168,76,.08)}.opt.selected::before{transform:scaleY(1)}
+.opt-letter{display:inline-block;width:20px;font-size:11px;letter-spacing:1px;color:var(--muted);margin-right:12px;transition:color .25s}
+.opt.selected .opt-letter,.opt:hover .opt-letter{color:var(--dourado)}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px}
+.btn-nav{background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:color .2s;padding:8px 0}
+.btn-nav:hover{color:var(--creme)}
+.btn-nav.btn-next{color:var(--dourado);border:1px solid rgba(201,168,76,.3);padding:12px 28px;transition:all .25s}
+.btn-nav.btn-next:hover{background:rgba(201,168,76,.08);border-color:var(--dourado)}
+.btn-nav.btn-next:disabled{opacity:.3;cursor:not-allowed}
+.result-wrap{max-width:620px;width:100%}
+.result-header{text-align:center;margin-bottom:52px}
+.result-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);font-weight:400;line-height:1.05;margin-bottom:16px;letter-spacing:2px}
+.result-score-bar{width:100%;height:2px;background:var(--cinza-medio);margin:32px 0;position:relative}
+.result-score-fill{height:2px;position:absolute;left:0;top:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.result-score-dot{width:10px;height:10px;border-radius:50%;position:absolute;top:-4px;transition:left 1.5s cubic-bezier(.4,0,.2,1);border:2px solid var(--preto)}
+.result-section{border-top:1px solid rgba(255,255,255,.06);padding:28px 0}
+.result-section-title{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:14px}
+.result-text{font-size:15px;line-height:1.8;color:#bbb}
+.result-text strong{color:var(--creme);font-weight:400}
+.sinais-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.sinais-list li{display:flex;gap:12px;font-size:14px;color:#aaa;line-height:1.5}
+.sinais-list li::before{content:'—';color:var(--dourado);flex-shrink:0}
+.cta-box{margin-top:48px;padding:36px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-box p{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-box small{font-size:12px;color:var(--muted);display:block;margin-bottom:28px}
+.btn-cta{display:inline-block;padding:14px 40px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-cta:hover{background:var(--vinho-claro)}
+.restart{display:block;text-align:center;margin-top:32px;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;cursor:pointer;transition:color .2s;background:none;border:none}
+.restart:hover{color:var(--creme)}
+.config-banner{background:rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.2);padding:10px 20px;font-size:12px;color:var(--dourado);text-align:center;position:fixed;top:0;left:0;right:0;z-index:200;display:none;line-height:1.5}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeUp .45s forwards}
+@media(max-width:480px){.screen.active{padding:48px 20px}.border-deco,.corner{display:none}.modal{padding:28px 20px}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="config-banner" id="config-banner">
+  ⚙️ Modo demonstração ativo. Para ativar o Pix real, abra o arquivo e substitua <strong>SEU_ACCESS_TOKEN_AQUI</strong> pelo seu Access Token do Mercado Pago.
+</div>
+
+<!-- MODAL PAGAMENTO -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-area" id="form-area">
+      <p class="modal-eyebrow">Desbloqueie o teste completo</p>
+      <h2 class="modal-title">Análise Completa</h2>
+      <p class="modal-sub">15 perguntas · Resultado imediato · 100% anônimo</p>
+      <div class="price-row">
+        <span class="price-big">R$ 9,97</span>
+        <div><div class="price-was">R$ 29,90</div><div class="price-label">pagamento único via Pix</div></div>
+      </div>
+      <div class="input-group">
+        <label>Seu nome</label>
+        <input type="text" id="inp-nome" placeholder="Como posso te chamar?">
+      </div>
+      <div class="input-group">
+        <label>Seu e-mail</label>
+        <input type="email" id="inp-email" placeholder="Para enviar seu resultado também">
+      </div>
+      <button class="btn-pix" id="btn-gerar-pix" onclick="gerarPix()">Gerar QR Code Pix</button>
+      <p class="security-note">🔒 Pagamento seguro · Mercado Pago · Aprovação em segundos</p>
+    </div>
+    <div class="pix-area" id="pix-area">
+      <p class="modal-eyebrow">Pix gerado com sucesso</p>
+      <h2 class="modal-title">Escaneie e pague</h2>
+      <div class="qr-wrap">
+        <img id="qr-img" src="" alt="QR Code Pix" style="display:none">
+        <div class="qr-fallback" id="qr-fallback">Abra seu app do banco e escaneie o QR Code ou use o código copia e cola abaixo</div>
+      </div>
+      <p class="pix-code-label">Código Pix — copia e cola</p>
+      <div class="pix-code-box" id="pix-code" onclick="copiarCodigo()">Gerando...</div>
+      <button class="btn-copy" onclick="copiarCodigo()" id="btn-copy-code">Copiar código</button>
+      <div class="timer-row">Expira em <span class="timer-val" id="timer">15:00</span></div>
+      <div class="checking-row">Aguardando pagamento <div class="dot-pulse"><span></span><span></span><span></span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TELA 1: INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="intro-wrap">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+    <h1><span class="linha1">Será que ele</span><span class="linha2">me trai?</span></h1>
+    <p class="subtitle">Análise Completa</p>
+    <div class="divider"></div>
+    <p class="intro-text">Você já ignorou uma sensação que não saía da cabeça.<br>Já inventou desculpas para ele. Já se perguntou se estava exagerando.<br><br>Este teste analisa 15 comportamentos documentados.<br>Não é achismo — é análise honesta e sem julgamento.</p>
+    <div class="badges">
+      <span class="badge">15 perguntas</span>
+      <span class="badge">3 minutos</span>
+      <span class="badge">100% anônimo</span>
+      <span class="badge">Resultado imediato</span>
+    </div>
+    <button class="btn-start" onclick="openModal()">Começar agora</button>
+  </div>
+</div>
+
+<!-- TELA 2: QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-wrap">
+    <div class="progress-area">
+      <div class="progress-meta">
+        <span class="progress-num" id="prog-num">Pergunta 1 de 15</span>
+        <span class="progress-pct" id="prog-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="fade-in" id="q-area"></div>
+    <div class="quiz-nav">
+      <button class="btn-nav" id="btn-back" onclick="prevQ()" style="opacity:0;pointer-events:none">← Voltar</button>
+      <button class="btn-nav btn-next" id="btn-next" onclick="nextQ()" disabled>Próxima →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TELA 3: RESULTADO -->
+<div class="screen" id="screen-result">
+  <div class="result-wrap" id="result-content"></div>
+</div>
+
+<script>
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
+const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
+if(DEV_MODE) document.getElementById('config-banner').style.display='block';
+
+const questions=[
+  {cat:"Comportamento digital",text:"Nos últimos meses, ele ficou mais cuidadoso com o celular — vira a tela, leva para o banheiro, ou mudou a senha sem motivo aparente?",opts:["Sim, claramente mudou","Às vezes percebi isso","Não notei nenhuma mudança","Ele sempre foi assim com o celular"],scores:[3,2,0,0]},
+  {cat:"Padrão de comunicação",text:"Ele passou a demorar mais para responder mensagens — especialmente em horários que antes era rápido — sem justificativa que faça sentido?",opts:["Sim, ficou bem mais lento","Às vezes some por horas","Não, responde normalmente","Na verdade melhorou"],scores:[3,2,0,0]},
+  {cat:"Presença e ausência",text:"Ele passou a sair mais — com amigos, viagens de trabalho ou compromissos vagos — e os horários nem sempre batem com o que disse depois?",opts:["Sim, com frequência","Aconteceu algumas vezes","Raramente","Não mudou nada nisso"],scores:[3,2,0,0]},
+  {cat:"Intimidade emocional",text:"A conexão emocional esfriou? Ele parece distante, menos presente nas conversas, como se estivesse em outro lugar mesmo quando está com você?",opts:["Muito distante ultimamente","Um pouco, percebi algo","Igual ao que sempre foi","Está mais próximo do que antes"],scores:[3,2,0,0]},
+  {cat:"Intimidade física",text:"A intimidade física diminuiu sem nenhuma razão clara — sem estresse no trabalho, sem briga recente, sem motivo que explique a mudança?",opts:["Diminuiu bastante","Diminuiu um pouco","Está igual","Até aumentou"],scores:[3,2,0,0]},
+  {cat:"Inconsistências",text:"Você já o pegou em alguma contradição — ele disse uma coisa, mas os fatos mostraram outra? E quando você questionou, a explicação não fechou?",opts:["Sim, várias vezes","Uma ou duas vezes","Não me recordo de nada","Nunca aconteceu"],scores:[3,2,0,0]},
+  {cat:"Aparência e vaidade",text:"Ele passou a se preocupar mais com aparência — academia, perfume, roupas novas — de forma repentina e sem motivo claro?",opts:["Sim, nitidamente diferente","Talvez, levemente","Não percebi diferença","Sempre se cuidou assim"],scores:[3,1,0,0]},
+  {cat:"Finanças e sigilo",text:"Você notou gastos sem explicação — valores no cartão, saques em dinheiro, ou despesas que ele não sabe explicar direito?",opts:["Sim, notei coisas estranhas","Uma ou outra coisa estranha","Não temos esse acesso","Não, tudo transparente"],scores:[3,2,0,0]},
+  {cat:"Reação ao seu contato",text:"Quando você liga ou aparece de surpresa, ele parece nervoso, desconfortável ou age de forma diferente do normal?",opts:["Sim, claramente fica tenso","Às vezes algo me pareceu estranho","Não, reage normalmente","Fica feliz, nunca estranhei"],scores:[3,2,0,0]},
+  {cat:"Novas pessoas",text:"Surgiu alguém novo na vida dele que ele menciona muito — ou nunca menciona, mesmo convivendo com frequência?",opts:["Sim, tem alguém que me intriga","Talvez, algo me chamou atenção","Nada que eu tenha percebido","Não, conheço todos ao redor dele"],scores:[3,2,0,0]},
+  {cat:"Defesa e irritabilidade",text:"Quando você pergunta onde ele esteve ou com quem, ele reage com irritação, vira o jogo ou te acusa de ser ciumenta?",opts:["Sim, sempre vira o jogo","Às vezes fica na defensiva","Responde sem drama","Nunca precisei questionar"],scores:[3,2,0,0]},
+  {cat:"Planos e futuro",text:"Ele ficou esquivo em relação a planos futuros — viagens, projetos juntos — como se estivesse evitando se comprometer?",opts:["Sim, evita esses assuntos","Ficou um pouco mais esquivo","Não, planejamos normalmente","Está mais animado com o futuro"],scores:[3,2,0,0]},
+  {cat:"Intuição",text:"Você tem uma sensação persistente de que algo está errado, mesmo sem conseguir apontar exatamente o quê?",opts:["Sim, é forte e constante","Às vezes, vem e vai","Tenho dúvidas mas é difuso","Não, sinto que está tudo bem"],scores:[3,2,1,0]},
+  {cat:"Histórico",text:"Ele já traiu alguém no passado — em relacionamentos anteriores — ou você já descobriu alguma mentira significativa desde que estão juntos?",opts:["Sim, tem histórico de traição","Já houve mentira descoberta","Não sei sobre o passado dele","Não, nunca houve nada assim"],scores:[3,2,1,0]},
+  {cat:"Comparação",text:"Ele faz comparações entre você e outras mulheres — seja de forma direta, em brincadeiras, ou elogiando características que você não tem?",opts:["Sim, acontece com frequência","Já aconteceu algumas vezes","Raramente, talvez uma vez","Nunca fez isso"],scores:[3,2,1,0]}
+];
+
+const resultados=[
+  {min:0,max:14,label:"Sinais de baixo risco",labelColor:"#4a9e6b",title:"Os sinais são discretos\nou ausentes",scoreColor:"#4a9e6b",analise:"Com base nas suas respostas, os indicadores comportamentais de infidelidade estão <strong>abaixo do limiar de alerta</strong>. Isso não significa que tudo está perfeito — relacionamentos têm complexidades que vão além de qualquer teste. Mas os padrões que pesquisadores associam com mais frequência à traição não aparecem de forma significativa aqui.",sinais_title:"O que suas respostas indicam",sinais:["Ausência de mudanças bruscas de comportamento relatadas","Padrões de comunicação dentro do esperado","Nenhum sinal de alerta crítico identificado","Sua intuição não está disparando alarmes fortes"],orientacao:"Se você chegou até aqui, é porque algo — por menor que seja — te incomodou. Isso é válido. A intuição merece atenção mesmo quando os números não confirmam suspeitas. Considere uma conversa honesta com seu parceiro sobre como você está se sentindo."},
+  {min:15,max:28,label:"Atenção — sinais moderados",labelColor:"#c9a84c",title:"Há padrões que merecem\numa leitura mais atenta",scoreColor:"#c9a84c",analise:"Suas respostas apontam para <strong>um nível moderado de sinais de alerta</strong>. Isolados, esses comportamentos podem ter explicações. Juntos, formam um padrão que pesquisadores de comportamento relacional classificam como zona de atenção. Isso não é uma sentença — é um convite para você parar de ignorar o que está sentindo.",sinais_title:"Padrões identificados nas suas respostas",sinais:["Mudanças comportamentais perceptíveis sem justificativa clara","Sinais de distância emocional ou física relatados","Pelo menos um indicador de sigilo ou inconsistência","Sua intuição está registrando algo — e isso importa"],orientacao:"O próximo passo não precisa ser uma acusação. Pode ser uma observação mais cuidadosa, uma conversa sem confronto, ou uma reflexão sobre o que você quer saber — e o que você faria com essa informação."},
+  {min:29,max:45,label:"Risco elevado — não ignore",labelColor:"#c94a4a",title:"Os sinais são consistentes\ne precisam ser levados a sério",scoreColor:"#c94a4a",analise:"Suas respostas apresentam <strong>um nível elevado de indicadores comportamentais</strong> associados à infidelidade. Isso não é prova — mas é exatamente o padrão que, em estudos sobre relacionamentos, aparece de forma recorrente em situações onde de fato havia traição. Você não está exagerando. Você está percebendo.",sinais_title:"O que o conjunto de respostas revela",sinais:["Múltiplos comportamentos de sigilo identificados","Distância emocional e/ou física significativa relatada","Inconsistências e reações defensivas presentes","Intuição persistente confirmada por dados comportamentais","Histórico ou padrão de desonestidade identificado"],orientacao:"Você merece saber a verdade — e tomar decisões com clareza, não com ansiedade. O próximo passo pode ser uma conversa direta, buscar apoio de alguém de confiança, ou falar com um profissional. O que você não deve fazer é continuar fingindo que a sensação vai embora sozinha."}
+];
+
+let current=0,answers=new Array(questions.length).fill(null),scores=new Array(questions.length).fill(0);
+let timerInterval=null,pollInterval=null;
+
+function openModal(){document.getElementById('modal').classList.add('active')}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+async function gerarPix(){
+  const nome=document.getElementById('inp-nome').value.trim();
+  const email=document.getElementById('inp-email').value.trim();
+  if(!nome||!email){alert('Preencha seu nome e e-mail para continuar.');return}
+  const btn=document.getElementById('btn-gerar-pix');
+  btn.disabled=true;btn.textContent='Gerando...';
+
+  if(DEV_MODE){
+    mostrarQR({qr_code:'00020126580014BR.GOV.BCB.PIX013636b8e5a7-demo-pix-key52040000530398654071097550215TESTE QUIZ63045A8B',qr_code_base64:null,id:'demo-'+Date.now()});
+    return;
+  }
+  try{
+    const res=await fetch('https://api.mercadopago.com/v1/payments',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+ACCESS_TOKEN,'X-Idempotency-Key':'quiz-'+Date.now()},
+      body:JSON.stringify({transaction_amount:9.97,description:'Será que ele me trai? | Análise Completa',payment_method_id:'pix',payer:{email,first_name:nome}})
+    });
+    if(!res.ok)throw new Error(res.status);
+    const data=await res.json();
+    const px=data.point_of_interaction?.transaction_data;
+    if(!px)throw new Error('Resposta inesperada');
+    mostrarQR({qr_code:px.qr_code,qr_code_base64:px.qr_code_base64,id:data.id});
+  }catch(e){
+    btn.disabled=false;btn.textContent='Gerar QR Code Pix';
+    alert('Não foi possível gerar o Pix. Tente novamente.');
+  }
+}
+
+function mostrarQR({qr_code,qr_code_base64,id}){
+  document.getElementById('form-area').classList.add('hide');
+  document.getElementById('pix-area').classList.add('show');
+  if(qr_code_base64){
+    const img=document.getElementById('qr-img');
+    img.src='data:image/png;base64,'+qr_code_base64;
+    img.style.display='block';
+    document.getElementById('qr-fallback').style.display='none';
+  }
+  document.getElementById('pix-code').textContent=qr_code;
+  let secs=900;
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    secs--;
+    const m=Math.floor(secs/60),s=secs%60;
+    document.getElementById('timer').textContent=m+':'+String(s).padStart(2,'0');
+    if(secs<=0){clearInterval(timerInterval);clearInterval(pollInterval);}
+  },1000);
+  if(DEV_MODE){setTimeout(()=>pagamentoAprovado(),8000);}
+  else{pollInterval=setInterval(()=>verificarPagamento(id),4000);}
+}
+
+async function verificarPagamento(id){
+  try{
+    const res=await fetch('https://api.mercadopago.com/v1/payments/'+id,{headers:{'Authorization':'Bearer '+ACCESS_TOKEN}});
+    const data=await res.json();
+    if(data.status==='approved'){clearInterval(pollInterval);clearInterval(timerInterval);pagamentoAprovado();}
+  }catch(e){}
+}
+
+function pagamentoAprovado(){closeModal();startQuiz();}
+
+function copiarCodigo(){
+  navigator.clipboard.writeText(document.getElementById('pix-code').textContent).then(()=>{
+    const btn=document.getElementById('btn-copy-code');
+    btn.textContent='Copiado!';
+    setTimeout(()=>btn.textContent='Copiar código',2000);
+  });
+}
+
+function startQuiz(){show('screen-quiz');renderQ();}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderQ(){
+  const q=questions[current];
+  const pct=Math.round((current/questions.length)*100);
+  document.getElementById('prog-num').textContent=`Pergunta ${current+1} de ${questions.length}`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const back=document.getElementById('btn-back');
+  back.style.opacity=current>0?'1':'0';back.style.pointerEvents=current>0?'auto':'none';
+  const next=document.getElementById('btn-next');
+  next.textContent=current<questions.length-1?'Próxima →':'Ver resultado';
+  next.disabled=answers[current]===null;
+  const L=['A','B','C','D'];
+  document.getElementById('q-area').innerHTML=`<div class="fade-in"><p class="q-category">${q.cat}</p><p class="q-text">${q.text}</p><div class="options">${q.opts.map((o,i)=>`<button class="opt${answers[current]===i?' selected':''}" onclick="selectOpt(${i})"><span class="opt-letter">${L[i]}</span>${o}</button>`).join('')}</div></div>`;
+}
+
+function selectOpt(i){
+  answers[current]=i;scores[current]=questions[current].scores[i];
+  document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('selected',idx===i));
+  document.getElementById('btn-next').disabled=false;
+}
+
+function nextQ(){if(answers[current]===null)return;if(current<questions.length-1){current++;renderQ();}else showResult();}
+function prevQ(){if(current>0){current--;renderQ();}}
+
+function showResult(){
+  const total=scores.reduce((a,b)=>a+b,0);
+  const maxScore=questions.reduce((a,q)=>a+Math.max(...q.scores),0);
+  const pct=Math.round((total/maxScore)*100);
+  let r=resultados[0];
+  for(const res of resultados){if(total>=res.min&&total<=res.max){r=res;break;}}
+  show('screen-result');
+  document.getElementById('result-content').innerHTML=`
+    <div class="result-header">
+      <p class="result-label" style="color:${r.labelColor}">${r.label}</p>
+      <h2 class="result-title">${r.title}</h2>
+      <div class="result-score-bar">
+        <div class="result-score-fill" id="rsf" style="width:0%;background:${r.scoreColor}"></div>
+        <div class="result-score-dot" id="rsd" style="left:0%;background:${r.scoreColor}"></div>
+      </div>
+      <p style="font-size:12px;color:var(--muted);letter-spacing:1px">${pct}% dos indicadores presentes · Pontuação: ${total}/${maxScore}</p>
+    </div>
+    <div class="result-section"><p class="result-section-title">Análise</p><p class="result-text">${r.analise}</p></div>
+    <div class="result-section"><p class="result-section-title">${r.sinais_title}</p><ul class="sinais-list">${r.sinais.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+    <div class="result-section"><p class="result-section-title">O que fazer com isso</p><p class="result-text">${r.orientacao}</p></div>
+    <div class="cta-box"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="#" class="btn-cta">Ver outros testes</a></div>
+    <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
+  setTimeout(()=>{
+    const f=document.getElementById('rsf'),d=document.getElementById('rsd');
+    if(f)f.style.width=pct+'%';if(d)d.style.left='calc('+pct+'% - 5px)';
+  },200);
+}
+
+function restartQuiz(){
+  current=0;answers=new Array(questions.length).fill(null);scores=new Array(questions.length).fill(0);
+  document.getElementById('form-area').classList.remove('hide');
+  document.getElementById('pix-area').classList.remove('show');
+  const btn=document.getElementById('btn-gerar-pix');btn.disabled=false;btn.textContent='Gerar QR Code Pix';
+  show('screen-intro');
+}
+</script>
+</body>
+</html>
