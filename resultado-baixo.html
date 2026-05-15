@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#4a9e6b;--cor-claro:#eaf3de}
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#4a9e6b}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
 .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
@@ -23,28 +23,34 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
 .btn-download:disabled{opacity:.5;cursor:not-allowed}
 .download-sub{font-size:10px;color:#555;margin-top:8px}
 .captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.result-badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
 .header{text-align:center;margin-bottom:48px}
-.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:20px}
-.result-badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:24px}
-.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,58px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:16px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,60px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
 .result-title span{color:var(--cor)}
-.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0;position:relative}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
 .score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
 .score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
-.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
-.section{border-top:1px solid rgba(255,255,255,.06);padding:28px 0}
-.section-title{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:14px}
-.section-text{font-size:15px;line-height:1.8;color:#bbb}
-.section-text strong{color:var(--creme);font-weight:400}
-.sinais{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
-.sinais li{display:flex;gap:12px;font-size:14px;color:#aaa;line-height:1.5}
-.sinais li::before{content:'—';color:var(--dourado);flex-shrink:0}
-.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
-.cta-title{font-family:'DM Sans',sans-serif;font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
-.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px}
-.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center;margin-bottom:0}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}
+.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.destaque{background:rgba(74,158,107,.07);border-left:2px solid var(--cor);padding:20px 24px;margin:24px 0}
+.destaque p{font-size:14px;line-height:1.8;color:#bbb;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.cta-box{margin-top:40px;padding:36px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:18px;font-weight:300;color:var(--creme);margin-bottom:10px;line-height:1.5}
+.cta-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.btn-cta{display:inline-block;padding:14px 40px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
 .btn-cta:hover{background:var(--vinho-claro)}
-.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#333;text-transform:uppercase}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
 @media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
 </style>
 </head>
@@ -58,48 +64,71 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
   <div class="download-area">
     <p class="download-label">Sua análise está pronta</p>
     <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
-    <p class="download-sub">salva como imagem · guarde no seu celular</p>
+    <p class="download-sub">salva como imagem no seu celular</p>
   </div>
 
   <div class="captura" id="captura">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+
     <div class="header">
-      <p class="eyebrow">Análise de relacionamento · Confidencial</p>
       <div class="result-badge">Sinais de baixo risco</div>
-      <h1 class="result-title">Os sinais são<br><span>discretos</span><br>ou ausentes</h1>
+      <h1 class="result-title">Sua intuição<br>te trouxe até aqui.<br><span>Isso já diz muito.</span></h1>
       <div class="score-bar">
-        <div class="score-fill" style="width:28%"></div>
-        <div class="score-dot" style="left:calc(28% - 5px)"></div>
+        <div class="score-fill" style="width:26%"></div>
+        <div class="score-dot" style="left:calc(26% - 5px)"></div>
       </div>
-      <p class="score-label">Nível de risco identificado · Análise concluída</p>
+      <p class="score-label">Nível de risco identificado nas suas respostas</p>
     </div>
 
-    <div class="section">
-      <p class="section-title">Análise</p>
-      <p class="section-text">Com base nas suas respostas, os indicadores comportamentais de infidelidade estão <strong>abaixo do limiar de alerta</strong>. Isso não significa que tudo está perfeito — relacionamentos têm complexidades que vão além de qualquer teste. Mas os padrões que pesquisadores associam com mais frequência à traição não aparecem de forma significativa aqui.</p>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Você chegou até aqui. Respondeu 15 perguntas sobre o homem com quem divide sua vida, e isso, por si só, merece atenção. Não é fraqueza. Não é ciúme. É você levando seus sentimentos a sério — talvez pela primeira vez em muito tempo.</p>
+        <p>Com base nas suas respostas, os sinais de comportamento associados à infidelidade estão abaixo do nível de alerta. Não identificamos padrões consistentes de sigilo, distanciamento brusco ou contradições que indiquem uma traição ativa. O que isso significa na prática: <strong>os dados do seu relacionamento, hoje, não sustentam a suspeita.</strong></p>
+        <p>Mas existe uma diferença enorme entre "não há prova" e "está tudo bem". E você sabe disso. Porque se estivesse tudo bem de verdade, você não estaria aqui.</p>
+      </div>
     </div>
 
-    <div class="section">
-      <p class="section-title">O que suas respostas indicam</p>
-      <ul class="sinais">
-        <li>Ausência de mudanças bruscas de comportamento relatadas</li>
-        <li>Padrões de comunicação dentro do esperado</li>
-        <li>Nenhum sinal de alerta crítico identificado</li>
-        <li>Sua intuição não está disparando alarmes fortes</li>
-      </ul>
+    <div class="bloco">
+      <p class="bloco-titulo">Por que você fez esse teste</p>
+      <div class="texto">
+        <p>A maioria das mulheres que chega a um teste como esse não está com medo de descobrir que ele trai. Está com medo de descobrir que está sozinha dentro do relacionamento. Que o que sente não é valorizado. Que a conexão que existia foi embora sem que ninguém percebesse — ou sem que ele se importasse o suficiente para perceber.</p>
+        <div class="destaque">
+          <p>"Às vezes o problema não é traição. É que você está em um relacionamento onde suas emoções não têm espaço. E isso dói do mesmo jeito."</p>
+        </div>
+        <p>Se há um incômodo persistente em você, ele merece ser investigado. Não necessariamente com desconfiança — mas com honestidade. Com uma conversa real. Com a coragem de perguntar o que você precisa saber.</p>
+      </div>
     </div>
 
-    <div class="section">
-      <p class="section-title">O que fazer com isso</p>
-      <p class="section-text">Se você chegou até aqui, é porque algo — por menor que seja — te incomodou. Isso é válido. A intuição merece atenção mesmo quando os números não confirmam suspeitas. Considere uma conversa honesta com seu parceiro sobre como você está se sentindo. Clareza é sempre melhor do que dúvida silenciosa.</p>
+    <div class="bloco">
+      <p class="bloco-titulo">O que você pode fazer agora</p>
+      <div class="acoes">
+        <div class="acao">
+          <span class="acao-num">01</span>
+          <p class="acao-texto"><strong>Nomeie o que está sentindo antes de qualquer conversa.</strong> Não "acho que você está me traindo". Mas "me sinto distante de você e não sei o que está acontecendo". Quanto mais específica você for com o que sente, menos margem existe para ele desviar da conversa.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">02</span>
+          <p class="acao-texto"><strong>Observe por uma semana antes de agir.</strong> Não com paranoia — com atenção. Comportamento consistente revela mais do que qualquer confronto. Se há algo acontecendo, ele vai mostrar. Se não há, você vai sentir.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">03</span>
+          <p class="acao-texto"><strong>Pare de minimizar o que você sente.</strong> "Devo estar exagerando", "ele está com estresse no trabalho", "sou eu que sou insegura" — essas frases são armadilhas. Você não faria esse teste sem motivo. Respeite isso.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">04</span>
+          <p class="acao-texto"><strong>Se a dúvida voltar, busque apoio profissional.</strong> Uma terapeuta não vai te dizer o que fazer — vai te ajudar a enxergar o que você já sabe mas tem medo de admitir. Esse é o maior presente que você pode dar a si mesma agora.</p>
+        </div>
+      </div>
     </div>
 
     <div class="cta-box">
-      <p class="cta-title">Quer aprofundar sua análise?</p>
-      <p class="cta-sub">Conheça os outros testes e entenda tudo que você sente mas ainda não sabe nomear.</p>
-      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Ver todos os testes</a>
+      <p class="cta-titulo">Você deu o primeiro passo.<br>Não pare aqui.</p>
+      <p class="cta-sub">Outros testes podem te ajudar a entender melhor o que está sentindo — sobre dependência emocional, gaslighting, e padrões de relacionamento que a gente normaliza sem perceber.</p>
+      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Conhecer os outros testes</a>
     </div>
 
-    <div class="rodape">kingdomcriativo.github.io/seraqueelemetrai · análise confidencial</div>
+    <div class="rodape">análise confidencial · seraqueelemetrai.com.br</div>
   </div>
 </div>
 
@@ -111,7 +140,7 @@ function salvar(){
     backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false
   }).then(canvas=>{
     const link=document.createElement('a');
-    link.download='resultado-baixo-risco.png';
+    link.download='resultado-analise-relacionamento.png';
     link.href=canvas.toDataURL('image/png');
     link.click();
     btn.textContent='↓ Salvar meu resultado';

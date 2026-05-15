@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c9a84c;--cor-claro:#faeeda}
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c9a84c}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
 .grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
@@ -23,31 +23,37 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
 .btn-download:disabled{opacity:.5;cursor:not-allowed}
 .download-sub{font-size:10px;color:#555;margin-top:8px}
 .captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.result-badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
 .header{text-align:center;margin-bottom:48px}
-.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:20px}
-.result-badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:24px}
-.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,58px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:16px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,60px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
 .result-title span{color:var(--cor)}
-.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0;position:relative}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
 .score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
 .score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
 .score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
-.section{border-top:1px solid rgba(255,255,255,.06);padding:28px 0}
-.section-title{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:14px}
-.section-text{font-size:15px;line-height:1.8;color:#bbb}
-.section-text strong{color:var(--creme);font-weight:400}
-.sinais{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
-.sinais li{display:flex;gap:12px;font-size:14px;color:#aaa;line-height:1.5}
-.sinais li::before{content:'—';color:var(--dourado);flex-shrink:0}
-.alerta{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);padding:20px;margin-top:28px}
-.alerta-title{font-size:11px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase;margin-bottom:8px}
-.alerta-text{font-size:13px;color:#aaa;line-height:1.6}
-.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
-.cta-title{font-family:'DM Sans',sans-serif;font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
-.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px}
-.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}
+.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.destaque{background:rgba(201,168,76,.06);border-left:2px solid var(--cor);padding:20px 24px;margin:24px 0}
+.destaque p{font-size:14px;line-height:1.8;color:#bbb;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.alerta{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:24px;margin-top:28px}
+.alerta-titulo{font-size:10px;letter-spacing:2px;color:var(--cor);text-transform:uppercase;margin-bottom:10px}
+.alerta-texto{font-size:14px;color:#aaa;line-height:1.75}
+.cta-box{margin-top:40px;padding:36px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:18px;font-weight:300;color:var(--creme);margin-bottom:10px;line-height:1.5}
+.cta-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.btn-cta{display:inline-block;padding:14px 40px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
 .btn-cta:hover{background:var(--vinho-claro)}
-.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#333;text-transform:uppercase}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
 @media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
 </style>
 </head>
@@ -61,53 +67,80 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
   <div class="download-area">
     <p class="download-label">Sua análise está pronta</p>
     <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
-    <p class="download-sub">salva como imagem · guarde no seu celular</p>
+    <p class="download-sub">salva como imagem no seu celular</p>
   </div>
 
   <div class="captura" id="captura">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+
     <div class="header">
-      <p class="eyebrow">Análise de relacionamento · Confidencial</p>
-      <div class="result-badge">Atenção — sinais moderados</div>
-      <h1 class="result-title">Há padrões que<br>merecem uma<br><span>leitura atenta</span></h1>
+      <div class="result-badge">Sinais moderados — atenção</div>
+      <h1 class="result-title">O que você<br>sente tem<br><span>fundamento.</span></h1>
       <div class="score-bar">
-        <div class="score-fill" style="width:58%"></div>
-        <div class="score-dot" style="left:calc(58% - 5px)"></div>
+        <div class="score-fill" style="width:56%"></div>
+        <div class="score-dot" style="left:calc(56% - 5px)"></div>
       </div>
-      <p class="score-label">Nível de risco identificado · Análise concluída</p>
+      <p class="score-label">Nível de risco identificado nas suas respostas</p>
     </div>
 
-    <div class="section">
-      <p class="section-title">Análise</p>
-      <p class="section-text">Suas respostas apontam para <strong>um nível moderado de sinais de alerta</strong>. Isolados, esses comportamentos podem ter explicações. Juntos, formam um padrão que pesquisadores de comportamento relacional classificam como zona de atenção. Isso não é uma sentença — é um convite para você parar de ignorar o que está sentindo.</p>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Primeiro, quero que você respire. O que você está sentindo é real. Não é paranoia, não é insegurança sem motivo, não é drama. É uma mulher que prestou atenção em algo que a maioria escolhe ignorar — porque ignorar é mais fácil do que encarar.</p>
+        <p>As suas respostas revelaram um conjunto de sinais que, separados, poderiam ter explicação. Mas juntos formam um padrão. E padrões não mentem. <strong>Mudança de comportamento sem motivo declarado, distanciamento que você sente mas não consegue nomear, momentos em que você questionou e a resposta não fechou</strong> — tudo isso está aqui, nas suas próprias palavras.</p>
+        <p>Isso não é prova de traição. Mas é prova de que algo no seu relacionamento está fora do lugar. E você merece saber o quê.</p>
+      </div>
     </div>
 
-    <div class="section">
-      <p class="section-title">Padrões identificados</p>
-      <ul class="sinais">
-        <li>Mudanças comportamentais perceptíveis sem justificativa clara</li>
-        <li>Sinais de distância emocional ou física relatados</li>
-        <li>Pelo menos um indicador de sigilo ou inconsistência presente</li>
-        <li>Sua intuição está registrando algo — e isso importa</li>
-      </ul>
+    <div class="bloco">
+      <p class="bloco-titulo">O que ninguém te conta sobre esse momento</p>
+      <div class="texto">
+        <p>Quando uma mulher chega nesse ponto — com dúvidas reais, sinais concretos, aquela sensação que não sai do estômago — ela enfrenta um dos momentos mais solitários da vida. Porque ela não pode falar com as amigas sem parecer "aquela mulher ciumenta". Não pode falar com a família sem causar drama. E muitas vezes não consegue nem falar consigo mesma sem se culpar.</p>
+        <div class="destaque">
+          <p>"Você não está exagerando. Você está percebendo. E perceber é o primeiro ato de coragem de quem vai sair dessa situação de cabeça erguida."</p>
+        </div>
+        <p>O que acontece agora depende de você. Não dele. Você tem o poder de decidir o que vai fazer com o que está vendo — e nenhuma decisão tomada com clareza é errada.</p>
+      </div>
     </div>
 
-    <div class="section">
-      <p class="section-title">O que fazer com isso</p>
-      <p class="section-text">O próximo passo não precisa ser uma acusação. Pode ser uma observação mais cuidadosa, uma conversa sem confronto, ou uma reflexão sobre o que você quer saber — e o que você faria com essa informação. <strong>Você não está exagerando.</strong> Você está percebendo.</p>
+    <div class="bloco">
+      <p class="bloco-titulo">Passos reais para sair da dúvida</p>
+      <div class="acoes">
+        <div class="acao">
+          <span class="acao-num">01</span>
+          <p class="acao-texto"><strong>Pare de tentar resolver isso sozinha na sua cabeça.</strong> Você já está fazendo isso há tempo suficiente. A ruminação — ficar pensando, checando, repassando situações — não resolve nada e drena tudo. O próximo passo precisa ser diferente do que você já tentou.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">02</span>
+          <p class="acao-texto"><strong>Tenha a conversa que você está evitando.</strong> Não uma acusação. Uma declaração honesta: "Eu estou me sentindo distante de você e preciso entender o que está acontecendo entre a gente." Observe a reação dele. A reação vai te dizer mais do que as palavras.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">03</span>
+          <p class="acao-texto"><strong>Estabeleça um prazo para si mesma.</strong> "Vou observar por 30 dias. Se nada mudar, eu tomo uma decisão." Ter um prazo tira você do modo de espera infinita e coloca você de volta no controle da sua própria vida.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">04</span>
+          <p class="acao-texto"><strong>Busque suporte profissional — não para salvar o relacionamento, mas para se fortalecer.</strong> Uma terapeuta vai te ajudar a sair desse estado de alerta constante e a tomar decisões a partir de um lugar de clareza, não de medo ou ansiedade.</p>
+        </div>
+        <div class="acao">
+          <span class="acao-num">05</span>
+          <p class="acao-texto"><strong>Lembre que você tem o direito de saber a verdade.</strong> Não importa o quanto você ama essa pessoa. Não importa o tempo que investiu. Você tem o direito de viver em um relacionamento onde confia. E se esse direito não está sendo respeitado, isso é informação suficiente.</p>
+        </div>
+      </div>
     </div>
 
     <div class="alerta">
-      <p class="alerta-title">Importante</p>
-      <p class="alerta-text">Sinais moderados não são prova de nada. Mas também não são nada. Preste atenção nos próximos dias sem se antecipar — observe sem confrontar. O comportamento dele vai te mostrar mais do que qualquer teste.</p>
+      <p class="alerta-titulo">Uma coisa importante</p>
+      <p class="alerta-texto">Sinais moderados pedem atenção, não conclusões precipitadas. Não confronte no calor da emoção. Não faça ultimatos sem estar pronta para cumpri-los. Reúna clareza primeiro. A decisão mais poderosa é sempre a tomada com calma e convicção.</p>
     </div>
 
     <div class="cta-box">
-      <p class="cta-title">Quer aprofundar sua análise?</p>
-      <p class="cta-sub">Conheça os outros testes e entenda tudo que você sente mas ainda não sabe nomear.</p>
-      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Ver todos os testes</a>
+      <p class="cta-titulo">Você não está sozinha nessa.</p>
+      <p class="cta-sub">Outros testes podem revelar padrões que você ainda não viu — sobre gaslighting, dependência emocional e relacionamento abusivo. Às vezes a traição é só a superfície de algo mais profundo.</p>
+      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Conhecer os outros testes</a>
     </div>
 
-    <div class="rodape">kingdomcriativo.github.io/seraqueelemetrai · análise confidencial</div>
+    <div class="rodape">análise confidencial · seraqueelemetrai.com.br</div>
   </div>
 </div>
 
@@ -119,7 +152,7 @@ function salvar(){
     backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false
   }).then(canvas=>{
     const link=document.createElement('a');
-    link.download='resultado-sinais-moderados.png';
+    link.download='resultado-analise-relacionamento.png';
     link.href=canvas.toDataURL('image/png');
     link.click();
     btn.textContent='↓ Salvar meu resultado';
