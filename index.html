@@ -129,9 +129,9 @@ h1 .linha2{display:block;color:#c0392b}
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="form-area" id="form-area">
-      <p class="modal-eyebrow">Desbloqueie o teste completo</p>
-      <h2 class="modal-title">Análise Completa</h2>
-      <p class="modal-sub">15 perguntas · Resultado imediato · 100% anônimo</p>
+      <p class="modal-eyebrow">Seu resultado está pronto</p>
+      <h2 class="modal-title">Desbloqueie a análise</h2>
+      <p class="modal-sub">Você respondeu as 15 perguntas. O resultado revela o que esses padrões significam juntos.</p>
       <div class="price-row">
         <span class="price-big">R$ 9,97</span>
         <div><div class="price-was">R$ 29,90</div><div class="price-label">pagamento único via Pix</div></div>
@@ -177,7 +177,7 @@ h1 .linha2{display:block;color:#c0392b}
       <span class="badge">100% anônimo</span>
       <span class="badge">Resultado imediato</span>
     </div>
-    <button class="btn-start" onclick="openModal()">Começar agora</button>
+    <button class="btn-start" onclick="startQuiz()">Começar agora</button>
   </div>
 </div>
 
@@ -205,26 +205,26 @@ h1 .linha2{display:block;color:#c0392b}
 </div>
 
 <script>
-const ACCESS_TOKEN = 'APP_USR-7847358000219193-051513-5061dead31c3603b158cc22eb9e533f4-1524045';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
 
 
 const questions=[
-  {cat:"Comportamento digital",text:"Nos últimos meses, ele ficou mais cuidadoso com o celular — vira a tela, leva para o banheiro, ou mudou a senha sem motivo aparente?",opts:["Sim, claramente mudou","Às vezes percebi isso","Não notei nenhuma mudança","Ele sempre foi assim com o celular"],scores:[3,2,0,0]},
-  {cat:"Padrão de comunicação",text:"Ele passou a demorar mais para responder mensagens — especialmente em horários que antes era rápido — sem justificativa que faça sentido?",opts:["Sim, ficou bem mais lento","Às vezes some por horas","Não, responde normalmente","Na verdade melhorou"],scores:[3,2,0,0]},
-  {cat:"Presença e ausência",text:"Ele passou a sair mais — com amigos, viagens de trabalho ou compromissos vagos — e os horários nem sempre batem com o que disse depois?",opts:["Sim, com frequência","Aconteceu algumas vezes","Raramente","Não mudou nada nisso"],scores:[3,2,0,0]},
-  {cat:"Intimidade emocional",text:"A conexão emocional esfriou? Ele parece distante, menos presente nas conversas, como se estivesse em outro lugar mesmo quando está com você?",opts:["Muito distante ultimamente","Um pouco, percebi algo","Igual ao que sempre foi","Está mais próximo do que antes"],scores:[3,2,0,0]},
-  {cat:"Intimidade física",text:"A intimidade física diminuiu sem nenhuma razão clara — sem estresse no trabalho, sem briga recente, sem motivo que explique a mudança?",opts:["Diminuiu bastante","Diminuiu um pouco","Está igual","Até aumentou"],scores:[3,2,0,0]},
-  {cat:"Inconsistências",text:"Você já o pegou em alguma contradição — ele disse uma coisa, mas os fatos mostraram outra? E quando você questionou, a explicação não fechou?",opts:["Sim, várias vezes","Uma ou duas vezes","Não me recordo de nada","Nunca aconteceu"],scores:[3,2,0,0]},
-  {cat:"Aparência e vaidade",text:"Ele passou a se preocupar mais com aparência — academia, perfume, roupas novas — de forma repentina e sem motivo claro?",opts:["Sim, nitidamente diferente","Talvez, levemente","Não percebi diferença","Sempre se cuidou assim"],scores:[3,1,0,0]},
-  {cat:"Finanças e sigilo",text:"Você notou gastos sem explicação — valores no cartão, saques em dinheiro, ou despesas que ele não sabe explicar direito?",opts:["Sim, notei coisas estranhas","Uma ou outra coisa estranha","Não temos esse acesso","Não, tudo transparente"],scores:[3,2,0,0]},
-  {cat:"Reação ao seu contato",text:"Quando você liga ou aparece de surpresa, ele parece nervoso, desconfortável ou age de forma diferente do normal?",opts:["Sim, claramente fica tenso","Às vezes algo me pareceu estranho","Não, reage normalmente","Fica feliz, nunca estranhei"],scores:[3,2,0,0]},
-  {cat:"Novas pessoas",text:"Surgiu alguém novo na vida dele que ele menciona muito — ou nunca menciona, mesmo convivendo com frequência?",opts:["Sim, tem alguém que me intriga","Talvez, algo me chamou atenção","Nada que eu tenha percebido","Não, conheço todos ao redor dele"],scores:[3,2,0,0]},
-  {cat:"Defesa e irritabilidade",text:"Quando você pergunta onde ele esteve ou com quem, ele reage com irritação, vira o jogo ou te acusa de ser ciumenta?",opts:["Sim, sempre vira o jogo","Às vezes fica na defensiva","Responde sem drama","Nunca precisei questionar"],scores:[3,2,0,0]},
-  {cat:"Planos e futuro",text:"Ele ficou esquivo em relação a planos futuros — viagens, projetos juntos — como se estivesse evitando se comprometer?",opts:["Sim, evita esses assuntos","Ficou um pouco mais esquivo","Não, planejamos normalmente","Está mais animado com o futuro"],scores:[3,2,0,0]},
-  {cat:"Intuição",text:"Você tem uma sensação persistente de que algo está errado, mesmo sem conseguir apontar exatamente o quê?",opts:["Sim, é forte e constante","Às vezes, vem e vai","Tenho dúvidas mas é difuso","Não, sinto que está tudo bem"],scores:[3,2,1,0]},
-  {cat:"Histórico",text:"Ele já traiu alguém no passado — em relacionamentos anteriores — ou você já descobriu alguma mentira significativa desde que estão juntos?",opts:["Sim, tem histórico de traição","Já houve mentira descoberta","Não sei sobre o passado dele","Não, nunca houve nada assim"],scores:[3,2,1,0]},
-  {cat:"Comparação",text:"Ele faz comparações entre você e outras mulheres — seja de forma direta, em brincadeiras, ou elogiando características que você não tem?",opts:["Sim, acontece com frequência","Já aconteceu algumas vezes","Raramente, talvez uma vez","Nunca fez isso"],scores:[3,2,1,0]}
+  {cat:"O celular",text:"Quando você pega o celular dele por algum motivo (ligar de emergência, checar o mapa) ele fica em cima, nervoso, ou inventa um motivo para pegar de volta? Ou você nem tem essa liberdade?",opts:["Não tenho acesso e ele nunca dá naturalmente","Tenho acesso mas ele fica tenso quando pego","Tenho acesso sem problema","Nunca precisei testar isso"],scores:[3,2,0,1]},
+  {cat:"Mensagens e silêncio",text:"Você manda mensagem e ele demora a responder em horários que antes era imediato? Não por trabalho, não por reunião. Simplesmente some e depois aparece com uma explicação vaga?",opts:["Sim, virou rotina isso","Acontece mas tem sempre uma justificativa","Raramente, é pontual","Responde normalmente"],scores:[3,2,1,0]},
+  {cat:"Rotina e ausências",text:"Ele começou a demorar mais nos treinos, fazer mais hora extra, ter mais compromissos que antes não existiam? Os horários batem mas algo não fecha?",opts:["Sim, várias coisas novas na agenda dele","Uma ou duas coisas me chamaram atenção","A rotina dele não mudou","Está mais em casa do que antes"],scores:[3,2,0,0]},
+  {cat:"A cama",text:"Quando vocês estão juntos na cama, você sente que ele está fazendo amor com você ou simplesmente transando? Como se você fosse qualquer pessoa, não a mulher dele?",opts:["Me sinto um objeto, sem afeto","Às vezes sinto falta de conexão real","Está igual ao que sempre foi","Está mais presente e atencioso"],scores:[3,2,0,0]},
+  {cat:"Intimidade física",text:"A frequência na cama caiu sem explicação clara? Sem briga recente, sem estresse declarado, sem motivo que justifique o afastamento?",opts:["Caiu bastante e sem motivo claro","Diminuiu um pouco","Está igual","Aumentou"],scores:[3,2,0,0]},
+  {cat:"Quando você questiona",text:"Quando você pergunta alguma coisa e ele não quer responder, o que acontece? Ele vira o jogo, te faz se sentir culpada, revive um erro seu do passado para mudar de assunto?",opts:["Sempre vira o jogo ou me culpa","Às vezes fica na defensiva","Responde sem criar confusão","Nunca precisei questionar nada"],scores:[3,2,0,0]},
+  {cat:"Vaidade repentina",text:"Ele passou a se cuidar mais de um jeito diferente? Academia, perfume novo, roupas que antes não usaria. Não por promoção, não por evento. Do nada.",opts:["Sim, mudou claramente","Talvez, algo mudou levemente","Não percebi diferença","Sempre se cuidou assim"],scores:[3,1,0,0]},
+  {cat:"Dinheiro e despesas",text:"Você percebe que aparecem gastos sem explicação? Além do que ele já explicou, há despesas que somem, saques em dinheiro, valores no cartão que ele não sabe justificar direito?",opts:["Sim, há gastos que não fecham","Uma ou outra coisa estranha","Não temos esse tipo de acesso","Não, tudo é transparente"],scores:[3,2,0,0]},
+  {cat:"Ligações e surpresas",text:"Quando você liga sem avisar ou aparece de surpresa em algum momento, como ele reage? Algo muda no tom de voz, na postura, no jeito de agir?",opts:["Fica claramente diferente quando pego de surpresa","Algo sutil muda mas não consigo precisar","Reage normalmente, sem diferença","Fica feliz com as surpresas"],scores:[3,2,0,0]},
+  {cat:"Alguém novo",text:"Surgiu alguém novo que você não consegue parar de pensar? Pode ser uma colega que ele menciona demais, ou que nunca menciona mas você sabe que existe.",opts:["Sim, tem alguém que me incomoda","Talvez, algo chamou minha atenção","Não percebi ninguém específico","Conheço bem todo mundo ao redor dele"],scores:[3,2,0,0]},
+  {cat:"Quando você discorda",text:"Ele aceita seus questionamentos ou sempre encontra uma forma de te fazer parecer exagerada, ciumenta, ou insegura demais? Como se o problema fosse sempre você?",opts:["Sempre termina com a culpa sendo minha","Às vezes sinto que ele distorce as coisas","Às vezes discordamos mas de forma saudável","Ele ouve e responde de forma madura"],scores:[3,2,1,0]},
+  {cat:"Visibilidade e exposição",text:"Ele parou de querer tirar fotos com você, de aparecer em lugares públicos, de postar vocês dois? Como se estivesse se escondendo de alguém que pode estar assistindo?",opts:["Sim, parou de se expor com você","Diminuiu bastante, mas não totalmente","Não mudou nada nisso","Está mais presente nas redes com você"],scores:[3,2,0,0]},
+  {cat:"O que você sente",text:"Mulher sabe. Antes de qualquer prova, antes de qualquer certeza, o corpo avisa. Você tem essa sensação que não passa? Aquela que você tenta ignorar mas volta toda vez?",opts:["Sim, é constante e forte. Meu corpo sabe.","Vai e vem. Às vezes ignoro, às vezes não consigo.","Tenho dúvidas mas talvez seja insegurança","Não sinto nada assim, estou em paz"],scores:[3,2,1,0]},
+  {cat:"Confiança e perdão",text:"Quantas vezes ele já traiu sua confiança de alguma forma, te pediu perdão, prometeu que ia mudar? Não necessariamente traição física. Qualquer traição.",opts:["Mais de uma vez. E eu perdoei.","Uma vez. E tentei esquecer.","Nunca traiu minha confiança formalmente","Nunca houve nada assim entre nós"],scores:[3,2,0,0]},
+  {cat:"Caráter e ambiente",text:"Ele participa de grupos de amigos onde rola putaria, assédio, infidelidade normalizada? Curte foto de outras mulheres, olha abertamente, você nunca confiaria nele num ambiente sem te ver?",opts:["Sim, o ambiente dele é esse e ele faz parte","Às vezes me incomoda o comportamento dele com outras","Ele tem caráter claro independente do ambiente","Confio nele em qualquer situação"],scores:[3,2,0,0]}
 ];
 
 const resultados=[
@@ -325,7 +325,7 @@ function renderQ(){
   const back=document.getElementById('btn-back');
   back.style.opacity=current>0?'1':'0';back.style.pointerEvents=current>0?'auto':'none';
   const next=document.getElementById('btn-next');
-  next.textContent=current<questions.length-1?'Próxima →':'Ver resultado';
+  next.textContent=current<questions.length-1?'Próxima →':'Ver meu resultado';
   next.disabled=answers[current]===null;
   const L=['A','B','C','D'];
   document.getElementById('q-area').innerHTML=`<div class="fade-in"><p class="q-category">${q.cat}</p><p class="q-text">${q.text}</p><div class="options">${q.opts.map((o,i)=>`<button class="opt${answers[current]===i?' selected':''}" onclick="selectOpt(${i})"><span class="opt-letter">${L[i]}</span>${o}</button>`).join('')}</div></div>`;
@@ -337,7 +337,11 @@ function selectOpt(i){
   document.getElementById('btn-next').disabled=false;
 }
 
-function nextQ(){if(answers[current]===null)return;if(current<questions.length-1){current++;renderQ();}else showResult();}
+function nextQ(){
+  if(answers[current]===null)return;
+  if(current<questions.length-1){current++;renderQ();}
+  else openModal();
+}
 function prevQ(){if(current>0){current--;renderQ();}}
 
 function showResult(){
