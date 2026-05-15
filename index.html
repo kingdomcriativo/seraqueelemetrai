@@ -111,7 +111,7 @@ h1 .linha2{display:block;color:#c0392b}
 .btn-cta:hover{background:var(--vinho-claro)}
 .restart{display:block;text-align:center;margin-top:32px;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;cursor:pointer;transition:color .2s;background:none;border:none}
 .restart:hover{color:var(--creme)}
-.config-banner{background:rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.2);padding:10px 20px;font-size:12px;color:var(--dourado);text-align:center;position:fixed;top:0;left:0;right:0;z-index:200;display:none;line-height:1.5}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .fade-in{animation:fadeUp .45s forwards}
 @media(max-width:480px){.screen.active{padding:48px 20px}.border-deco,.corner{display:none}.modal{padding:28px 20px}}
@@ -122,9 +122,7 @@ h1 .linha2{display:block;color:#c0392b}
 <div class="border-deco"></div>
 <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
 <div class="corner corner-bl"></div><div class="corner corner-br"></div>
-<div class="config-banner" id="config-banner">
-  ⚙️ Modo demonstração ativo. Para ativar o Pix real, abra o arquivo e substitua <strong>APP_USR-7847358000219193-051513-5061dead31c3603b158cc22eb9e533f4-1524045</strong> pelo seu Access Token do Mercado Pago.
-</div>
+
 
 <!-- MODAL PAGAMENTO -->
 <div class="modal-overlay" id="modal">
@@ -209,7 +207,7 @@ h1 .linha2{display:block;color:#c0392b}
 <script>
 const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
-if(DEV_MODE) document.getElementById('config-banner').style.display='block';
+
 
 const questions=[
   {cat:"Comportamento digital",text:"Nos últimos meses, ele ficou mais cuidadoso com o celular — vira a tela, leva para o banheiro, ou mudou a senha sem motivo aparente?",opts:["Sim, claramente mudou","Às vezes percebi isso","Não notei nenhuma mudança","Ele sempre foi assim com o celular"],scores:[3,2,0,0]},
