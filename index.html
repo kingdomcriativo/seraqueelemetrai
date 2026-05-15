@@ -180,16 +180,12 @@ h1 .linha2{display:block;color:#c0392b}
           <div class="bump-label">Oferta especial</div>
           <div class="bump-title">Adicionar: Diagnóstico Completo (5 testes)</div>
           <div class="bump-desc">Gaslighting, dependência emocional, relacionamento abusivo, segunda família e este teste. Análise unificada de tudo que você sente.</div>
-          <div class="bump-price">+ R$ 20,00 apenas (de R$ 79,90)</div>
+          <div class="bump-price"><span style="color:#888;text-decoration:line-through;font-weight:300;font-size:11px">R$ 79,90</span> <span style="color:var(--dourado-claro);font-weight:500">por apenas +R$ 19,90</span></div>
         </div>
       </div>
       <div class="input-group">
-        <label>Seu nome</label>
-        <input type="text" id="inp-nome" placeholder="Como posso te chamar?">
-      </div>
-      <div class="input-group">
         <label>Seu e-mail</label>
-        <input type="email" id="inp-email" placeholder="Para enviar seu resultado também">
+        <input type="email" id="inp-email" placeholder="Para onde envio sua análise">
       </div>
       <button class="btn-pix" id="btn-gerar-pix" onclick="gerarPix()">Gerar QR Code Pix</button>
       <p class="security-note">🔒 Pagamento seguro · Mercado Pago · Aprovação em segundos</p>
@@ -251,9 +247,17 @@ h1 .linha2{display:block;color:#c0392b}
   <div class="result-wrap" id="result-content"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
-const DEV_MODE = ACCESS_TOKEN === 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
+const BREVO_API_KEY = 'SUA_BREVO_API_KEY_AQUI';
+const BREVO_TEMPLATES = {
+  baixo:    1, // substitua pelo ID do template "Baixo risco" no Brevo
+  moderado: 2, // substitua pelo ID do template "Sinais moderados" no Brevo
+  elevado:  3  // substitua pelo ID do template "Risco elevado" no Brevo
+};
+const BASE_URL = 'https://kingdomcriativo.github.io/seraqueelemetrai';
+const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
 
 
 const questions=[
@@ -288,9 +292,8 @@ function closeModal(){document.getElementById('modal').classList.remove('active'
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 
 async function gerarPix(){
-  const nome=document.getElementById('inp-nome').value.trim();
   const email=document.getElementById('inp-email').value.trim();
-  if(!nome||!email){alert('Preencha seu nome e e-mail para continuar.');return}
+  if(!email){alert('Preencha seu e-mail para continuar.');return}
   const btn=document.getElementById('btn-gerar-pix');
   btn.disabled=true;btn.textContent='Gerando...';
   const valor=bumpAtivo?PRECO_BUMP:PRECO_BASE;
@@ -303,7 +306,7 @@ async function gerarPix(){
     const res=await fetch('https://api.mercadopago.com/v1/payments',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':'Bearer '+ACCESS_TOKEN,'X-Idempotency-Key':'quiz-'+Date.now()},
-      body:JSON.stringify({transaction_amount:valor,description:desc,payment_method_id:'pix',payer:{email,first_name:nome}})
+      body:JSON.stringify({transaction_amount:valor,description:desc,payment_method_id:'pix',payer:{email,first_name:'Cliente'}})
     });
     if(!res.ok)throw new Error(res.status);
     const data=await res.json();
@@ -346,7 +349,49 @@ async function verificarPagamento(id){
   }catch(e){}
 }
 
-function pagamentoAprovado(){closeModal();startQuiz();}
+function getFaixaResultado(){
+  const total = scores.reduce((a,b)=>a+b,0);
+  const maxScore = questions.reduce((a,q)=>a+Math.max(...q.scores),0);
+  const pct = Math.round((total/maxScore)*100);
+  if(pct >= 60) return 'elevado';
+  if(pct >= 35) return 'moderado';
+  return 'baixo';
+}
+
+function getLinkResultado(faixa){
+  const paginas = {
+    baixo:    BASE_URL + '/resultado-baixo.html',
+    moderado: BASE_URL + '/resultado-moderado.html',
+    elevado:  BASE_URL + '/resultado-elevado.html'
+  };
+  return paginas[faixa];
+}
+
+async function enviarEmailBrevo(email, faixa){
+  if(DEV_MODE){
+    console.log('DEV — e-mail que seria enviado:', email, '| faixa:', faixa, '| link:', getLinkResultado(faixa));
+    return;
+  }
+  try{
+    await fetch('https://api.brevo.com/v3/smtp/email',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','api-key':BREVO_API_KEY},
+      body:JSON.stringify({
+        to:[{email}],
+        templateId: BREVO_TEMPLATES[faixa],
+        params:{ link_resultado: getLinkResultado(faixa) }
+      })
+    });
+  }catch(e){ console.error('Brevo error:',e); }
+}
+
+function pagamentoAprovado(){
+  const email = document.getElementById('inp-email').value.trim();
+  const faixa = getFaixaResultado();
+  enviarEmailBrevo(email, faixa);
+  closeModal();
+  showResult();
+}
 
 function copiarCodigo(){
   navigator.clipboard.writeText(document.getElementById('pix-code').textContent).then(()=>{
@@ -387,7 +432,7 @@ function selectOpt(i){
 
 let bumpAtivo=false;
 const PRECO_BASE=9.97;
-const PRECO_BUMP=29.97;
+const PRECO_BUMP=29.87;
 
 function toggleBump(){
   bumpAtivo=!bumpAtivo;
@@ -395,7 +440,7 @@ function toggleBump(){
   document.getElementById('order-bump').classList.toggle('checked',bumpAtivo);
   const preco=bumpAtivo?PRECO_BUMP:PRECO_BASE;
   document.getElementById('price-display').textContent='R$ '+preco.toFixed(2).replace('.',',');
-  document.getElementById('price-label').textContent=bumpAtivo?'5 testes + análise unificada':'pagamento único via Pix';
+  document.getElementById('price-label').textContent=bumpAtivo?'5 testes + análise unificada (R$ 9,97 + R$ 19,90)':'pagamento único via Pix';
 }
 
 function buildPersuasion(){
@@ -436,6 +481,30 @@ function nextQ(){
 }
 function prevQ(){if(current>0){current--;renderQ();}}
 
+function salvarPrint(){
+  const btn=document.getElementById('btn-download');
+  btn.textContent='Gerando imagem...';
+  btn.disabled=true;
+  const alvo=document.getElementById('resultado-captura');
+  html2canvas(alvo,{
+    backgroundColor:'#0d0d0d',
+    scale:2,
+    useCORS:true,
+    logging:false
+  }).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='minha-analise-relacionamento.png';
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+    btn.textContent='↓ Salvar como imagem';
+    btn.disabled=false;
+  }).catch(()=>{
+    btn.textContent='↓ Salvar como imagem';
+    btn.disabled=false;
+    alert('Não foi possível gerar a imagem. Tente tirar um print manual.');
+  });
+}
+
 function showResult(){
   const total=scores.reduce((a,b)=>a+b,0);
   const maxScore=questions.reduce((a,q)=>a+Math.max(...q.scores),0);
@@ -444,19 +513,29 @@ function showResult(){
   for(const res of resultados){if(total>=res.min&&total<=res.max){r=res;break;}}
   show('screen-result');
   document.getElementById('result-content').innerHTML=`
-    <div class="result-header">
-      <p class="result-label" style="color:${r.labelColor}">${r.label}</p>
-      <h2 class="result-title">${r.title}</h2>
-      <div class="result-score-bar">
-        <div class="result-score-fill" id="rsf" style="width:0%;background:${r.scoreColor}"></div>
-        <div class="result-score-dot" id="rsd" style="left:0%;background:${r.scoreColor}"></div>
-      </div>
-      <p style="font-size:12px;color:var(--muted);letter-spacing:1px">${pct}% dos indicadores presentes · Pontuação: ${total}/${maxScore}</p>
+    <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)">
+      <p style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px">Sua análise está pronta</p>
+      <button id="btn-download" onclick="salvarPrint()" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s" onmouseover="this.style.background='rgba(201,168,76,.08)'" onmouseout="this.style.background='transparent'">
+        ↓ Salvar como imagem
+      </button>
+      <p style="font-size:10px;color:#555;margin-top:8px">salva em PNG no seu celular com toda a identidade visual</p>
     </div>
-    <div class="result-section"><p class="result-section-title">Análise</p><p class="result-text">${r.analise}</p></div>
-    <div class="result-section"><p class="result-section-title">${r.sinais_title}</p><ul class="sinais-list">${r.sinais.map(s=>`<li>${s}</li>`).join('')}</ul></div>
-    <div class="result-section"><p class="result-section-title">O que fazer com isso</p><p class="result-text">${r.orientacao}</p></div>
-    <div class="cta-box"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="#" class="btn-cta">Ver outros testes</a></div>
+    <div id="resultado-captura" style="background:#0d0d0d;padding:32px 0">
+      <div class="result-header">
+        <p class="result-label" style="color:${r.labelColor}">${r.label}</p>
+        <h2 class="result-title">${r.title}</h2>
+        <div class="result-score-bar">
+          <div class="result-score-fill" id="rsf" style="width:0%;background:${r.scoreColor}"></div>
+          <div class="result-score-dot" id="rsd" style="left:0%;background:${r.scoreColor}"></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);letter-spacing:1px">${pct}% dos indicadores presentes · Pontuação: ${total}/${maxScore}</p>
+      </div>
+      <div class="result-section"><p class="result-section-title">Análise</p><p class="result-text">${r.analise}</p></div>
+      <div class="result-section"><p class="result-section-title">${r.sinais_title}</p><ul class="sinais-list">${r.sinais.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+      <div class="result-section"><p class="result-section-title">O que fazer com isso</p><p class="result-text">${r.orientacao}</p></div>
+      <div style="margin-top:32px;text-align:center;font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase">seraqueelemetrai.com.br · análise confidencial</div>
+    </div>
+    <div class="cta-box" style="margin-top:32px"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="#" class="btn-cta">Ver outros testes</a></div>
     <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
   setTimeout(()=>{
     const f=document.getElementById('rsf'),d=document.getElementById('rsd');
