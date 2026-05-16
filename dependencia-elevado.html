@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Resultado | Análise de Relacionamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c94a4a}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.page{max-width:620px;margin:0 auto;padding:60px 24px;position:relative;z-index:10}
+.download-area{text-align:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.download-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-download:hover{background:rgba(201,168,76,.08)}.btn-download:disabled{opacity:.5;cursor:not-allowed}
+.download-sub{font-size:10px;color:#555;margin-top:8px}
+.captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
+.header{text-align:center;margin-bottom:48px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,60px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
+.result-title span{color:var(--cor)}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
+.score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
+.score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.quote{border-left:2px solid var(--cor);padding:16px 20px;margin:20px 0}
+.quote p{font-size:14px;line-height:1.8;color:#aaa;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.alerta{background:rgba(201,74,74,.05);border:1px solid rgba(201,74,74,.2);padding:24px;margin-top:28px}
+.alerta-titulo{font-size:10px;letter-spacing:2px;color:var(--cor);text-transform:uppercase;margin-bottom:10px}
+.alerta-texto{font-size:14px;color:#aaa;line-height:1.75}
+.forca{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);padding:28px;margin-top:28px;text-align:center}
+.forca-titulo{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;color:var(--dourado-claro);margin-bottom:12px}
+.forca-texto{font-size:14px;color:#aaa;line-height:1.8}
+.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cta:hover{background:var(--vinho-claro)}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+@media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="page">
+  <div class="download-area">
+    <p class="download-label">Sua análise está pronta</p>
+    <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
+    <p class="download-sub">salva como imagem no seu celular</p>
+  </div>
+  <div class="captura" id="captura">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+    <div class="header">
+      <div class="badge">Controle severo identificado</div>
+      <h1 class="result-title">Você não está<br>em um relacionamento.<br><span>Você está presa.</span></h1>
+      <div class="score-bar"><div class="score-fill" style="width:83%"></div><div class="score-dot" style="left:calc(83% - 5px)"></div></div>
+      <p class="score-label">Nível de controle identificado nas suas respostas</p>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Preciso ser direta com você — porque você merece clareza, provavelmente mais do que está recebendo agora.</p>
+        <p>O que você descreveu não é um relacionamento difícil. É um relacionamento de controle severo. Ele nunca precisou levantar a mão — porque o controle emocional e psicológico é mais eficaz e mais invisível do que qualquer agressão física. Você foi sendo cercada por dentro: sua liberdade limitada, seu círculo afastado, sua identidade apagada, sua autoestima erodida — <strong>até que você não soubesse mais quem era fora desse relacionamento.</strong></p>
+        <p>E esse é exatamente o objetivo. Uma mulher que não sabe mais quem é sem o parceiro não consegue imaginar a vida sem ele. Uma mulher isolada não tem para onde ir. Uma mulher sem autonomia financeira não tem como sair. Isso não é coincidência. É um sistema.</p>
+        <div class="quote"><p>"Você não ficou dependente porque é fraca. Ficou porque ele construiu essa dependência metodicamente, ao longo do tempo, disfarçada de amor."</p></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que aconteceu com você</p>
+      <div class="texto">
+        <p>Você aprendeu a pedir permissão para ser você mesma. Aprendeu a se autocensurar antes mesmo de falar. Aprendeu a moldar suas opiniões, suas roupas, seus planos ao humor e às expectativas dele. Aprendeu a se sentir responsável pelas emoções dele — como se a paz do relacionamento dependesse da sua capacidade de nunca desagradá-lo.</p>
+        <p>Enquanto isso, ele fez o que quis. Saiu quando quis. Gastou como quis. Julgou quando quis. E usou a religião, a tradição, o papel da "boa esposa" para te convencer de que essa assimetria era normal. Que era assim que deveria ser. <strong>Que o problema, quando existia, era você.</strong></p>
+        <p>Você não é o problema. Você nunca foi.</p>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que fazer agora — com clareza e coragem</p>
+      <div class="acoes">
+        <div class="acao"><span class="acao-num">01</span><p class="acao-texto"><strong>Nomeie o que está vivendo.</strong> Violência psicológica. Controle emocional. Isolamento sistemático. Dar nome ao que acontece com você é o primeiro ato de resistência. O que tem nome pode ser enfrentado.</p></div>
+        <div class="acao"><span class="acao-num">02</span><p class="acao-texto"><strong>Reconecte-se com alguém fora do relacionamento.</strong> Uma amiga, uma irmã, uma prima. Alguém que te conhecia antes dele. Ele afastou essas pessoas de você porque sabia que elas te lembrariam de quem você é. Essa memória é sua maior aliada agora.</p></div>
+        <div class="acao"><span class="acao-num">03</span><p class="acao-texto"><strong>Comece a reconstruir sua autonomia em silêncio.</strong> Saiba onde está o dinheiro. Tenha seus documentos. Abra uma conta só sua se ainda não tem. Não precisa anunciar — só precisa ser inteligente.</p></div>
+        <div class="acao"><span class="acao-num">04</span><p class="acao-texto"><strong>Busque apoio profissional.</strong> Uma terapeuta especializada em relacionamentos abusivos vai te ajudar a ver com clareza o que o amor distorceu, e a construir a saída com segurança — não no desespero.</p></div>
+        <div class="acao"><span class="acao-num">05</span><p class="acao-texto"><strong>Se estiver em risco, ligue para o 180.</strong> A Central de Atendimento à Mulher funciona 24 horas, é gratuita e sigilosa. Você não precisa estar apanhando para pedir ajuda. Controle e violência psicológica são violência.</p></div>
+      </div>
+    </div>
+    <div class="alerta">
+      <p class="alerta-titulo">Isso precisa ser dito</p>
+      <p class="alerta-texto">O amor que te diminui não é amor. A devoção que só vem de você não é um relacionamento — é servidão. A religião que é usada para te controlar não é fé — é manipulação. Você merece um amor que te faça crescer, não que te faça desaparecer.</p>
+    </div>
+    <div class="forca">
+      <p class="forca-titulo">Você ainda existe.</p>
+      <p class="forca-texto">A mulher que você era antes dele ainda está lá. Ela ficou quieta, esperando. Ela não foi embora — foi sendo silenciada. Mas ela não esqueceu de você. E agora que você está vendo o que aconteceu, ela tem uma chance de voltar. Não deixe essa chance passar.</p>
+    </div>
+    <div class="cta-box">
+      <p class="cta-titulo">Você deu o primeiro passo mais difícil.</p>
+      <p class="cta-sub">Os outros testes revelam camadas que você ainda não viu — gaslighting, relacionamento abusivo, traição. Entender o quadro completo é o que te dá poder para agir.</p>
+      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Ver todos os testes</a>
+    </div>
+    <div class="rodape">análise confidencial · seraqueelemetrai.com.br</div>
+  </div>
+</div>
+<script>
+function salvar(){const btn=document.getElementById('btn-dl');btn.disabled=true;btn.textContent='Gerando...';html2canvas(document.getElementById('captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{const link=document.createElement('a');link.download='resultado-dependencia-emocional.png';link.href=canvas.toDataURL('image/png');link.click();btn.textContent='↓ Salvar meu resultado';btn.disabled=false;}).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});}
+</script>
+</body>
+</html>

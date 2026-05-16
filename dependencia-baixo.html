@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Resultado | Análise de Relacionamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#4a9e6b}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.page{max-width:620px;margin:0 auto;padding:60px 24px;position:relative;z-index:10}
+.download-area{text-align:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.download-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-download:hover{background:rgba(201,168,76,.08)}.btn-download:disabled{opacity:.5;cursor:not-allowed}
+.download-sub{font-size:10px;color:#555;margin-top:8px}
+.captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
+.header{text-align:center;margin-bottom:48px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,60px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
+.result-title span{color:var(--cor)}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
+.score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
+.score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.quote{border-left:2px solid var(--cor);padding:16px 20px;margin:20px 0}
+.quote p{font-size:14px;line-height:1.8;color:#aaa;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cta:hover{background:var(--vinho-claro)}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+@media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="page">
+  <div class="download-area">
+    <p class="download-label">Sua análise está pronta</p>
+    <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
+    <p class="download-sub">salva como imagem no seu celular</p>
+  </div>
+  <div class="captura" id="captura">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+    <div class="header">
+      <div class="badge">Sinais de baixo controle</div>
+      <h1 class="result-title">Você ainda<br><span>é você.</span></h1>
+      <div class="score-bar"><div class="score-fill" style="width:24%"></div><div class="score-dot" style="left:calc(24% - 5px)"></div></div>
+      <p class="score-label">Nível de controle identificado nas suas respostas</p>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Com base nas suas respostas, os indicadores de controle e dependência emocional estão abaixo do nível de alerta. Você parece ter mantido sua autonomia, suas decisões e uma boa dose da sua identidade dentro desse relacionamento. Isso não é pouca coisa — muitas mulheres chegam a perder tudo isso sem perceber.</p>
+        <p>Mas você está aqui. E ninguém faz esse teste sem motivo. Se há um incômodo, por menor que seja, ele merece atenção — não porque o resultado foi preocupante, mas porque <strong>você se importou o suficiente consigo mesma para perguntar.</strong></p>
+        <div class="quote"><p>"Relacionamentos saudáveis não fazem a gente se questionar constantemente. Se você começou a se questionar, confie nisso."</p></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que você pode fazer agora</p>
+      <div class="acoes">
+        <div class="acao"><span class="acao-num">01</span><p class="acao-texto"><strong>Nomeie o que está sentindo.</strong> Não precisa ter certeza do que é. Mas se algo te incomoda, dê a esse algo um nome. Escreva. Fale com alguém de confiança. O que não é nomeado não pode ser resolvido.</p></div>
+        <div class="acao"><span class="acao-num">02</span><p class="acao-texto"><strong>Observe os padrões, não os momentos isolados.</strong> Um episódio pode ter explicação. Um padrão que se repete não tem. Preste atenção no que acontece com frequência, não no que acontece uma vez.</p></div>
+        <div class="acao"><span class="acao-num">03</span><p class="acao-texto"><strong>Proteja o que ainda é seu.</strong> Suas amizades, seus sonhos, sua autonomia financeira, sua identidade. Um relacionamento saudável não pede que você abra mão de nada disso. Se houver pressão para ceder, perceba.</p></div>
+      </div>
+    </div>
+    <div class="cta-box">
+      <p class="cta-titulo">Você fez a pergunta certa.</p>
+      <p class="cta-sub">Conheça os outros testes e entenda melhor o que está sentindo — sobre gaslighting, relacionamento abusivo e traição.</p>
+      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Ver todos os testes</a>
+    </div>
+    <div class="rodape">análise confidencial · seraqueelemetrai.com.br</div>
+  </div>
+</div>
+<script>
+function salvar(){const btn=document.getElementById('btn-dl');btn.disabled=true;btn.textContent='Gerando...';html2canvas(document.getElementById('captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{const link=document.createElement('a');link.download='resultado-dependencia-emocional.png';link.href=canvas.toDataURL('image/png');link.click();btn.textContent='↓ Salvar meu resultado';btn.disabled=false;}).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});}
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Resultado | Análise de Relacionamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c9a84c}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.page{max-width:620px;margin:0 auto;padding:60px 24px;position:relative;z-index:10}
+.download-area{text-align:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.download-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-download:hover{background:rgba(201,168,76,.08)}.btn-download:disabled{opacity:.5;cursor:not-allowed}
+.download-sub{font-size:10px;color:#555;margin-top:8px}
+.captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
+.header{text-align:center;margin-bottom:48px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,60px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
+.result-title span{color:var(--cor)}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
+.score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
+.score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.quote{border-left:2px solid var(--cor);padding:16px 20px;margin:20px 0}
+.quote p{font-size:14px;line-height:1.8;color:#aaa;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.alerta{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:24px;margin-top:28px}
+.alerta-titulo{font-size:10px;letter-spacing:2px;color:var(--cor);text-transform:uppercase;margin-bottom:10px}
+.alerta-texto{font-size:14px;color:#aaa;line-height:1.75}
+.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cta:hover{background:var(--vinho-claro)}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+@media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="page">
+  <div class="download-area">
+    <p class="download-label">Sua análise está pronta</p>
+    <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
+    <p class="download-sub">salva como imagem no seu celular</p>
+  </div>
+  <div class="captura" id="captura">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+    <div class="header">
+      <div class="badge">Padrões de controle identificados</div>
+      <h1 class="result-title">Você ficou<br><span>menor</span> dentro<br>desse relacionamento.</h1>
+      <div class="score-bar"><div class="score-fill" style="width:55%"></div><div class="score-dot" style="left:calc(55% - 5px)"></div></div>
+      <p class="score-label">Nível de controle identificado nas suas respostas</p>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>O que você descreveu nas suas respostas não aconteceu de uma vez. Foi aos poucos. Uma liberdade cedida aqui, uma amizade que ficou mais difícil de manter ali, um sonho que foi sendo adiado até que deixou de existir. É assim que o controle funciona — gradualmente, até que você não percebe mais o quanto encolheu.</p>
+        <p>Suas respostas mostram uma régua dupla funcionando no relacionamento — uma para você, outra para ele. Mostram uma dependência de aprovação que foi se instalando sem aviso. Mostram uma mulher que <strong>foi aprendendo a se tornar menor para caber no espaço que ele deixou.</strong></p>
+        <div class="quote"><p>"Não é fraqueza ter chegado até aqui. É o resultado de um processo longo que foi te tornando cada vez mais dependente. Mas agora você está vendo. E isso muda tudo."</p></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que está acontecendo com você</p>
+      <div class="texto">
+        <p>Provavelmente você não sente que está em um relacionamento controlador. Porque controle raramente parece controle — parece cuidado, ciúme de quem ama, tradição, religião, jeito de ser. Parece que ele está te protegendo enquanto na verdade está te limitando.</p>
+        <p>E você foi naturalizando. Parando de sair sem ele. Deixando de falar o que pensa para evitar conflito. Pedindo permissão sem perceber que estava pedindo. <strong>Ajustando quem você é ao humor e às expectativas dele</strong> — até que ficou difícil lembrar quem você era antes.</p>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">Passos reais para sair daqui</p>
+      <div class="acoes">
+        <div class="acao"><span class="acao-num">01</span><p class="acao-texto"><strong>Reconheça o que aconteceu sem se culpar por não ter visto antes.</strong> Ninguém vê quando está dentro. O fato de você estar vendo agora é o começo de tudo.</p></div>
+        <div class="acao"><span class="acao-num">02</span><p class="acao-texto"><strong>Retome uma coisa que era sua e foi ficando para depois.</strong> Uma amizade. Um hobby. Um plano. Não precisa ser grande. Só precisa ser seu. Cada coisa recuperada é uma parte de você que volta.</p></div>
+        <div class="acao"><span class="acao-num">03</span><p class="acao-texto"><strong>Pare de pedir permissão.</strong> Comece com algo pequeno. Saia. Gaste. Decida. Observe a reação dele. A reação vai te mostrar mais sobre o relacionamento do que qualquer conversa.</p></div>
+        <div class="acao"><span class="acao-num">04</span><p class="acao-texto"><strong>Busque terapia.</strong> Não para salvar o relacionamento. Para se reconhecer. Para entender o que você tolerou e por quê. Para lembrar quem você era antes de começar a se moldar ao formato dele.</p></div>
+        <div class="acao"><span class="acao-num">05</span><p class="acao-texto"><strong>Reconecte-se com sua rede de apoio.</strong> As pessoas que ele afastou de você ainda existem. Uma mensagem, uma ligação. Você não precisa carregar isso sozinha — e ele sabe que quando você tem apoio, fica mais difícil de controlar.</p></div>
+      </div>
+    </div>
+    <div class="alerta">
+      <p class="alerta-titulo">Para você guardar</p>
+      <p class="alerta-texto">Amor real não diminui quem você é. Amor real não pede que você peça permissão para ser você mesma. Amor real não tem uma régua para você e outra para ele. O que você está descrevendo não é amor com falhas — é controle com aparência de amor. E você merece saber a diferença.</p>
+    </div>
+    <div class="cta-box">
+      <p class="cta-titulo">Você não está sozinha nisso.</p>
+      <p class="cta-sub">Os outros testes aprofundam o que você acabou de descobrir — gaslighting, relacionamento abusivo, traição. Entender o quadro completo é o que te dá poder para agir.</p>
+      <a href="https://kingdomcriativo.github.io/seraqueelemetrai/" class="btn-cta">Ver todos os testes</a>
+    </div>
+    <div class="rodape">análise confidencial · seraqueelemetrai.com.br</div>
+  </div>
+</div>
+<script>
+function salvar(){const btn=document.getElementById('btn-dl');btn.disabled=true;btn.textContent='Gerando...';html2canvas(document.getElementById('captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{const link=document.createElement('a');link.download='resultado-dependencia-emocional.png';link.href=canvas.toDataURL('image/png');link.click();btn.textContent='↓ Salvar meu resultado';btn.disabled=false;}).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});}
+</script>
+</body>
+</html>
