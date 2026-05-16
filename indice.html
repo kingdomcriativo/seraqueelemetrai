@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guardiã SOS | Análise de Relacionamento</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--cinza:#1a1a1a;--muted:#888}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+
+.page{max-width:680px;margin:0 auto;padding:80px 24px 100px;position:relative;z-index:10}
+
+.header{text-align:center;margin-bottom:72px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:6px;color:var(--creme);margin-bottom:4px}
+.logo span{color:var(--dourado)}.logo-dot{color:#c0392b}
+.logo-sub{font-size:10px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:40px}
+.divider{width:40px;height:1px;background:var(--dourado);margin:0 auto 40px}
+.header-text{font-size:15px;line-height:1.8;color:#aaa;max-width:460px;margin:0 auto}
+.header-text strong{color:var(--creme);font-weight:400}
+
+.section-label{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:24px;text-align:center}
+
+.tests{display:flex;flex-direction:column;gap:16px;margin-bottom:64px}
+
+.test-card{display:block;text-decoration:none;background:var(--cinza);border:1px solid rgba(255,255,255,.06);padding:28px 32px;transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
+.test-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dourado);transform:scaleY(0);transform-origin:bottom;transition:transform .3s}
+.test-card:hover{border-color:rgba(201,168,76,.25);background:#1f1f1f}
+.test-card:hover::before{transform:scaleY(1)}
+
+.test-num{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.test-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(22px,4vw,30px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:10px}
+.test-title .red{color:#c0392b}
+.test-hook{font-size:13px;color:#888;line-height:1.6;margin-bottom:16px;font-style:italic}
+.test-meta{display:flex;align-items:center;justify-content:space-between}
+.test-tags{display:flex;gap:10px;flex-wrap:wrap}
+.tag{font-size:10px;letter-spacing:1px;color:var(--muted);padding:3px 10px;border:1px solid rgba(255,255,255,.08)}
+.test-cta{font-size:11px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.test-cta::after{content:'→';transition:transform .2s}
+.test-card:hover .test-cta::after{transform:translateX(4px)}
+
+.bundle{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.2);padding:36px 32px;text-align:center;margin-bottom:64px}
+.bundle-eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:16px}
+.bundle-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,5vw,38px);letter-spacing:2px;color:var(--creme);margin-bottom:8px}
+.bundle-desc{font-size:13px;color:#888;line-height:1.7;margin-bottom:24px;max-width:440px;margin-left:auto;margin-right:auto}
+.bundle-price{display:flex;align-items:baseline;gap:10px;justify-content:center;margin-bottom:24px}
+.bundle-price-big{font-family:'Bebas Neue',sans-serif;font-size:48px;color:var(--dourado-claro);letter-spacing:2px}
+.bundle-price-was{font-size:16px;color:var(--muted);text-decoration:line-through}
+.bundle-price-label{font-size:12px;color:var(--muted)}
+.btn-bundle{display:inline-block;padding:14px 40px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-bundle:hover{background:var(--vinho-claro)}
+.bundle-note{font-size:11px;color:#555;margin-top:12px}
+
+.manifesto{border-top:1px solid rgba(255,255,255,.06);padding-top:48px;text-align:center}
+.manifesto-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,4vw,32px);letter-spacing:2px;color:var(--creme);margin-bottom:20px}
+.manifesto-text{font-size:14px;line-height:1.85;color:#888;max-width:480px;margin:0 auto 32px}
+.manifesto-text strong{color:#bbb;font-weight:400}
+.social{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--muted)}
+.social a{color:var(--dourado);text-decoration:none}
+.social a:hover{color:var(--dourado-claro)}
+
+.rodape{margin-top:48px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade{opacity:0;animation:fadeUp .7s forwards}
+.fade-1{animation-delay:.1s}.fade-2{animation-delay:.25s}.fade-3{animation-delay:.4s}
+.fade-4{animation-delay:.55s}.fade-5{animation-delay:.7s}.fade-6{animation-delay:.85s}
+
+@media(max-width:480px){
+  .page{padding:60px 20px 80px}
+  .test-card{padding:22px 20px}
+  .bundle{padding:28px 20px}
+  .border-deco,.corner{display:none}
+  .test-meta{flex-direction:column;align-items:flex-start;gap:10px}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+
+<div class="page">
+
+  <div class="header fade fade-1">
+    <img src="https://kingdomcriativo.github.io/seraqueelemetrai/logovertical.png" alt="Guardiã.SOS" style="width:260px;max-width:80%;margin:0 auto 24px;display:block">
+    <div class="logo-sub" style="margin-top:0">Análise de relacionamento · Confidencial</div>
+    <div class="divider"></div>
+    <p class="header-text">Você veio até aqui porque algo não está certo. <strong>Isso já é coragem.</strong><br><br>Escolha o teste que mais ressoa com o que você está sentindo. Cada análise leva 3 minutos. O resultado é imediato, anônimo e pode mudar a forma como você vê o que está vivendo.</p>
+  </div>
+
+  <p class="section-label fade fade-2">Escolha seu teste</p>
+
+  <div class="tests">
+
+    <a class="test-card fade fade-2" href="https://www.guardiasos.com.br/index.html">
+      <div class="test-num">Teste 01</div>
+      <div class="test-title">SERÁ QUE ELE <span class="red">ME TRAI?</span></div>
+      <div class="test-hook">"Prefiro saber a verdade do que continuar inventando desculpas pra ele."</div>
+      <div class="test-meta">
+        <div class="test-tags">
+          <span class="tag">15 perguntas</span>
+          <span class="tag">traição</span>
+          <span class="tag">comportamento</span>
+        </div>
+        <span class="test-cta">Fazer o teste</span>
+      </div>
+    </a>
+
+    <a class="test-card fade fade-3" href="https://www.guardiasos.com.br/eu-amo-ele-ou-tenho-medo.html">
+      <div class="test-num">Teste 02</div>
+      <div class="test-title">EU AMO ELE OU TENHO <span class="red">MEDO DE PERDER ELE?</span></div>
+      <div class="test-hook">"Fico bem só quando ele está bem. E isso me assusta."</div>
+      <div class="test-meta">
+        <div class="test-tags">
+          <span class="tag">15 perguntas</span>
+          <span class="tag">dependência emocional</span>
+          <span class="tag">controle</span>
+        </div>
+        <span class="test-cta">Fazer o teste</span>
+      </div>
+    </a>
+
+    <a class="test-card fade fade-4" href="https://www.guardiasos.com.br/ele-tem-outra-familia.html">
+      <div class="test-num">Teste 03</div>
+      <div class="test-title">VOCÊ SABE ONDE ELE ESTÁ QUANDO <span class="red">NÃO ESTÁ COM VOCÊ?</span></div>
+      <div class="test-hook">"8 em cada 10 homens já traíram. Você sabe em qual grupo o seu está?"</div>
+      <div class="test-meta">
+        <div class="test-tags">
+          <span class="tag">15 perguntas</span>
+          <span class="tag">dupla vida</span>
+          <span class="tag">ausências</span>
+        </div>
+        <span class="test-cta">Fazer o teste</span>
+      </div>
+    </a>
+
+    <a class="test-card fade fade-5" href="https://www.guardiasos.com.br/sou-vitima-narcisista.html">
+      <div class="test-num">Teste 04</div>
+      <div class="test-title">SOU VÍTIMA DE UM <span class="red">NARCISISTA?</span></div>
+      <div class="test-hook">"Todo mundo acha ele incrível. Só eu sei como ele é de verdade."</div>
+      <div class="test-meta">
+        <div class="test-tags">
+          <span class="tag">15 perguntas</span>
+          <span class="tag">narcisismo</span>
+          <span class="tag">gaslighting</span>
+        </div>
+        <span class="test-cta">Fazer o teste</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="bundle fade fade-5">
+    <h2 class="bundle-title">Diagnóstico Completo</h2>
+    <p class="bundle-desc">Os 4 testes + análise unificada do seu relacionamento. Uma resposta completa para tudo que você sente mas ainda não consegue nomear.</p>
+    <a href="https://www.guardiasos.com.br/index.html" class="btn-bundle">Quero o diagnóstico completo</a>
+  </div>
+
+  <div class="manifesto fade fade-6">
+    <h3 class="manifesto-title">Por que a Guardiã SOS existe</h3>
+    <p class="manifesto-text">Porque todo ano, <strong>milhões de mulheres</strong> vivem situações que as deixam confusas, exaustas e sozinhas — sem saber como nomear o que estão sentindo, sem ter com quem conversar sem julgamento, sem ferramentas para enxergar com clareza o que está acontecendo.<br><br>Não somos terapeutas. Não substituímos ajuda profissional. Mas acreditamos que <strong>clareza é o primeiro passo</strong> — e que toda mulher merece ter acesso a ela.</p>
+    <div class="social">
+      <span>Siga a gente</span>
+      <a href="https://instagram.com/guardia.sos" target="_blank">@guardia.sos</a>
+    </div>
+  </div>
+
+  <div class="rodape">guardiasos.com.br · análise confidencial · todos os direitos reservados</div>
+
+</div>
+</body>
+</html>
