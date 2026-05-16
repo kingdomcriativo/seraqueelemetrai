@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Resultado | Guardiasos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c94a4a}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.page{max-width:620px;margin:0 auto;padding:60px 24px;position:relative;z-index:10}
+.download-area{text-align:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.download-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-download:hover{background:rgba(201,168,76,.08)}.btn-download:disabled{opacity:.5;cursor:not-allowed}
+.download-sub{font-size:10px;color:#555;margin-top:8px}
+.captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
+.header{text-align:center;margin-bottom:48px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,56px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
+.result-title span{color:var(--cor)}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
+.score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
+.score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.quote{border-left:2px solid var(--cor);padding:16px 20px;margin:20px 0}
+.quote p{font-size:14px;line-height:1.8;color:#aaa;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.alerta{background:rgba(201,74,74,.05);border:1px solid rgba(201,74,74,.2);padding:24px;margin-top:28px}
+.alerta-titulo{font-size:10px;letter-spacing:2px;color:var(--cor);text-transform:uppercase;margin-bottom:10px}
+.alerta-texto{font-size:14px;color:#aaa;line-height:1.75}
+.forca{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);padding:28px;margin-top:28px;text-align:center}
+.forca-titulo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--dourado-claro);margin-bottom:12px}
+.forca-texto{font-size:14px;color:#aaa;line-height:1.8}
+.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cta:hover{background:var(--vinho-claro)}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+@media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="page">
+  <div class="download-area">
+    <p class="download-label">Sua análise está pronta</p>
+    <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
+    <p class="download-sub">salva como imagem no seu celular</p>
+  </div>
+  <div class="captura" id="captura">
+    <p class="eyebrow">Guardiasos · Análise Confidencial</p>
+    <div class="header">
+      <div class="badge">Risco elevado — padrão de dupla vida</div>
+      <h1 class="result-title">O que você<br>descreveu tem nome.<br><span>Chama-se dupla vida.</span></h1>
+      <div class="score-bar"><div class="score-fill" style="width:82%"></div><div class="score-dot" style="left:calc(82% - 5px)"></div></div>
+      <p class="score-label">Nível de risco identificado nas suas respostas</p>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Preciso ser direta com você — porque você merece clareza.</p>
+        <p>O conjunto de padrões que você descreveu — as ausências com lógica própria, os dois celulares, a localização que some nos momentos certos, os lugares que ele evita contigo, o dinheiro que não fecha, a volta carinhosa demais, e o fato de que você dependeria de algo externo para descobrir qualquer coisa — são exatamente os elementos que investigadores particulares encontram em <strong>casos confirmados de família paralela.</strong></p>
+        <p>Isso não é prova. Mas é o padrão mais consistente que existe. E você descreveu quase todos os elementos, em conjunto, de forma espontânea. <strong>Você não está inventando. Você está vendo.</strong></p>
+        <div class="quote"><p>"Em todos os casos de dupla família que investigei, a mulher sabia antes de saber. Ela só não tinha permissão de confiar no que via."</p></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">Como funciona uma dupla vida</p>
+      <div class="texto">
+        <p>Homens que mantêm duas famílias operam com uma lógica própria — quase empresarial. Cada família tem seu celular, seu número, seu horário. As viagens de trabalho são o álibi perfeito. A volta carinhosa é a culpa sendo administrada. Os lugares evitados são territórios da outra vida.</p>
+        <p>O mais perturbador é que muitos deles são percebidos como ótimos parceiros — presentes, provedores, carinhosos quando estão. Exatamente porque <strong>a culpa trabalha a favor da família que está visitando.</strong> Você sente o carinho. Não sabe que ele tem data de validade até a próxima partida.</p>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que fazer — com inteligência e proteção</p>
+      <div class="acoes">
+        <div class="acao"><span class="acao-num">01</span><p class="acao-texto"><strong>Não confronte ainda.</strong> Confrontar sem prova é o maior erro que você pode cometer agora. Ele vai negar, vai te fazer se sentir louca, vai destruir o que tiver de evidência. Primeiro você precisa saber. Depois você age.</p></div>
+        <div class="acao"><span class="acao-num">02</span><p class="acao-texto"><strong>Contrate um detetive particular.</strong> É a forma mais rápida e segura de confirmar ou descartar. Em 3 a 7 dias de investigação, você pode ter fotos, localização e relatório. Busque um profissional registrado na sua cidade.</p></div>
+        <div class="acao"><span class="acao-num">03</span><p class="acao-texto"><strong>Fale com uma advogada de família antes de qualquer confronto.</strong> Se vocês são casados, há patrimônio conjunto ou filhos envolvidos, você precisa entender seus direitos antes de revelar que sabe de algo. A proteção legal começa antes da separação.</p></div>
+        <div class="acao"><span class="acao-num">04</span><p class="acao-texto"><strong>Documente o que já tem acesso.</strong> Extratos bancários, localização histórica no celular, comprovantes de viagem. Tudo que você pode acessar legalmente, acesse e guarde agora — antes de qualquer confronto.</p></div>
+        <div class="acao"><span class="acao-num">05</span><p class="acao-texto"><strong>Cuide da sua saúde emocional nesse processo.</strong> O que você está atravessando — mesmo ainda na suspeita — é pesado demais para carregar sozinha. Uma terapeuta pode ser sua âncora enquanto você reúne informações.</p></div>
+      </div>
+    </div>
+    <div class="alerta">
+      <p class="alerta-titulo">Antes de agir</p>
+      <p class="alerta-texto">A raiva é legítima. O choque é legítimo. Mas decisões tomadas no calor da emoção raramente protegem você da forma certa. Primeiro informação. Depois advogada. Depois confronto — se e quando você estiver pronta e protegida.</p>
+    </div>
+    <div class="forca">
+      <p class="forca-titulo">Você tem o direito de saber.</p>
+      <p class="forca-texto">Não importa quanto tempo isso dura. Não importa o quanto você ama essa pessoa. Você tem o direito de tomar decisões sobre sua vida com base na verdade. E você tem força suficiente para fazer o que precisa ser feito — quando estiver pronta.</p>
+    </div>
+    <div class="cta-box">
+      <p class="cta-titulo">Você não está sozinha nessa.</p>
+      <p class="cta-sub">Os outros testes revelam camadas adicionais — dependência emocional, gaslighting, relacionamento abusivo. Entender o quadro completo te dá poder para agir.</p>
+      <a href="https://www.guardiasos.com.br" class="btn-cta">Ver todos os testes</a>
+    </div>
+    <div class="rodape">análise confidencial · guardiasos.com.br</div>
+  </div>
+</div>
+<script>
+function salvar(){const btn=document.getElementById('btn-dl');btn.disabled=true;btn.textContent='Gerando...';html2canvas(document.getElementById('captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{const link=document.createElement('a');link.download='resultado-ele-tem-outra-familia.png';link.href=canvas.toDataURL('image/png');link.click();btn.textContent='↓ Salvar meu resultado';btn.disabled=false;}).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});}
+</script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Você sabe onde ele está quando não está com você? | Análise Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--cinza:#2a2a2a;--cinza-medio:#3d3d3d;--muted:#888}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.screen{display:none;min-height:100vh;position:relative;z-index:10}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px}
+.intro-wrap{max-width:560px;width:100%;text-align:center}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;opacity:0;animation:fadeUp .8s .2s forwards}
+.stat-box{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.3);padding:16px 24px;margin-bottom:32px;opacity:0;animation:fadeUp .8s .3s forwards}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:#c0392b;line-height:1;letter-spacing:2px}
+.stat-text{font-size:13px;color:#aaa;margin-top:4px;line-height:1.5}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,68px);font-weight:400;line-height:0.95;margin-bottom:12px;opacity:0;animation:fadeUp .8s .5s forwards;letter-spacing:3px}
+h1 .l1{display:block;color:var(--creme)}
+h1 .l2{display:block;color:var(--creme)}
+h1 .l3{display:block;color:#c0392b}
+.subtitle{font-size:13px;color:var(--muted);margin-bottom:48px;line-height:1.6;opacity:0;animation:fadeUp .8s .7s forwards;letter-spacing:3px;text-transform:uppercase}
+.divider{width:40px;height:1px;background:var(--dourado);margin:0 auto 32px;opacity:0;animation:fadeUp .6s .7s forwards}
+.intro-text{font-size:14px;line-height:1.85;color:#aaa;max-width:440px;margin:0 auto 48px;opacity:0;animation:fadeUp .8s .8s forwards}
+.badges{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;opacity:0;animation:fadeUp .8s .9s forwards}
+.badge{font-size:11px;letter-spacing:.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.badge::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--dourado);flex-shrink:0}
+.btn-start{display:inline-block;padding:16px 48px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;opacity:0;animation:fadeUp .8s 1s forwards;position:relative;overflow:hidden}
+.btn-start::before{content:'';position:absolute;inset:0;background:var(--dourado);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1}
+.btn-start:hover{color:var(--preto)}.btn-start:hover::before{transform:scaleX(1)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.active{display:flex}
+.modal{background:#141414;border:1px solid rgba(201,168,76,.25);max-width:420px;width:100%;padding:36px 32px;position:relative;animation:fadeUp .4s forwards}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;transition:color .2s;line-height:1}
+.modal-close:hover{color:var(--creme)}
+.modal-eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:10px}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:30px;font-weight:400;margin-bottom:6px;line-height:1.1;letter-spacing:2px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:24px}
+.price-big{font-family:'Bebas Neue',sans-serif;font-size:48px;font-weight:400;color:var(--dourado-claro)}
+.price-was{font-size:14px;color:var(--muted);text-decoration:line-through}
+.price-label{font-size:11px;color:var(--muted)}
+.input-group{margin-bottom:14px}
+.input-group label{display:block;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.input-group input{width:100%;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .2s}
+.input-group input:focus{border-color:rgba(201,168,76,.4)}
+.input-group input::placeholder{color:#555}
+.btn-pix{width:100%;padding:15px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:8px}
+.btn-pix:hover{background:var(--vinho-claro)}.btn-pix:disabled{opacity:.4;cursor:not-allowed}
+.security-note{font-size:11px;color:#555;margin-top:14px;text-align:center}
+.pix-area{display:none;text-align:center}.pix-area.show{display:block}
+.form-area.hide{display:none}
+.qr-wrap{background:rgba(255,255,255,.96);border-radius:4px;padding:16px;display:inline-block;margin:20px 0 16px}
+.qr-wrap img{width:180px;height:180px;display:block}
+.qr-fallback{width:180px;height:180px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#333;text-align:center;line-height:1.4;padding:16px}
+.pix-code-label{font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.pix-code-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:10px 14px;font-family:monospace;font-size:10px;color:#aaa;word-break:break-all;text-align:left;margin-bottom:12px;cursor:pointer}
+.btn-copy{background:none;border:1px solid rgba(201,168,76,.3);color:var(--dourado);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 20px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-copy:hover{background:rgba(201,168,76,.08)}
+.timer-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:12px;color:var(--muted)}
+.timer-val{color:var(--dourado-claro);font-weight:500}
+.checking-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#555;margin-top:10px}
+.dot-pulse{display:flex;gap:4px}
+.dot-pulse span{width:4px;height:4px;border-radius:50%;background:var(--dourado);animation:pulse 1.2s infinite}
+.dot-pulse span:nth-child(2){animation-delay:.2s}.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.2}50%{opacity:1}}
+.order-bump{border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.04);padding:14px;margin:16px 0;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:all .2s}
+.order-bump.checked{border-color:var(--dourado);background:rgba(201,168,76,.1)}
+.bump-checkbox{width:18px;height:18px;border:1px solid rgba(201,168,76,.5);border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.bump-checkbox.on{background:var(--dourado);border-color:var(--dourado)}
+.bump-checkbox.on::after{content:'✓';color:var(--preto);font-size:11px;font-weight:700}
+.bump-label{font-size:11px;letter-spacing:1.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:3px}
+.bump-title{font-size:13px;font-weight:500;color:var(--creme);margin-bottom:3px}
+.bump-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.bump-price{font-size:12px;margin-top:4px;font-weight:500}
+.quiz-wrap{max-width:620px;width:100%}
+.progress-area{margin-bottom:48px}
+.progress-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-num{font-size:11px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase}
+.progress-pct{font-size:11px;color:var(--muted)}
+.progress-track{height:1px;background:var(--cinza-medio);position:relative}
+.progress-fill{height:1px;background:var(--dourado);transition:width .5s cubic-bezier(.4,0,.2,1);position:absolute;top:0;left:0}
+.q-category{font-size:10px;letter-spacing:2.5px;color:var(--vinho-claro);text-transform:uppercase;margin-bottom:16px}
+.q-text{font-size:clamp(18px,3vw,24px);font-weight:300;line-height:1.5;color:var(--creme);margin-bottom:36px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{padding:16px 20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:#bbb;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;cursor:pointer;text-align:left;transition:all .25s;position:relative;overflow:hidden}
+.opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--dourado);transform:scaleY(0);transition:transform .25s}
+.opt:hover{border-color:rgba(201,168,76,.3);color:var(--creme);background:rgba(201,168,76,.04)}.opt:hover::before{transform:scaleY(1)}
+.opt.selected{border-color:var(--dourado);color:var(--dourado-claro);background:rgba(201,168,76,.08)}.opt.selected::before{transform:scaleY(1)}
+.opt-letter{display:inline-block;width:20px;font-size:11px;letter-spacing:1px;color:var(--muted);margin-right:12px;transition:color .25s}
+.opt.selected .opt-letter,.opt:hover .opt-letter{color:var(--dourado)}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px}
+.btn-nav{background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:color .2s;padding:8px 0}
+.btn-nav:hover{color:var(--creme)}
+.btn-nav.btn-next{color:var(--dourado);border:1px solid rgba(201,168,76,.3);padding:12px 28px;transition:all .25s}
+.btn-nav.btn-next:hover{background:rgba(201,168,76,.08);border-color:var(--dourado)}
+.btn-nav.btn-next:disabled{opacity:.3;cursor:not-allowed}
+.persuasion-wrap{max-width:560px;width:100%;text-align:center}
+.persuasion-alert{display:inline-block;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#c0392b;margin-bottom:28px;opacity:0;animation:fadeUp .6s .1s forwards}
+.persuasion-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,8vw,64px);line-height:1.0;letter-spacing:2px;margin-bottom:32px;opacity:0;animation:fadeUp .7s .3s forwards}
+.persuasion-title span{color:#c0392b}
+.persuasion-signals{display:flex;flex-direction:column;gap:12px;margin-bottom:40px;text-align:left;opacity:0;animation:fadeUp .7s .5s forwards}
+.signal-item{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid rgba(192,57,43,.2);background:rgba(192,57,43,.04)}
+.signal-dot{width:6px;height:6px;border-radius:50%;background:#c0392b;flex-shrink:0;margin-top:6px}
+.signal-text{font-size:13px;color:#bbb;line-height:1.55}
+.signal-text strong{color:var(--creme);font-weight:400}
+.persuasion-hook{font-size:14px;color:#aaa;line-height:1.8;margin-bottom:40px;opacity:0;animation:fadeUp .7s .7s forwards;font-style:italic}
+.persuasion-hook strong{color:var(--creme);font-style:normal;font-weight:400}
+.btn-reveal{display:inline-block;padding:18px 52px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;opacity:0;animation:fadeUp .7s .9s forwards}
+.btn-reveal:hover{background:var(--vinho-claro)}
+.persuasion-urgency{font-size:11px;color:#555;margin-top:16px;letter-spacing:.5px;opacity:0;animation:fadeUp .6s 1.1s forwards}
+.result-wrap{max-width:620px;width:100%}
+.result-header{text-align:center;margin-bottom:52px}
+.result-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);font-weight:400;line-height:1.05;margin-bottom:16px;letter-spacing:2px}
+.result-score-bar{width:100%;height:2px;background:var(--cinza-medio);margin:32px 0;position:relative}
+.result-score-fill{height:2px;position:absolute;left:0;top:0;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+.result-score-dot{width:10px;height:10px;border-radius:50%;position:absolute;top:-4px;transition:left 1.5s cubic-bezier(.4,0,.2,1);border:2px solid var(--preto)}
+.result-section{border-top:1px solid rgba(255,255,255,.06);padding:28px 0}
+.result-section-title{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:14px}
+.result-text{font-size:15px;line-height:1.8;color:#bbb}
+.result-text strong{color:var(--creme);font-weight:400}
+.sinais-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.sinais-list li{display:flex;gap:12px;font-size:14px;color:#aaa;line-height:1.5}
+.sinais-list li::before{content:'—';color:var(--dourado);flex-shrink:0}
+.cta-box{margin-top:48px;padding:36px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-box p{font-size:18px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-box small{font-size:12px;color:var(--muted);display:block;margin-bottom:28px}
+.btn-cta{display:inline-block;padding:14px 40px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none}
+.btn-cta:hover{background:var(--vinho-claro)}
+.restart{display:block;text-align:center;margin-top:32px;font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;cursor:pointer;transition:color .2s;background:none;border:none}
+.restart:hover{color:var(--creme)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeUp .45s forwards}
+@media(max-width:480px){.screen.active{padding:48px 20px}.border-deco,.corner{display:none}.modal{padding:28px 20px}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="form-area" id="form-area">
+      <p class="modal-eyebrow">Seu resultado está pronto</p>
+      <h2 class="modal-title">Desbloqueie a análise</h2>
+      <p class="modal-sub">Você respondeu as 15 perguntas. O resultado revela o que esses padrões significam juntos.</p>
+      <div class="price-row">
+        <span class="price-big" id="price-display">R$ 9,97</span>
+        <div><div class="price-was">R$ 29,90</div><div class="price-label" id="price-label">pagamento único via Pix</div></div>
+      </div>
+      <div class="order-bump" id="order-bump" onclick="toggleBump()">
+        <div class="bump-checkbox" id="bump-check"></div>
+        <div>
+          <div class="bump-label">Oferta especial</div>
+          <div class="bump-title">Adicionar: Diagnóstico Completo (5 testes)</div>
+          <div class="bump-desc">Gaslighting, dependência emocional, relacionamento abusivo, traição e este teste. Análise unificada de tudo que você sente.</div>
+          <div class="bump-price"><span style="color:#888;text-decoration:line-through;font-weight:300;font-size:11px">R$ 79,90</span> <span style="color:var(--dourado-claro);font-weight:500">por apenas +R$ 19,90</span></div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Seu e-mail</label>
+        <input type="email" id="inp-email" placeholder="Para onde envio sua análise">
+      </div>
+      <button class="btn-pix" id="btn-gerar-pix" onclick="gerarPix()">Gerar QR Code Pix</button>
+      <p class="security-note">🔒 Pagamento seguro · Mercado Pago · Aprovação em segundos</p>
+    </div>
+    <div class="pix-area" id="pix-area">
+      <p class="modal-eyebrow">Pix gerado com sucesso</p>
+      <h2 class="modal-title">Escaneie e pague</h2>
+      <div class="qr-wrap">
+        <img id="qr-img" src="" alt="QR Code Pix" style="display:none">
+        <div class="qr-fallback" id="qr-fallback">Abra seu app do banco e escaneie o QR Code ou use o código abaixo</div>
+      </div>
+      <p class="pix-code-label">Código Pix — copia e cola</p>
+      <div class="pix-code-box" id="pix-code" onclick="copiarCodigo()">Gerando...</div>
+      <button class="btn-copy" onclick="copiarCodigo()" id="btn-copy-code">Copiar código</button>
+      <div class="timer-row">Expira em <span class="timer-val" id="timer">15:00</span></div>
+      <div class="checking-row">Aguardando pagamento <div class="dot-pulse"><span></span><span></span><span></span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="screen active" id="screen-intro">
+  <div class="intro-wrap">
+    <p class="eyebrow">Análise de relacionamento · Confidencial</p>
+    <div class="stat-box">
+      <div class="stat-num">8 em cada 10</div>
+      <div class="stat-text">homens já traíram em relacionamentos monogâmicos.<br>Você sabe em qual grupo o seu está?</div>
+    </div>
+    <h1>
+      <span class="l1">Você sabe onde</span>
+      <span class="l2">ele está quando</span>
+      <span class="l3">não está com você?</span>
+    </h1>
+    <p class="subtitle">Análise Completa</p>
+    <div class="divider"></div>
+    <p class="intro-text">Alguns homens não traem uma vez. Eles constroem uma vida inteira em paralelo. Uma rotina, uma mulher, talvez filhos — e você não sabe nada.<br><br>Este teste foi construído com base nos sinais que as mulheres ignoraram antes de descobrir a verdade.</p>
+    <div class="badges">
+      <span class="badge">15 perguntas</span>
+      <span class="badge">3 minutos</span>
+      <span class="badge">100% anônimo</span>
+      <span class="badge">Resultado imediato</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Começar agora</button>
+  </div>
+</div>
+
+<div class="screen" id="screen-quiz">
+  <div class="quiz-wrap">
+    <div class="progress-area">
+      <div class="progress-meta">
+        <span class="progress-num" id="prog-num">Pergunta 1 de 15</span>
+        <span class="progress-pct" id="prog-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+    <div class="fade-in" id="q-area"></div>
+    <div class="quiz-nav">
+      <button class="btn-nav" id="btn-back" onclick="prevQ()" style="opacity:0;pointer-events:none">← Voltar</button>
+      <button class="btn-nav btn-next" id="btn-next" onclick="nextQ()" disabled>Próxima →</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-persuasion">
+  <div class="persuasion-wrap">
+    <p class="persuasion-alert">análise concluída — leia com atenção</p>
+    <h2 class="persuasion-title">Os números<br><span>não mentem.</span></h2>
+    <div class="persuasion-signals" id="persuasion-signals"></div>
+    <p class="persuasion-hook" id="persuasion-hook"></p>
+    <button class="btn-reveal" onclick="openModal()">Quero ver meu resultado</button>
+    <p class="persuasion-urgency">Resultado disponível por 30 minutos · 100% confidencial</p>
+  </div>
+</div>
+
+<div class="screen" id="screen-result">
+  <div class="result-wrap" id="result-content"></div>
+</div>
+
+<script>
+const ACCESS_TOKEN='SEU_ACCESS_TOKEN_AQUI';
+const BREVO_API_KEY='SUA_BREVO_API_KEY_AQUI';
+const BREVO_TEMPLATES={baixo:7,moderado:8,elevado:9};
+const BASE_URL='https://www.guardiasos.com.br';
+const DEV_MODE=ACCESS_TOKEN==='SEU_ACCESS_TOKEN_AQUI';
+const PRECO_BASE=9.97;
+const PRECO_BUMP=29.87;
+
+const questions=[
+  {cat:"As ausências",text:"Ele trabalha fora — viagens, rotas, embarques — e as ausências têm um padrão fixo e previsível. Os mesmos dias, os mesmos horários, as mesmas desculpas. Você já reparou que a agenda dele parece ensaiada?",opts:["Sim, é muito previsível e nunca muda","Às vezes o padrão me chamou atenção","As ausências existem mas variam muito","Não, ele trabalha normalmente sem padrão fixo"],scores:[3,2,1,0]},
+  {cat:"Os dois celulares",text:"Ele tem um celular 'de trabalho' e um pessoal — ou trocou de chip recentemente sem motivo claro. Quando está com você, o celular de trabalho some. Quando some, ele some junto com ele.",opts:["Sim, tem dois chips ou dois celulares e não gosto do padrão","Já percebi comportamento estranho com o celular","Tem dois celulares mas parece razoável para o trabalho","Não, usa um só celular de forma normal"],scores:[3,2,1,0]},
+  {cat:"O sinal que some",text:"Quando está na viagem ou fora de casa, tem períodos em que ele simplesmente fica inacessível. Não atende, não responde, e quando volta explica que estava 'sem sinal' ou 'em reunião' — mas os horários não batem.",opts:["Sim, some por horas e as explicações não fecham","Acontece às vezes e me deixa desconfortável","Raramente, e quando acontece tem explicação","Não, ele está sempre disponível quando está fora"],scores:[3,2,1,0]},
+  {cat:"A volta perfeita demais",text:"Quando ele volta da viagem, é quase perfeito demais. Carinhoso, presente, atencioso, com presentes às vezes. Como se estivesse compensando algo. E depois vai esfriando aos poucos até a próxima viagem.",opts:["Sim, esse padrão de euforia e esfriamento existe claramente","Percebi isso algumas vezes mas nunca liguei","Talvez, mas pode ser saudade normal","Não, ele é consistente independente das viagens"],scores:[3,2,1,0]},
+  {cat:"Os lugares proibidos",text:"Existem bairros, cidades ou regiões que ele evita ir com você? Restaurantes onde nunca te leva, lugares onde fica visivelmente desconfortável, como se pudesse ser visto por alguém?",opts:["Sim, tem lugares que ele claramente evita comigo","Já percebi um certo desconforto em alguns lugares","Raramente, talvez uma vez ou outra","Não, vamos juntos a qualquer lugar sem problema"],scores:[3,2,1,0]},
+  {cat:"O dinheiro que não fecha",text:"Os gastos não fecham com o que ele ganha ou com o que ele diz que gasta. Saques em dinheiro nas viagens, despesas em cidades onde supostamente não estava, contas que aparecem sem explicação?",opts:["Sim, há gastos que não consegui entender","Já percebi algumas inconsistências financeiras","Raramente, mas já estranhei algo","Não, as finanças dele são transparentes"],scores:[3,2,1,0]},
+  {cat:"As redes sociais",text:"O perfil dele nas redes é discreto demais ou inexistente. Ele não te marca em fotos, não posta vocês dois, evita stories com você. Como se mantivesse uma imagem pública de solteiro ou de alguém sem relacionamento sério.",opts:["Sim, somos praticamente invisíveis nas redes dele","Ele é bem discreto e isso às vezes me incomoda","Não posta muito mas não me parece suspeito","Não, ele não tem problema em nos mostrar nas redes"],scores:[3,2,1,0]},
+  {cat:"A localização desligada",text:"Quando está fora, a localização dele está sempre desativada. Ou o app de rastreamento 'não funciona'. Ou o celular está 'sem bateria' exatamente nos horários que você mais precisa saber onde ele está.",opts:["Sim, a localização dele é um mistério constante","Já tentei verificar e não consegui algumas vezes","Raramente acontece isso","Não, quando preciso sei onde ele está"],scores:[3,2,1,0]},
+  {cat:"Os conhecidos que sabem",text:"Já aconteceu de alguém fazer um comentário estranho, uma piada indireta, ou um olhar que você não soube interpretar? Como se algumas pessoas ao redor dele soubessem de algo que você não sabe?",opts:["Sim, já percebi coisas que não entendi na hora","Já tive essa sensação mas não consegui confirmar","Talvez, mas pode ser paranoia minha","Não, as pessoas ao redor dele são transparentes comigo"],scores:[3,2,1,0]},
+  {cat:"As redes sociais de estranhos",text:"Já apareceu algo nas redes sociais que não deveria? Uma marcação, um comentário, uma foto onde ele aparece em lugar que não deveria estar, com pessoas que você não conhece e ele não mencionou?",opts:["Sim, já vi algo que não consegui explicar","Já percebi algo estranho mas ele explicou","Não busco isso ativamente mas nunca vi nada","Não, nunca apareceu nada suspeito"],scores:[3,2,1,0]},
+  {cat:"O trabalho que não se confirma",text:"Você já tentou ligar para o trabalho, hotel ou empresa quando ele estava em viagem — e algo não bateu? Um colega que não sabia da viagem, um hotel que não tinha reserva no nome dele, um horário que não fechou?",opts:["Sim, já tentei confirmar e algo não fechou","Já tive vontade de confirmar mas não fiz","Nunca precisei confirmar, confio no que ele diz","Nunca senti necessidade de verificar nada"],scores:[3,2,1,0]},
+  {cat:"Os filhos que aparecem",text:"Ele tem filhos de relacionamentos anteriores que você conhece, mas há rumores ou comentários sobre outros — ou sobre crianças que ele visita e você nunca conheceu, em cidades onde ele 'trabalha'?",opts:["Sim, há algo sobre filhos que não está claro para mim","Já ouvi alguma coisa que me deixou com dúvida","Não tenho nenhuma informação sobre isso","Não, a situação de filhos dele é completamente clara"],scores:[3,2,1,0]},
+  {cat:"O comportamento no telefone",text:"Quando o celular toca e você está perto, ele sai do ambiente para atender. Ou vira a tela. Ou rejeita a chamada e manda mensagem depois em segredo. Como se algumas ligações não pudessem existir na sua frente.",opts:["Sim, claramente algumas ligações são escondidas","Já percebi isso algumas vezes e me incomodou","Raramente, mas já aconteceu","Não, ele atende normalmente na minha frente"],scores:[3,2,1,0]},
+  {cat:"A intuição que não passa",text:"Você tem uma sensação que não sai. Não é ciúme sem motivo. É uma conta que não fecha, uma pergunta que não tem resposta, uma peça que não encaixa. Você já pensou — e se tiver alguém? E se tiver mais do que isso?",opts:["Sim, essa sensação me acompanha e não consigo ignorar","Tenho pensado nisso mais do que gostaria de admitir","Às vezes, mas tento não alimentar esse pensamento","Não, confio no meu parceiro e não tenho essa sensação"],scores:[3,2,1,0]},
+  {cat:"A descoberta que vem de fora",text:"Se ele tivesse outra família, como você acha que descobriria? Pela intuição? Por um deslize dele? Ou por alguém de fora — uma postagem, uma ligação, um conhecido que viu algo? Você dependeria da sorte para saber a verdade?",opts:["Provavelmente só descobriria por acaso ou por fora","Acho que ele poderia esconder por muito tempo","Tenho alguns meios de verificar mas não sei se funcionariam","Não, eu saberia. Tenho acesso e confiança total"],scores:[3,2,1,0]}
+];
+
+const resultados=[
+  {min:0,max:14,label:"Sinais de baixo risco",labelColor:"#4a9e6b",title:"Os sinais não\napontam para\numa vida paralela.",scoreColor:"#4a9e6b",
+  analise:"Com base nas suas respostas, os indicadores que pesquisadores e investigadores associam à dupla vida e família paralela estão abaixo do nível de alerta. Você parece ter boa visibilidade sobre a rotina, as finanças e os relacionamentos dele. Isso não significa que tudo é perfeito — mas não há um padrão consistente de ocultação.",
+  sinais_title:"O que suas respostas indicam",
+  sinais:["Você tem acesso e transparência sobre a rotina dele","Não identificamos padrões de ocultação sistemática","As ausências existem mas não têm características de dupla vida","Sua intuição não está disparando alarmes persistentes"],
+  orientacao:"Você fez esse teste por alguma razão. Se há algo específico que te incomoda — um detalhe, uma inconsistência, uma sensação — confie nisso o suficiente para investigar. Não para criar um problema que não existe, mas para ter a paz que você merece."},
+  {min:15,max:30,label:"Padrões que merecem atenção",labelColor:"#c9a84c",title:"Há inconsistências\nque não têm\nexplicação simples.",scoreColor:"#c9a84c",
+  analise:"Suas respostas revelam um conjunto de padrões que, separados, poderiam ter explicação. Mas juntos formam algo que não dá para ignorar. Os dois chips, as ausências com padrão fixo, a localização desativada, a volta carinhosa demais — são exatamente os sinais que as mulheres que descobriram dupla vida relatam ter ignorado por meses ou anos.",
+  sinais_title:"Padrões identificados nas suas respostas",
+  sinais:["Ausências com padrão previsível e justificativa profissional recorrente","Comportamento suspeito com celular em momentos específicos","Inconsistências em localização ou confirmação da rotina dele","Você dependeria de algo externo para descobrir se há outra família"],
+  orientacao:"Não confronte antes de ter mais informação. Observe. Anote datas, horários, inconsistências. A pressa de confrontar sem prova dá a ele a chance de negar, destruir evidências e te fazer se sentir louca. Você merece saber a verdade — mas merece saber de verdade."},
+  {min:31,max:45,label:"Risco elevado — padrão de dupla vida",labelColor:"#c94a4a",title:"O que você descreveu\ntem nome.\nChama-se dupla vida.",scoreColor:"#c94a4a",
+  analise:"Preciso ser direta. O conjunto de padrões que você descreveu — as ausências com lógica própria, os dois celulares, a localização que some, os lugares que ele evita, a volta carinhosa demais, o dinheiro que não fecha — são exatamente os elementos que investigadores particulares e psicólogos identificam em casos confirmados de dupla família. Não são suspeitas. São dados.",
+  sinais_title:"O que o conjunto das suas respostas revela",
+  sinais:["Padrão de ausências compatível com manutenção de segunda residência ou família","Controle de comunicação e localização consistente com ocultação ativa","Comportamento compensatório na volta das viagens","Dependência de fator externo para qualquer descoberta — você está no escuro","Inconsistências financeiras compatíveis com gastos em outra vida"],
+  orientacao:"Antes de qualquer confronto, reúna informações. Um detetive particular pode confirmar ou descartar em dias. Uma advogada de família pode te orientar sobre seus direitos antes de você revelar qualquer coisa. E se houver filhos envolvidos — seus ou dele — proteja-os antes de agir. Você não está louca. Você está vendo."}
+];
+
+let current=0,answers=new Array(questions.length).fill(null),scores=new Array(questions.length).fill(0);
+let bumpAtivo=false,timerInterval=null,pollInterval=null;
+
+function openModal(){document.getElementById('modal').classList.add('active')}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+function toggleBump(){
+  bumpAtivo=!bumpAtivo;
+  document.getElementById('bump-check').classList.toggle('on',bumpAtivo);
+  document.getElementById('order-bump').classList.toggle('checked',bumpAtivo);
+  const preco=bumpAtivo?PRECO_BUMP:PRECO_BASE;
+  document.getElementById('price-display').textContent='R$ '+preco.toFixed(2).replace('.',',');
+  document.getElementById('price-label').textContent=bumpAtivo?'5 testes + análise unificada (R$ 9,97 + R$ 19,90)':'pagamento único via Pix';
+}
+
+function getFaixaResultado(){
+  const total=scores.reduce((a,b)=>a+b,0);
+  const maxScore=questions.reduce((a,q)=>a+Math.max(...q.scores),0);
+  const pct=Math.round((total/maxScore)*100);
+  if(pct>=60)return'elevado';if(pct>=35)return'moderado';return'baixo';
+}
+
+function getLinkResultado(faixa){
+  return{baixo:BASE_URL+'/outra-familia-baixo.html',moderado:BASE_URL+'/outra-familia-moderado.html',elevado:BASE_URL+'/outra-familia-elevado.html'}[faixa];
+}
+
+async function enviarEmailBrevo(email,faixa){
+  if(DEV_MODE){console.log('DEV — email:',email,'faixa:',faixa,'link:',getLinkResultado(faixa));return;}
+  try{await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'Content-Type':'application/json','api-key':BREVO_API_KEY},body:JSON.stringify({to:[{email}],templateId:BREVO_TEMPLATES[faixa],params:{link_resultado:getLinkResultado(faixa)}})});}catch(e){console.error(e);}
+}
+
+async function gerarPix(){
+  const email=document.getElementById('inp-email').value.trim();
+  if(!email){alert('Preencha seu e-mail para continuar.');return}
+  const btn=document.getElementById('btn-gerar-pix');btn.disabled=true;btn.textContent='Gerando...';
+  const valor=bumpAtivo?PRECO_BUMP:PRECO_BASE;
+  const desc=bumpAtivo?'Diagnóstico Completo (5 testes)':'Ele tem outra família? | Análise Completa';
+  if(DEV_MODE){mostrarQR({qr_code:'00020126580014BR.GOV.BCB.PIX013636b8e5a7-demo52040000530398654071097550215TESTE63045A8B',qr_code_base64:null,id:'demo-'+Date.now()});return;}
+  try{
+    const res=await fetch('https://api.mercadopago.com/v1/payments',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ACCESS_TOKEN,'X-Idempotency-Key':'quiz3-'+Date.now()},body:JSON.stringify({transaction_amount:valor,description:desc,payment_method_id:'pix',payer:{email,first_name:'Cliente'}})});
+    if(!res.ok)throw new Error(res.status);
+    const data=await res.json();const px=data.point_of_interaction?.transaction_data;
+    if(!px)throw new Error('Resposta inesperada');
+    mostrarQR({qr_code:px.qr_code,qr_code_base64:px.qr_code_base64,id:data.id});
+  }catch(e){btn.disabled=false;btn.textContent='Gerar QR Code Pix';alert('Não foi possível gerar o Pix. Tente novamente.');}
+}
+
+function mostrarQR({qr_code,qr_code_base64,id}){
+  document.getElementById('form-area').classList.add('hide');
+  document.getElementById('pix-area').classList.add('show');
+  if(qr_code_base64){const img=document.getElementById('qr-img');img.src='data:image/png;base64,'+qr_code_base64;img.style.display='block';document.getElementById('qr-fallback').style.display='none';}
+  document.getElementById('pix-code').textContent=qr_code;
+  let secs=900;clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{secs--;const m=Math.floor(secs/60),s=secs%60;document.getElementById('timer').textContent=m+':'+String(s).padStart(2,'0');if(secs<=0){clearInterval(timerInterval);clearInterval(pollInterval);}},1000);
+  if(DEV_MODE){setTimeout(()=>pagamentoAprovado(),8000);}else{pollInterval=setInterval(()=>verificarPagamento(id),4000);}
+}
+
+async function verificarPagamento(id){
+  try{const res=await fetch('https://api.mercadopago.com/v1/payments/'+id,{headers:{'Authorization':'Bearer '+ACCESS_TOKEN}});const data=await res.json();if(data.status==='approved'){clearInterval(pollInterval);clearInterval(timerInterval);pagamentoAprovado();}}catch(e){}
+}
+
+function pagamentoAprovado(){
+  const email=document.getElementById('inp-email').value.trim();
+  const faixa=getFaixaResultado();
+  enviarEmailBrevo(email,faixa);
+  closeModal();showResult();
+}
+
+function copiarCodigo(){
+  navigator.clipboard.writeText(document.getElementById('pix-code').textContent).then(()=>{const btn=document.getElementById('btn-copy-code');btn.textContent='Copiado!';setTimeout(()=>btn.textContent='Copiar código',2000);});
+}
+
+function startQuiz(){show('screen-quiz');renderQ();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+
+function renderQ(){
+  const q=questions[current];
+  const pct=Math.round((current/questions.length)*100);
+  document.getElementById('prog-num').textContent=`Pergunta ${current+1} de ${questions.length}`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const back=document.getElementById('btn-back');back.style.opacity=current>0?'1':'0';back.style.pointerEvents=current>0?'auto':'none';
+  const next=document.getElementById('btn-next');next.textContent=current<questions.length-1?'Próxima →':'Ver resultado';next.disabled=answers[current]===null;
+  const L=['A','B','C','D'];
+  document.getElementById('q-area').innerHTML=`<div class="fade-in"><p class="q-category">${q.cat}</p><p class="q-text">${q.text}</p><div class="options">${q.opts.map((o,i)=>`<button class="opt${answers[current]===i?' selected':''}" onclick="selectOpt(${i})"><span class="opt-letter">${L[i]}</span>${o}</button>`).join('')}</div></div>`;
+}
+
+function selectOpt(i){answers[current]=i;scores[current]=questions[current].scores[i];document.querySelectorAll('.opt').forEach((el,idx)=>el.classList.toggle('selected',idx===i));document.getElementById('btn-next').disabled=false;}
+
+function nextQ(){
+  if(answers[current]===null)return;
+  if(current<questions.length-1){current++;renderQ();}
+  else{buildPersuasion();show('screen-persuasion');}
+}
+function prevQ(){if(current>0){current--;renderQ();}}
+
+function buildPersuasion(){
+  const total=scores.reduce((a,b)=>a+b,0);
+  const maxScore=questions.reduce((a,q)=>a+Math.max(...q.scores),0);
+  const pct=Math.round((total/maxScore)*100);
+  let signals=[],hook='';
+  if(pct>=60){
+    signals=[
+      {t:"Padrão de dupla vida identificado",d:"O conjunto das suas respostas apresenta as características que investigadores particulares encontram em <strong>casos confirmados de família paralela</strong>. Não são suspeitas isoladas. É um padrão."},
+      {t:"Ocultação sistemática presente",d:"Os dois celulares, as ausências com lógica própria, a localização que some e os lugares evitados são os <strong>quatro pilares de uma vida paralela</strong> — e estão todos aqui."},
+      {t:"Você está no escuro por design",d:"Uma das suas respostas revelou que você <strong>dependeria de algo externo para descobrir</strong>. Isso não é acidente. É assim que uma dupla família se mantém."},
+    ];
+    hook:"A descoberta, quando acontece, quase sempre vem de fora. Uma postagem, uma ligação errada, um conhecido que viu. <strong>Você merece saber antes disso.</strong> O resultado vai te mostrar exatamente o que os dados revelam — e o que fazer com essa informação.";
+    hook="A descoberta, quando acontece, quase sempre vem de fora. Uma postagem, uma ligação errada, um conhecido que viu. <strong>Você merece saber antes disso.</strong> O resultado vai te mostrar exatamente o que os dados revelam — e o que fazer com essa informação.";
+  }else if(pct>=35){
+    signals=[
+      {t:"Inconsistências identificadas",d:"Algumas das suas respostas revelam <strong>padrões que não têm explicação simples</strong> — e que aparecem com frequência em casos investigados."},
+      {t:"Visibilidade limitada",d:"Você não tem acesso total à rotina, localização e finanças dele durante as ausências. <strong>Esse espaço é onde uma vida paralela existe.</strong>"},
+      {t:"A intuição está registrando",d:"Você está aqui. E ninguém faz esse teste sem uma razão. <strong>Confie no que te trouxe até aqui.</strong>"},
+    ];
+    hook="O resultado não vai te dar certeza — mas vai te mostrar quais padrões estão presentes e o que eles significam quando aparecem juntos. <strong>Informação é o que separa quem descobre cedo de quem descobre tarde demais.</strong>";
+  }else{
+    signals=[
+      {t:"Sinais discretos, mas você veio até aqui",d:"Os indicadores mais graves não aparecem nas suas respostas. Mas <strong>algo te trouxe até aqui — e isso tem valor.</strong>"},
+      {t:"Boa visibilidade sobre a rotina dele",d:"Você parece ter acesso e transparência acima da média. Isso é positivo. <strong>Mas o resultado vai confirmar isso com mais detalhes.</strong>"},
+      {t:"Clareza é sempre melhor",d:"Mesmo que o resultado seja tranquilizador, <strong>saber é sempre melhor do que duvidar.</strong>"},
+    ];
+    hook="Às vezes o resultado mais valioso é a paz de saber que não há nada. <strong>Você merece essa paz.</strong>";
+  }
+  document.getElementById('persuasion-signals').innerHTML=signals.map(s=>`<div class="signal-item"><div class="signal-dot"></div><div class="signal-text"><strong>${s.t}.</strong> ${s.d}</div></div>`).join('');
+  document.getElementById('persuasion-hook').innerHTML=hook;
+}
+
+function salvarPrint(){
+  const btn=document.getElementById('btn-download');btn.disabled=true;btn.textContent='Gerando...';
+  html2canvas(document.getElementById('resultado-captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{
+    const link=document.createElement('a');link.download='resultado-ele-tem-outra-familia.png';link.href=canvas.toDataURL('image/png');link.click();
+    btn.textContent='↓ Salvar meu resultado';btn.disabled=false;
+  }).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});
+}
+
+function showResult(){
+  const total=scores.reduce((a,b)=>a+b,0);
+  const maxScore=questions.reduce((a,q)=>a+Math.max(...q.scores),0);
+  const pct=Math.round((total/maxScore)*100);
+  let r=resultados[0];for(const res of resultados){if(total>=res.min&&total<=res.max){r=res;break;}}
+  show('screen-result');
+  document.getElementById('result-content').innerHTML=`
+    <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)">
+      <p style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px">Sua análise está pronta</p>
+      <button id="btn-download" onclick="salvarPrint()" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer" onmouseover="this.style.background='rgba(201,168,76,.08)'" onmouseout="this.style.background='transparent'">↓ Salvar meu resultado</button>
+      <p style="font-size:10px;color:#555;margin-top:8px">salva como imagem no seu celular</p>
+    </div>
+    <div id="resultado-captura" style="background:#0d0d0d;padding:8px 0 40px">
+      <div class="result-header">
+        <p class="result-label" style="color:${r.labelColor}">${r.label}</p>
+        <h2 class="result-title" style="white-space:pre-line">${r.title}</h2>
+        <div class="result-score-bar"><div class="result-score-fill" id="rsf" style="width:0%;background:${r.scoreColor}"></div><div class="result-score-dot" id="rsd" style="left:0%;background:${r.scoreColor}"></div></div>
+        <p style="font-size:12px;color:var(--muted);letter-spacing:1px">${pct}% dos indicadores presentes · Pontuação: ${total}/${maxScore}</p>
+      </div>
+      <div class="result-section"><p class="result-section-title">Análise</p><p class="result-text">${r.analise}</p></div>
+      <div class="result-section"><p class="result-section-title">${r.sinais_title}</p><ul class="sinais-list">${r.sinais.map(s=>`<li>${s}</li>`).join('')}</ul></div>
+      <div class="result-section"><p class="result-section-title">O que fazer com isso</p><p class="result-text">${r.orientacao}</p></div>
+      <div style="margin-top:32px;text-align:center;font-size:10px;letter-spacing:2px;color:#333;text-transform:uppercase">análise confidencial · guardiasos.com.br</div>
+    </div>
+    <div class="cta-box"><p>Você não precisa carregar isso sozinha.</p><small>Os outros testes revelam camadas que você ainda não viu — dependência emocional, gaslighting, relacionamento abusivo.</small><a href="https://www.guardiasos.com.br" class="btn-cta">Ver todos os testes</a></div>
+    <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
+  setTimeout(()=>{const f=document.getElementById('rsf'),d=document.getElementById('rsd');if(f)f.style.width=pct+'%';if(d)d.style.left='calc('+pct+'% - 5px)';},200);
+}
+
+function restartQuiz(){
+  current=0;answers=new Array(questions.length).fill(null);scores=new Array(questions.length).fill(0);
+  bumpAtivo=false;document.getElementById('bump-check').classList.remove('on');document.getElementById('order-bump').classList.remove('checked');
+  document.getElementById('price-display').textContent='R$ 9,97';document.getElementById('price-label').textContent='pagamento único via Pix';
+  document.getElementById('form-area').classList.remove('hide');document.getElementById('pix-area').classList.remove('show');
+  const btn=document.getElementById('btn-gerar-pix');btn.disabled=false;btn.textContent='Gerar QR Code Pix';
+  show('screen-intro');
+}
+</script>
+</body>
+</html>
