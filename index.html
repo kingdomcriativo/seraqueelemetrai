@@ -249,8 +249,8 @@ h1 .linha2{display:block;color:#c0392b}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
-const BREVO_API_KEY = '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';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
+const BREVO_API_KEY = 'SUA_BREVO_API_KEY_AQUI';
 const BREVO_TEMPLATES = {
   baixo:    1, // substitua pelo ID do template "Baixo risco" no Brevo
   moderado: 2, // substitua pelo ID do template "Sinais moderados" no Brevo
@@ -258,6 +258,11 @@ const BREVO_TEMPLATES = {
 };
 const BASE_URL = 'https://www.guardiasos.com.br';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
+const params = new URLSearchParams(window.location.search);
+const PAGO = params.get('pago') === 'true';
+const BUNDLE = params.get('bundle') === 'true';
+const ACESSO_LIBERADO = PAGO || BUNDLE;
+
 
 
 const questions=[
@@ -379,7 +384,7 @@ function getLinkResultado(faixa){
   return paginas[faixa];
 }
 
-async function enviarEmailBrevo(email, faixa){
+async function enviarEmailBrevo(email, faixa, linkCustom){
   if(DEV_MODE){
     console.log('DEV — e-mail que seria enviado:', email, '| faixa:', faixa, '| link:', getLinkResultado(faixa));
     return;
@@ -391,7 +396,7 @@ async function enviarEmailBrevo(email, faixa){
       body:JSON.stringify({
         to:[{email}],
         templateId: BREVO_TEMPLATES[faixa],
-        params:{ link_resultado: getLinkResultado(faixa) }
+        params:{ link_resultado: linkCustom || getLinkResultado(faixa) }
       })
     });
   }catch(e){ console.error('Brevo error:',e); }
@@ -400,7 +405,8 @@ async function enviarEmailBrevo(email, faixa){
 function pagamentoAprovado(){
   const email = document.getElementById('inp-email').value.trim();
   const faixa = getFaixaResultado();
-  enviarEmailBrevo(email, faixa);
+  const linkEmail = getLinkResultado(faixa) + (bumpAtivo ? '?bundle=true' : '?pago=true');
+  enviarEmailBrevo(email, faixa, linkEmail);
   closeModal();
   showResult();
 }
@@ -413,7 +419,13 @@ function copiarCodigo(){
   });
 }
 
-function startQuiz(){show('screen-quiz');renderQ();}
+function startQuiz(){
+  if(ACESSO_LIBERADO){
+    show('screen-quiz');renderQ();
+  } else {
+    show('screen-quiz');renderQ();
+  }
+}
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -489,7 +501,7 @@ function buildPersuasion(){
 function nextQ(){
   if(answers[current]===null)return;
   if(current<questions.length-1){current++;renderQ();}
-  else{buildPersuasion();show('screen-persuasion');}
+  else{ if(ACESSO_LIBERADO){ showResult(); } else { buildPersuasion();show('screen-persuasion'); } }
 }
 function prevQ(){if(current>0){current--;renderQ();}}
 

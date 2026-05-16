@@ -101,7 +101,7 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
 
   <div class="tests">
 
-    <a class="test-card fade fade-2" href="https://www.guardiasos.com.br/index.html">
+    <a class="test-card fade fade-2" id="card-01" href="https://www.guardiasos.com.br/index.html">
       <div class="test-num">Teste 01</div>
       <div class="test-title">SERÁ QUE ELE <span class="red">ME TRAI?</span></div>
       <div class="test-hook">"Prefiro saber a verdade do que continuar inventando desculpas pra ele."</div>
@@ -111,11 +111,11 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
           <span class="tag">traição</span>
           <span class="tag">comportamento</span>
         </div>
-        <span class="test-cta">Fazer o teste</span>
+        <span class="test-cta" id="cta-01">Fazer o teste</span>
       </div>
     </a>
 
-    <a class="test-card fade fade-3" href="https://www.guardiasos.com.br/eu-amo-ele-ou-tenho-medo.html">
+    <a class="test-card fade fade-3" id="card-02" href="https://www.guardiasos.com.br/eu-amo-ele-ou-tenho-medo.html">
       <div class="test-num">Teste 02</div>
       <div class="test-title">EU AMO ELE OU TENHO <span class="red">MEDO DE PERDER ELE?</span></div>
       <div class="test-hook">"Fico bem só quando ele está bem. E isso me assusta."</div>
@@ -125,11 +125,11 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
           <span class="tag">dependência emocional</span>
           <span class="tag">controle</span>
         </div>
-        <span class="test-cta">Fazer o teste</span>
+        <span class="test-cta" id="cta-02">Fazer o teste</span>
       </div>
     </a>
 
-    <a class="test-card fade fade-4" href="https://www.guardiasos.com.br/ele-tem-outra-familia.html">
+    <a class="test-card fade fade-4" id="card-03" href="https://www.guardiasos.com.br/ele-tem-outra-familia.html">
       <div class="test-num">Teste 03</div>
       <div class="test-title">VOCÊ SABE ONDE ELE ESTÁ QUANDO <span class="red">NÃO ESTÁ COM VOCÊ?</span></div>
       <div class="test-hook">"8 em cada 10 homens já traíram. Você sabe em qual grupo o seu está?"</div>
@@ -139,11 +139,11 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
           <span class="tag">dupla vida</span>
           <span class="tag">ausências</span>
         </div>
-        <span class="test-cta">Fazer o teste</span>
+        <span class="test-cta" id="cta-03">Fazer o teste</span>
       </div>
     </a>
 
-    <a class="test-card fade fade-5" href="https://www.guardiasos.com.br/sou-vitima-narcisista.html">
+    <a class="test-card fade fade-5" id="card-04" href="https://www.guardiasos.com.br/sou-vitima-narcisista.html">
       <div class="test-num">Teste 04</div>
       <div class="test-title">SOU VÍTIMA DE UM <span class="red">NARCISISTA?</span></div>
       <div class="test-hook">"Todo mundo acha ele incrível. Só eu sei como ele é de verdade."</div>
@@ -153,7 +153,7 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
           <span class="tag">narcisismo</span>
           <span class="tag">gaslighting</span>
         </div>
-        <span class="test-cta">Fazer o teste</span>
+        <span class="test-cta" id="cta-04">Fazer o teste</span>
       </div>
     </a>
 
@@ -177,5 +177,36 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
   <div class="rodape">guardiasos.com.br · análise confidencial · todos os direitos reservados</div>
 
 </div>
+
+<script>
+(function(){
+  const p = new URLSearchParams(window.location.search);
+  const bundle = p.get('bundle') === 'true';
+  const pago = p.get('pago') === 'true';
+  const base = 'https://www.guardiasos.com.br/';
+  const testes = [
+    {card:'card-01',cta:'cta-01',url:'index.html'},
+    {card:'card-02',cta:'cta-02',url:'eu-amo-ele-ou-tenho-medo.html'},
+    {card:'card-03',cta:'cta-03',url:'ele-tem-outra-familia.html'},
+    {card:'card-04',cta:'cta-04',url:'sou-vitima-narcisista.html'},
+  ];
+  if(bundle){
+    testes.forEach(t=>{
+      const card=document.getElementById(t.card);
+      const cta=document.getElementById(t.cta);
+      if(card)card.href=base+t.url+'?bundle=true';
+      if(cta){cta.textContent='✓ Acesso liberado';cta.style.color='#c9a84c';}
+    });
+    const b=document.querySelector('.bundle');
+    if(b)b.style.display='none';
+  } else if(pago){
+    const t=testes[0];
+    const card=document.getElementById(t.card);
+    const cta=document.getElementById(t.cta);
+    if(card)card.href=base+t.url+'?pago=true';
+    if(cta){cta.textContent='✓ Acesso liberado';cta.style.color='#c9a84c';}
+  }
+})();
+</script>
 </body>
 </html>
