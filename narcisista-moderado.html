@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seu Resultado | Guardiasos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888;--cor:#c9a84c}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.border-deco{position:fixed;top:20px;left:20px;right:20px;bottom:20px;border:1px solid rgba(201,168,76,.1);pointer-events:none;z-index:1}
+.corner{position:fixed;width:24px;height:24px;border-color:var(--dourado);border-style:solid;opacity:.35;z-index:2;pointer-events:none}
+.corner-tl{top:16px;left:16px;border-width:1px 0 0 1px}.corner-tr{top:16px;right:16px;border-width:1px 1px 0 0}
+.corner-bl{bottom:16px;left:16px;border-width:0 0 1px 1px}.corner-br{bottom:16px;right:16px;border-width:0 1px 1px 0}
+.page{max-width:620px;margin:0 auto;padding:60px 24px;position:relative;z-index:10}
+.download-area{text-align:center;margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.download-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.btn-download{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:transparent;border:1px solid var(--dourado);color:var(--dourado);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s}
+.btn-download:hover{background:rgba(201,168,76,.08)}.btn-download:disabled{opacity:.5;cursor:not-allowed}
+.download-sub{font-size:10px;color:#555;margin-top:8px}
+.captura{background:var(--preto);padding:8px 0 40px}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase;margin-bottom:28px;text-align:center}
+.badge{display:inline-block;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;padding:5px 16px;border:1px solid var(--cor);color:var(--cor);margin-bottom:28px}
+.header{text-align:center;margin-bottom:48px}
+.result-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,56px);letter-spacing:2px;line-height:1.0;color:var(--creme);margin-bottom:20px}
+.result-title span{color:var(--cor)}
+.score-bar{width:100%;height:2px;background:#2a2a2a;margin:28px 0 10px;position:relative}
+.score-fill{height:2px;background:var(--cor);position:absolute;left:0;top:0}
+.score-dot{width:10px;height:10px;border-radius:50%;background:var(--cor);position:absolute;top:-4px;border:2px solid var(--preto)}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-align:center}
+.bloco{padding:32px 0;border-top:1px solid rgba(255,255,255,.07)}
+.bloco-titulo{font-size:10px;letter-spacing:2.5px;color:var(--dourado);text-transform:uppercase;margin-bottom:18px}
+.texto{font-size:15px;line-height:1.95;color:#c8c4bc}
+.texto p{margin-bottom:16px}.texto p:last-child{margin-bottom:0}
+.texto strong{color:var(--creme);font-weight:400}
+.quote{border-left:2px solid var(--cor);padding:16px 20px;margin:20px 0}
+.quote p{font-size:14px;line-height:1.8;color:#aaa;font-style:italic}
+.acoes{display:flex;flex-direction:column;gap:14px}
+.acao{display:flex;gap:16px;align-items:flex-start}
+.acao-num{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--cor);flex-shrink:0;line-height:1;margin-top:2px}
+.acao-texto{font-size:14px;line-height:1.7;color:#bbb}
+.acao-texto strong{color:var(--creme);font-weight:400}
+.alerta{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:24px;margin-top:28px}
+.alerta-titulo{font-size:10px;letter-spacing:2px;color:var(--cor);text-transform:uppercase;margin-bottom:10px}
+.alerta-texto{font-size:14px;color:#aaa;line-height:1.75}
+.cta-box{margin-top:40px;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;background:rgba(201,168,76,.03)}
+.cta-titulo{font-size:17px;font-weight:300;color:var(--creme);margin-bottom:8px;line-height:1.4}
+.cta-sub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.5}
+.btn-cta{display:inline-block;padding:13px 36px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cta:hover{background:var(--vinho-claro)}
+.rodape{margin-top:40px;text-align:center;font-size:10px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+@media(max-width:480px){.page{padding:40px 20px}.border-deco,.corner{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="border-deco"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="page">
+  <div class="download-area">
+    <p class="download-label">Sua análise está pronta</p>
+    <button class="btn-download" id="btn-dl" onclick="salvar()">↓ Salvar meu resultado</button>
+    <p class="download-sub">salva como imagem no seu celular</p>
+  </div>
+  <div class="captura" id="captura">
+    <p class="eyebrow">Guardiasos · Análise Confidencial</p>
+    <div class="header">
+      <div class="badge">Traços narcísicos identificados</div>
+      <h1 class="result-title">Há um padrão aqui<br>que tem nome<br><span>e tem solução.</span></h1>
+      <div class="score-bar"><div class="score-fill" style="width:52%"></div><div class="score-dot" style="left:calc(52% - 5px)"></div></div>
+      <p class="score-label">Nível de indicadores identificados nas suas respostas</p>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que sua análise mostra</p>
+      <div class="texto">
+        <p>Suas respostas revelam traços claros de dinâmica narcísica. O ciclo que você descreveu — a fachada pública impecável, a diferença de quem ele é em privado, a dificuldade de explicar para os outros, a exaustão de gerir o humor dele, a culpa que sempre termina recaindo sobre você — não é coincidência. É um padrão documentado.</p>
+        <p>O narcisismo raramente se apresenta com rótulo. Ele vem disfarçado de relacionamento intenso, de amor avassalador, de proteção, de "é assim que eu sou". E vai se revelando aos poucos — em cada silêncio punitivo, em cada vez que você termina se desculpando por algo que ele fez, em cada momento em que você tenta explicar e não consegue.</p>
+        <div class="quote"><p>"Quando você consegue nomear o que está vivendo, para de se culpar. E quando para de se culpar, consegue enxergar com clareza o que precisa ser feito."</p></div>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">Como o narcisismo funciona — para você entender</p>
+      <div class="texto">
+        <p>O narcisista opera em ciclos. Primeiro o love bombing — atenção intensa, elogios, a sensação de ser a pessoa mais especial do mundo. Depois a desvalorização — críticas sutis, silêncio punitivo, inversão da culpa. Depois o descarte temporário ou o retorno com charme para reiniciar o ciclo.</p>
+        <p>A armadilha é que você ficou viciada no love bombing. Você espera ele voltar. E quando volta, você acredita que mudou. <strong>Mas o ciclo é o relacionamento. Não é uma fase.</strong></p>
+      </div>
+    </div>
+    <div class="bloco">
+      <p class="bloco-titulo">O que fazer agora</p>
+      <div class="acoes">
+        <div class="acao"><span class="acao-num">01</span><p class="acao-texto"><strong>Estude sobre narcisismo com profundidade.</strong> Não para diagnosticar ele — mas para entender o que está acontecendo com você. O conhecimento quebra o gaslighting. Quando você sabe o que é, para de duvidar de si mesma.</p></div>
+        <div class="acao"><span class="acao-num">02</span><p class="acao-texto"><strong>Busque terapia especializada em trauma relacional.</strong> Não terapia de casal — terapia individual. O narcisista usa a terapia de casal como mais um palco para sua performance. Você precisa de um espaço só seu.</p></div>
+        <div class="acao"><span class="acao-num">03</span><p class="acao-texto"><strong>Reconecte-se com sua rede de apoio.</strong> As pessoas que ele foi afastando de você ainda existem. Uma mensagem. Uma ligação. Você precisa de pessoas de fora para te lembrar quem você é — porque ele passou muito tempo tentando te fazer esquecer.</p></div>
+        <div class="acao"><span class="acao-num">04</span><p class="acao-texto"><strong>Pare de tentar mudar ele ou fazê-lo entender.</strong> O narcisista não muda porque não acha que precisa. Cada tentativa sua de fazê-lo entender é mais energia investida num poço sem fundo. Invista em você.</p></div>
+      </div>
+    </div>
+    <div class="alerta">
+      <p class="alerta-titulo">Para você guardar</p>
+      <p class="alerta-texto">A dificuldade que você tem de explicar o que acontece não é sua falha de comunicação. É o efeito do gaslighting — quando alguém sistematicamente distorce a realidade, você perde a capacidade de narrá-la claramente. Isso não é ser louca. É ser vítima de uma manipulação muito sofisticada.</p>
+    </div>
+    <div class="cta-box">
+      <p class="cta-titulo">Você não está sozinha nessa.</p>
+      <p class="cta-sub">Os outros testes revelam outras dimensões do que você está vivendo — dependência emocional, controle, traição.</p>
+      <a href="https://www.guardiasos.com.br" class="btn-cta">Ver todos os testes</a>
+    </div>
+    <div class="rodape">análise confidencial · guardiasos.com.br</div>
+  </div>
+</div>
+<script>
+function salvar(){const btn=document.getElementById('btn-dl');btn.disabled=true;btn.textContent='Gerando...';html2canvas(document.getElementById('captura'),{backgroundColor:'#0d0d0d',scale:2,useCORS:true,logging:false}).then(canvas=>{const link=document.createElement('a');link.download='resultado-narcisista.png';link.href=canvas.toDataURL('image/png');link.click();btn.textContent='↓ Salvar meu resultado';btn.disabled=false;}).catch(()=>{btn.textContent='↓ Salvar meu resultado';btn.disabled=false;});}
+</script>
+</body>
+</html>
