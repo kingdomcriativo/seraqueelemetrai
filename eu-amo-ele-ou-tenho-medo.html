@@ -162,8 +162,8 @@ h1 .linha3{display:block;color:#c0392b}
         <div class="bump-checkbox" id="bump-check"></div>
         <div>
           <div class="bump-label">Oferta especial</div>
-          <div class="bump-title">Adicionar: Diagnóstico Completo (5 testes)</div>
-          <div class="bump-desc">Gaslighting, relacionamento abusivo, traição, segunda família e este teste. Análise unificada de tudo que você sente.</div>
+          <div class="bump-title">Adicionar: Diagnóstico Completo (4 testes)</div>
+          <div class="bump-desc">Traição, dupla família, narcisismo e este teste. Análise unificada de tudo que você sente.</div>
           <div class="bump-price"><span style="color:#888;text-decoration:line-through;font-weight:300;font-size:11px">R$ 79,90</span> <span style="color:var(--dourado-claro);font-weight:500">por apenas +R$ 19,90</span></div>
         </div>
       </div>
@@ -301,7 +301,7 @@ function toggleBump(){
   document.getElementById('order-bump').classList.toggle('checked',bumpAtivo);
   const preco=bumpAtivo?PRECO_BUMP:PRECO_BASE;
   document.getElementById('price-display').textContent='R$ '+preco.toFixed(2).replace('.',',');
-  document.getElementById('price-label').textContent=bumpAtivo?'5 testes + análise unificada (R$ 9,97 + R$ 19,90)':'pagamento único via Pix';
+  document.getElementById('price-label').textContent=bumpAtivo?'4 testes + análise unificada (R$ 9,97 + R$ 19,90)':'pagamento único via Pix';
 }
 
 function getFaixaResultado(){
@@ -325,7 +325,7 @@ async function gerarPix(){
   if(!email){alert('Preencha seu e-mail para continuar.');return}
   const btn=document.getElementById('btn-gerar-pix');btn.disabled=true;btn.textContent='Gerando...';
   const valor=bumpAtivo?PRECO_BUMP:PRECO_BASE;
-  const desc=bumpAtivo?'Diagnóstico Completo (5 testes)':'Eu amo ele ou tenho medo de perder ele? | Análise Completa';
+  const desc=bumpAtivo?'Diagnóstico Completo (4 testes)':'Eu amo ele ou tenho medo de perder ele? | Análise Completa';
   if(DEV_MODE){mostrarQR({qr_code:'00020126580014BR.GOV.BCB.PIX013636b8e5a7-demo52040000530398654071097550215TESTE63045A8B',qr_code_base64:null,id:'demo-'+Date.now()});return;}
   try{
     const res=await fetch('https://api.mercadopago.com/v1/payments',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+ACCESS_TOKEN,'X-Idempotency-Key':'quiz2-'+Date.now()},body:JSON.stringify({transaction_amount:valor,description:desc,payment_method_id:'pix',payer:{email,first_name:'Cliente'}})});
