@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teste Resend API</title>
+<style>
+body{font-family:sans-serif;max-width:500px;margin:40px auto;padding:20px;background:#f5f5f5}
+h2{margin-bottom:20px}
+input{width:100%;padding:10px;margin-bottom:12px;border:1px solid #ccc;border-radius:6px;font-size:14px;box-sizing:border-box}
+button{width:100%;padding:12px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;font-size:15px;cursor:pointer}
+button:hover{background:#333}
+.result{margin-top:20px;padding:16px;border-radius:6px;font-size:13px;white-space:pre-wrap;word-break:break-all}
+.ok{background:#d4edda;border:1px solid #28a745;color:#155724}
+.erro{background:#f8d7da;border:1px solid #dc3545;color:#721c24}
+</style>
+</head>
+<body>
+<h2>Teste da API do Resend</h2>
+
+<label>Chave API (re_...)</label>
+<input type="text" id="chave" value="re_YR8vcM2u_7Nz5VgCRiDWDve2VuTW8HqNJ">
+
+<label>Seu e-mail (destinatário)</label>
+<input type="email" id="email" placeholder="seu@email.com">
+
+<button onclick="testar()">Enviar e-mail de teste</button>
+
+<div class="result" id="result" style="display:none"></div>
+
+<script>
+async function testar(){
+  const chave = document.getElementById('chave').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const resultado = document.getElementById('result');
+
+  if(!chave || !email){
+    resultado.className='result erro';
+    resultado.style.display='block';
+    resultado.textContent='Preencha a chave e o e-mail.';
+    return;
+  }
+
+  resultado.className='result';
+  resultado.style.display='block';
+  resultado.textContent='Enviando...';
+
+  const html = `
+    <div style="background:#0d0d0d;padding:40px 24px;font-family:Georgia,serif;max-width:560px;margin:0 auto">
+      <h2 style="color:#f5f0e8;font-size:22px;font-weight:400;text-align:center;margin-bottom:16px">Sua análise está pronta.</h2>
+      <p style="color:#aaa;font-size:14px;line-height:1.8;text-align:center;margin-bottom:32px">Este é um e-mail de teste do Guardiã SOS.</p>
+      <div style="text-align:center;margin-bottom:32px">
+        <a href="https://www.guardiasos.com.br" style="display:inline-block;padding:14px 40px;background:#6b1a2a;color:#f5f0e8;text-decoration:none;font-family:sans-serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase">Ver meu resultado</a>
+      </div>
+      <p style="color:#333;font-size:10px;text-align:center;font-family:sans-serif;margin-top:24px;letter-spacing:2px;text-transform:uppercase">guardiasos.com.br · análise confidencial</p>
+    </div>
+  `;
+
+  try{
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + chave
+      },
+      body: JSON.stringify({
+        from: 'Guardiã SOS <noreply@guardiasos.com.br>',
+        to: [email],
+        subject: 'Teste — Seu resultado está pronto 🔍 (Guardiã SOS)',
+        html: html
+      })
+    });
+    const data = await res.json();
+    if(res.ok){
+      resultado.className='result ok';
+      resultado.textContent='✓ E-mail enviado com sucesso!\n\n'+JSON.stringify(data,null,2);
+    } else {
+      resultado.className='result erro';
+      resultado.textContent='✗ Erro '+res.status+':\n\n'+JSON.stringify(data,null,2);
+    }
+  }catch(e){
+    resultado.className='result erro';
+    resultado.textContent='Erro de conexão: '+e.message;
+  }
+}
+</script>
+</body>
+</html>
