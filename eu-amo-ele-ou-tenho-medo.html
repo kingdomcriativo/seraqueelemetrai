@@ -356,7 +356,6 @@ async function enviarEmailResend(email, faixa, linkResultado) {
     });
   } catch(e) { console.error('Resend error:', e); }
 }
-  try{await fetch('https://api.brevo.com/v3/smtp/email',{method:'POST',headers:{'Content-Type':'application/json','api-key':BREVO_API_KEY},body:JSON.stringify({to:[{email}],templateId:BREVO_TEMPLATES[faixa],params:{link_resultado:getLinkResultado(faixa)}})});}catch(e){console.error(e);}
 }
 
 async function gerarPix(){
