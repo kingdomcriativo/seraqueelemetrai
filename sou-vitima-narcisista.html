@@ -326,7 +326,7 @@ async function enviarEmailResend(email,faixa,linkResultado){
     await fetch('https://hook.eu1.make.com/tja3f1x6pti9sik18mill9spq2cod8a2',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,link_resultado:linkResultado,faixa:faixa})
+      body:JSON.stringify({email:email,link_resultado:linkResultado,faixa:faixa,tipo:bumpAtivo?'bundle':'individual',link_teste:window.location.href.split('?')[0]+'?'+(bumpAtivo?'bundle=true':'pago=true')})
     });
   }catch(e){console.error('Make webhook error:',e);}
 }
@@ -363,7 +363,7 @@ async function verificarPagamento(id){
 function pagamentoAprovado(){
   const email=document.getElementById('inp-email').value.trim();
   const faixa=getFaixaResultado();
-  const linkEmail=getLinkResultado(faixa)+(bumpAtivo?'?bundle=true':'?pago=true');
+  const linkEmail=bumpAtivo?'https://www.guardiasos.com.br/indice.html?bundle=true':getLinkResultado(faixa)+'?pago=true';
   enviarEmailResend(email,faixa,linkEmail);
   if(bumpAtivo){
     localStorage.setItem('guardiasos_bundle','pago');
