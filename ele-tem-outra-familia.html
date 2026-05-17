@@ -328,7 +328,7 @@ function getLinkResultado(faixa){
 }
 
 async function enviarEmailResend(email,faixa,linkResultado){
-  if(DEV_MODE){console.log('DEV — email:',email,'faixa:',faixa,'link:',linkResultado);return;}
+  if(DEV_MODE){console.log('DEV — email:',email,'faixa:',faixa,'link:',linkResultado);}
   try{
     await fetch('https://hook.eu1.make.com/tja3f1x6pti9sik18mill9spq2cod8a2',{
       method:'POST',
