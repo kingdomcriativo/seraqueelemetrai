@@ -249,8 +249,8 @@ h1 .linha2{display:block;color:#c0392b}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
-const BREVO_API_KEY = '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';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
+const BREVO_API_KEY = 'SUA_BREVO_API_KEY_AQUI';
 const BREVO_TEMPLATES = {
   baixo:    1, // substitua pelo ID do template "Baixo risco" no Brevo
   moderado: 2, // substitua pelo ID do template "Sinais moderados" no Brevo
@@ -559,12 +559,17 @@ function showResult(){
       <div class="result-section"><p class="result-section-title">O que fazer com isso</p><div class="result-text" style="line-height:1.9">${r.orientacao}</div></div>
       <div style="margin-top:32px;text-align:center;font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase">guardiasos.com.br · análise confidencial</div>
     </div>
-    <div class="cta-box" style="margin-top:32px"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="https://www.guardiasos.com.br/indice.html" class="btn-cta">Ver outros testes</a></div>
+    <div class="cta-box" style="margin-top:32px"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="#" onclick="verOutrosTestes()" class="btn-cta">Ver outros testes</a></div>
     <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
   setTimeout(()=>{
     const f=document.getElementById('rsf'),d=document.getElementById('rsd');
     if(f)f.style.width=pct+'%';if(d)d.style.left='calc('+pct+'% - 5px)';
   },200);
+}
+
+function verOutrosTestes(){
+  const param = bumpAtivo ? 'bundle=true' : 'pago=true';
+  window.location.href = 'https://www.guardiasos.com.br/indice.html?' + param;
 }
 
 function restartQuiz(){

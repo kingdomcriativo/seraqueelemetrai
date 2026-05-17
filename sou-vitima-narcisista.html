@@ -243,8 +243,8 @@ h1 .l3{display:block;color:#c0392b}
 </div>
 
 <script>
-const ACCESS_TOKEN='APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
-const BREVO_API_KEY='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';
+const ACCESS_TOKEN='SEU_ACCESS_TOKEN_AQUI';
+const BREVO_API_KEY='SUA_BREVO_API_KEY_AQUI';
 const BREVO_TEMPLATES={baixo:10,moderado:11,elevado:12};
 const BASE_URL='https://www.guardiasos.com.br';
 const DEV_MODE=ACCESS_TOKEN==='SEU_ACCESS_TOKEN_AQUI';
@@ -456,6 +456,11 @@ function showResult(){
     <div class="cta-box"><p>Você não precisa carregar isso sozinha.</p><small>Os outros testes revelam outras dimensões do que você está vivendo.</small><a href="https://www.guardiasos.com.br/indice.html" class="btn-cta">Ver todos os testes</a></div>
     <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
   setTimeout(()=>{const f=document.getElementById('rsf'),d=document.getElementById('rsd');if(f)f.style.width=pct+'%';if(d)d.style.left='calc('+pct+'% - 5px)';},200);
+}
+
+function verOutrosTestes(){
+  const param = bumpAtivo ? "bundle=true" : "pago=true";
+  window.location.href = "https://www.guardiasos.com.br/indice.html?" + param;
 }
 
 function restartQuiz(){
