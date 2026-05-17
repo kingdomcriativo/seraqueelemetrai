@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '951646650965700');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=951646650965700&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sou vítima de um narcisista? | Análise Completa</title>
@@ -243,7 +260,7 @@ h1 .l3{display:block;color:#c0392b}
 </div>
 
 <script>
-const ACCESS_TOKEN='APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
+const ACCESS_TOKEN='SEU_ACCESS_TOKEN_AQUI';
 const BASE_URL='https://www.guardiasos.com.br';
 const DEV_MODE=ACCESS_TOKEN==='SEU_ACCESS_TOKEN_AQUI';
 const params=new URLSearchParams(window.location.search);
@@ -374,6 +391,7 @@ function pagamentoAprovado(){
   } else {
     localStorage.setItem('guardiasos_teste4','pago');
   }
+  fbq('track', 'Purchase', {value: bumpAtivo ? 29.87 : 9.97, currency: 'BRL'});
   closeModal();showResult();
 }
 
