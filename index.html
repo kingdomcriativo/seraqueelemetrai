@@ -266,7 +266,7 @@ h1 .linha2{display:block;color:#c0392b}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
 const BASE_URL = 'https://www.guardiasos.com.br';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
 const params = new URLSearchParams(window.location.search);
@@ -321,11 +321,11 @@ const resultados=[
 let current=0,answers=new Array(questions.length).fill(null),scores=new Array(questions.length).fill(0);
 let timerInterval=null,pollInterval=null;
 
-function openModal(){document.getElementById('modal').classList.add('active')}
+function openModal(){document.getElementById('modal').classList.add('active');fbq('trackCustom','ViuPreco');}
 function closeModal(){document.getElementById('modal').classList.remove('active')}
 document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
 
-async function gerarPix(){
+async function gerarPix(){fbq('track','InitiateCheckout',{value:bumpAtivo?29.87:9.97,currency:'BRL'});
   const email=document.getElementById('inp-email').value.trim();
   if(!email){alert('Preencha seu e-mail para continuar.');return}
   const btn=document.getElementById('btn-gerar-pix');
@@ -441,6 +441,7 @@ function copiarCodigo(){
 }
 
 function startQuiz(){
+  fbq('trackCustom','InicioTeste');
   if(ACESSO_LIBERADO){
     show('screen-quiz');renderQ();
   } else {
