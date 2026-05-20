@@ -205,7 +205,31 @@ h1 .linha2{display:block;color:#c0392b}
         <input type="email" id="inp-email" placeholder="Para onde envio sua análise">
       </div>
       <button class="btn-pix" id="btn-gerar-pix" onclick="gerarPix()">Gerar QR Code Pix</button>
-      <p class="security-note">🔒 Pagamento seguro · Mercado Pago · Aprovação em segundos</p>
+      <div style="margin-top:16px;border-top:1px solid rgba(255,255,255,.06);padding-top:16px">
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px">
+          <span style="font-size:13px">🔒</span>
+          <span style="font-size:12px;color:#aaa;font-weight:400">Pagamento 100% seguro via Pix</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px;border-radius:4px;text-align:center">
+            <div style="font-size:15px;margin-bottom:2px">✓</div>
+            <div style="font-size:10px;color:#888;line-height:1.4">Aprovado pelo<br>Mercado Pago</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px;border-radius:4px;text-align:center">
+            <div style="font-size:15px;margin-bottom:2px">🛡️</div>
+            <div style="font-size:10px;color:#888;line-height:1.4">Site protegido<br>por SSL</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px;border-radius:4px;text-align:center">
+            <div style="font-size:15px;margin-bottom:2px">↩️</div>
+            <div style="font-size:10px;color:#888;line-height:1.4">Garantia de<br>7 dias</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px;border-radius:4px;text-align:center">
+            <div style="font-size:15px;margin-bottom:2px">🔐</div>
+            <div style="font-size:10px;color:#888;line-height:1.4">Seus dados<br>estão seguros</div>
+          </div>
+        </div>
+        <p style="font-size:10px;color:#444;text-align:center;line-height:1.5">Aprovação em segundos · 100% anônimo · Resultado imediato após o pagamento</p>
+      </div>
     </div>
     <div class="pix-area" id="pix-area">
       <p class="modal-eyebrow">Pix gerado com sucesso</p>
@@ -266,7 +290,7 @@ h1 .linha2{display:block;color:#c0392b}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
 const BASE_URL = 'https://www.guardiasos.com.br';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
 const params = new URLSearchParams(window.location.search);
