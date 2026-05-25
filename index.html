@@ -291,7 +291,7 @@ h1 .linha2{display:block;color:#c0392b}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-const ACCESS_TOKEN = 'APP_USR-3841037572754026-120813-97a910804e475ba2af8b3bec5fbdb7ad-3049456137';
+const ACCESS_TOKEN = 'SEU_ACCESS_TOKEN_AQUI';
 const BASE_URL = 'https://www.guardiasos.com.br';
 const DEV_MODE = ACCESS_TOKEN === 'SEU_ACCESS_TOKEN_AQUI';
 const params = new URLSearchParams(window.location.search);
@@ -340,7 +340,7 @@ const resultados=[
   analise:`Preciso ser honesta com você — porque você merece honestidade, provavelmente mais do que está recebendo agora.<br><br>As suas respostas revelaram um nível elevado de indicadores comportamentais associados à infidelidade. Não são um ou dois sinais isolados. São múltiplos padrões acontecendo ao mesmo tempo: <strong>sigilo com o celular, distância emocional e física sem explicação, reações defensivas quando você questiona, mudanças de comportamento repentinas</strong> — e uma intuição sua que não para de gritar, mesmo quando você tenta silenciá-la.<br><br>Isso não é prova. Mas é exatamente o padrão que, em estudos sobre relacionamentos, aparece de forma recorrente em situações onde de fato havia traição. <strong>Você não está exagerando. Você está percebendo.</strong><br><br>Viver com esse nível de incerteza é exaustivo de uma forma que ninguém de fora consegue entender. Você acorda já checando o humor dele. Você repassou conversas na cabeça mil vezes tentando achar onde errou. Você já se culpou por ser "aquela mulher ciumenta". Você sorriu na frente de pessoas fingindo que está tudo bem.<br><br>O problema não é que você está desconfiada. O problema é que você tem motivo para estar. <strong>Você não está louca. Você está cansada.</strong> E cansada é diferente de fraca.`,
   sinais_title:"O que o conjunto de respostas revela",
   sinais:["Múltiplos comportamentos de sigilo identificados simultaneamente","Distância emocional e física significativa relatada sem justificativa","Inconsistências e reações defensivas presentes e recorrentes","Intuição persistente confirmada por dados comportamentais concretos","Histórico ou padrão de desonestidade identificado no relacionamento"],
-  orientacao:`Você merece saber a verdade — e tomar decisões com clareza, não com ansiedade.<br><br><strong>O que fazer agora — com inteligência:</strong><br><br>Primeiro: não confronte no calor da emoção. Dê-se 72 horas para respirar e organizar o que quer dizer. Depois tenha a conversa — não como acusação, mas como ultimato velado: "Eu preciso de transparência total. Se não conseguir, preciso saber."<br><br>Segundo: pare de inventar desculpas para ele. Cada vez que você encontra uma explicação para o comportamento dele, está gastando energia que deveria estar sendo usada para cuidar de você.<br><br>Terceiro: busque terapia agora. Não quando terminar. Não quando confirmar. Agora. Uma profissional vai te ajudar a sair do modo de sobrevivência e a tomar decisões a partir de um lugar de força, não de desespero.<br><br>Quarto: lembre quem você era antes de começar a duvidar de si mesma. Essa mulher ainda existe. Ela só está escondida embaixo de meses ou anos de ansiedade, dúvida e amor mal correspondido. Ela vai voltar — assim que você parar de gastar energia tentando salvar alguém que pode não querer ser salvo.<br><br><strong>Você é mais forte do que pensa. O primeiro passo já foi dado. Continue.</strong>`}
+  orientacao:`Você merece saber a verdade — e tomar decisões com clareza, não com ansiedade.<br><br><strong>O que fazer agora — com inteligência:</strong><br><br>Primeiro: não confronte no calor da emoção. Dê-se 72 horas para respirar e organizar o que quer dizer. Depois tenha a conversa — não como acusação, mas como ultimato velado: "Eu preciso de transparência total. Se não conseguir, preciso saber."<br><br>Segundo: pare de inventar desculpas para ele. Cada vez que você encontra uma explicação para o comportamento dele, está gastando energia que deveria estar sendo usada para cuidar de você.<br><br>Terceiro: busque terapia agora. Não quando terminar. Não quando confirmar. Agora. Uma profissional vai te ajudar a sair do modo de sobrevivência e a tomar decisões a partir de um lugar de força, não de desespero.<br><br>Quarto: lembre quem você era antes de começar a duvidar de si mesma. Essa mulher ainda existe. Ela só está escondida embaixo de meses ou anos de ansiedade, dúvida e amor mal correspondido. Ela vai voltar — assim que você parar de gastar energia tentando salvar alguém que pode não querer ser salvo.<br><br><strong>Você é mais forte do que pensa. O primeiro passo já foi dado. Mas saber não é suficiente — você precisa de um plano. E existe um feito especificamente para mulheres na sua situação.</strong>`}
 ];
 
 let current=0,answers=new Array(questions.length).fill(null),scores=new Array(questions.length).fill(0);
@@ -432,7 +432,7 @@ async function enviarEmailResend(email,faixa,linkResultado){
     await fetch('https://hook.eu1.make.com/tja3f1x6pti9sik18mill9spq2cod8a2',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:email,link_resultado:linkResultado,faixa:faixa,tipo:bumpAtivo?'bundle':'individual',link_teste:window.location.href.split('?')[0]+'?'+(bumpAtivo?'bundle=true':'pago=true')})
+      body:JSON.stringify({email:email,link_resultado:linkResultado,faixa:faixa,tipo:bumpAtivo?'bundle':'individual',link_teste:window.location.href.split('?')[0]+'?'+(bumpAtivo?'bundle=true':'pago=true'),valor:bumpAtivo?29.87:9.97})
     });
   }catch(e){console.error('Make webhook error:',e);}
 }
@@ -548,7 +548,7 @@ function buildPersuasion(){
 function nextQ(){
   if(answers[current]===null)return;
   if(current<questions.length-1){current++;renderQ();}
-  else{ if(ACESSO_LIBERADO){ showResult(); } else { buildPersuasion();show('screen-persuasion'); } }
+  else{ showResult(); }
 }
 function prevQ(){if(current>0){current--;renderQ();}}
 
@@ -582,7 +582,7 @@ function showResult(){
   const pct=Math.round((total/maxScore)*100);
   let r=resultados[0];
   for(const res of resultados){if(total>=res.min&&total<=res.max){r=res;break;}}
-  show('screen-result');
+  show('screen-result');agendarModalOL();
   document.getElementById('result-content').innerHTML=`
     <div style="text-align:center;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)">
       <p style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px">Sua análise está pronta</p>
@@ -606,8 +606,15 @@ function showResult(){
       <div class="result-section"><p class="result-section-title">O que fazer com isso</p><div class="result-text" style="line-height:1.9">${r.orientacao}</div></div>
       <div style="margin-top:32px;text-align:center;font-size:10px;letter-spacing:2px;color:#444;text-transform:uppercase">guardiasos.com.br · análise confidencial</div>
     </div>
-    <div class="cta-box" style="margin-top:32px"><p>Você não precisa carregar essa dúvida sozinha.</p><small>Conheça os outros testes e aprofunde sua análise.</small><a href="#" onclick="verOutrosTestes()" class="btn-cta">Ver outros testes</a></div>
-    <button class="restart" onclick="restartQuiz()">← Refazer o teste</button>`;
+    <div id="ol-bloco" style="margin-top:40px;background:rgba(107,26,42,.12);border:1px solid rgba(201,168,76,.25);padding:28px 24px;text-align:center">
+      <p style="font-size:10px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase;margin-bottom:10px">Próximo passo</p>
+      <h3 style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:500;color:var(--creme);margin-bottom:12px;line-height:1.4">Operação Liberdade</h3>
+      <p style="font-size:13px;color:#aaa;line-height:1.8;margin-bottom:20px">Um plano completo de saída segura — 4 fases, checklist interativo, passo a passo de quem já passou por isso e sobreviveu.</p>
+      <div style="font-size:28px;color:var(--dourado-claro);font-weight:500;margin-bottom:6px">R$ 27,90</div>
+      <p style="font-size:11px;color:#666;margin-bottom:20px">pagamento único via Pix · acesso imediato</p>
+      <button onclick="abrirModalOL()" style="width:100%;padding:14px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer">Quero meu plano de saída</button>
+    </div>
+    <button class="restart" onclick="restartQuiz()" style="margin-top:16px">← Refazer o teste</button>`;
   setTimeout(()=>{
     const f=document.getElementById('rsf'),d=document.getElementById('rsd');
     if(f)f.style.width=pct+'%';if(d)d.style.left='calc('+pct+'% - 5px)';
@@ -630,6 +637,54 @@ function restartQuiz(){
   document.getElementById('pix-area').classList.remove('show');
   const btn=document.getElementById('btn-gerar-pix');btn.disabled=false;btn.textContent='Gerar QR Code Pix';
   show('screen-intro');
+}
+</script>
+
+<!-- MODAL OPERAÇÃO LIBERDADE -->
+<div id="modal-ol" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;padding:24px">
+  <div style="background:#111;border:1px solid rgba(201,168,76,.3);max-width:420px;width:100%;padding:32px 28px;position:relative;max-height:90vh;overflow-y:auto">
+    <button onclick="fecharModalOL()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#555;font-size:18px;cursor:pointer">✕</button>
+    <p style="font-size:10px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase;margin-bottom:10px">Você não precisa sair sozinha</p>
+    <h2 style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:500;color:var(--creme);margin-bottom:12px;line-height:1.4">Operação <span style="color:var(--dourado)">Liberdade</span></h2>
+    <p style="font-size:13px;color:#aaa;line-height:1.8;margin-bottom:16px">Um plano completo criado por alguém que viveu o que você está vivendo — e saiu. 4 fases, checklist interativo, passo a passo de como sair com segurança, com provas, com dinheiro e com a vida.</p>
+    <ul style="list-style:none;margin-bottom:20px;display:flex;flex-direction:column;gap:8px">
+      <li style="font-size:12px;color:#aaa;display:flex;gap:8px"><span style="color:var(--dourado)">✓</span> Fase 1: Investigação — como documentar provas</li>
+      <li style="font-size:12px;color:#aaa;display:flex;gap:8px"><span style="color:var(--dourado)">✓</span> Fase 2: Preparação Silenciosa — infraestrutura secreta</li>
+      <li style="font-size:12px;color:#aaa;display:flex;gap:8px"><span style="color:var(--dourado)">✓</span> Fase 3: Coleta de Provas — o que o juiz aceita</li>
+      <li style="font-size:12px;color:#aaa;display:flex;gap:8px"><span style="color:var(--dourado)">✓</span> Fase 4: Saída Segura — o primeiro dia livre</li>
+    </ul>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:32px;color:var(--dourado-claro);font-weight:500">R$ 27,90</div>
+      <p style="font-size:11px;color:#555">pagamento único via Pix · acesso imediato</p>
+    </div>
+    <button onclick="comprarOL()" style="width:100%;padding:14px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;margin-bottom:12px">Quero meu plano de saída</button>
+    <button onclick="fecharModalOL()" style="width:100%;padding:10px;background:none;border:none;color:#444;font-size:11px;cursor:pointer;letter-spacing:1px">agora não</button>
+  </div>
+</div>
+
+<script>
+let olTimer = null;
+
+function agendarModalOL(){
+  olTimer = setTimeout(()=>{
+    abrirModalOL();
+  }, 30000);
+}
+
+function abrirModalOL(){
+  const m = document.getElementById('modal-ol');
+  m.style.display = 'flex';
+  fbq('trackCustom','ViuOfertaOL');
+}
+
+function fecharModalOL(){
+  document.getElementById('modal-ol').style.display = 'none';
+}
+
+function comprarOL(){
+  fecharModalOL();
+  // Redireciona para página de compra da OL - a implementar
+  window.location.href = 'https://www.guardiasos.com.br/operacao-liberdade-compra.html';
 }
 </script>
 </body>
