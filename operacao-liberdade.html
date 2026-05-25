@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operação Liberdade — Guardiã SOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --preto:#0a0a0a;
+  --dourado:#c9a84c;
+  --dourado-claro:#e2c47a;
+  --vinho:#6b1a2a;
+  --creme:#f5f0e8;
+  --verde:#2d6a4f;
+  --verde-claro:#52b788;
+  --cinza:#888;
+  --borda:rgba(201,168,76,.15);
+}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;min-height:100vh}
+
+/* ACESSO NEGADO */
+#acesso-negado{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center}
+#acesso-negado .logo{width:80px;margin-bottom:24px;opacity:.5}
+#acesso-negado h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--creme);margin-bottom:12px}
+#acesso-negado p{font-size:14px;color:var(--cinza);max-width:360px}
+
+/* CONFIDENCIAL */
+.confidencial-banner{background:rgba(107,26,42,.15);border-top:1px solid rgba(107,26,42,.4);border-bottom:1px solid rgba(107,26,42,.4);padding:10px 24px;text-align:center;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.6)}
+
+/* HEADER */
+.header{padding:32px 24px 24px;border-bottom:1px solid var(--borda);max-width:680px;margin:0 auto}
+.header-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.header-logo img{width:40px}
+.header-logo span{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--dourado)}
+.header h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;color:var(--creme);line-height:1.2;margin-bottom:8px}
+.header h1 em{color:var(--dourado);font-style:italic}
+.header-sub{font-size:13px;color:var(--cinza);margin-bottom:24px}
+
+/* PROGRESSO */
+.progresso-wrap{background:rgba(255,255,255,.03);border:1px solid var(--borda);padding:16px 20px;margin-bottom:0}
+.progresso-label{display:flex;justify-content:space-between;font-size:11px;color:var(--cinza);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.progresso-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.progresso-fill{height:100%;background:var(--dourado);border-radius:2px;transition:width .4s ease}
+
+/* CONTEUDO */
+.conteudo{max-width:680px;margin:0 auto;padding:0 24px 80px}
+
+/* FASE */
+.fase{margin-top:48px}
+.fase-header{margin-bottom:32px}
+.fase-numero{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--dourado);margin-bottom:8px}
+.fase-titulo{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--creme);line-height:1.2;margin-bottom:16px}
+.fase-intro{font-size:14px;color:rgba(245,240,232,.7);line-height:1.9;border-left:2px solid var(--vinho);padding-left:16px;margin-bottom:8px}
+
+/* MOTIVACIONAL */
+.motivacional{background:rgba(107,26,42,.1);border:1px solid rgba(107,26,42,.3);padding:20px 24px;margin-bottom:32px}
+.motivacional p{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--creme);line-height:1.8}
+.motivacional-fim{background:rgba(45,106,79,.08);border:1px solid rgba(82,183,136,.2);padding:16px 24px;margin-top:32px}
+.motivacional-fim p{font-size:13px;color:rgba(82,183,136,.9);line-height:1.7}
+
+/* CHECKLIST */
+.checklist{display:flex;flex-direction:column;gap:2px}
+.item{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);padding:0;cursor:pointer;transition:all .25s;overflow:hidden}
+.item:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.03)}
+.item.concluido{background:rgba(45,106,79,.08);border-color:rgba(82,183,136,.25)}
+.item-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px}
+.checkbox{width:20px;height:20px;border:1.5px solid rgba(255,255,255,.2);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.item.concluido .checkbox{background:var(--verde);border-color:var(--verde)}
+.checkbox svg{opacity:0;transition:opacity .2s}
+.item.concluido .checkbox svg{opacity:1}
+.item-titulo{font-size:14px;font-weight:500;color:var(--creme);line-height:1.5;transition:color .25s}
+.item.concluido .item-titulo{color:var(--verde-claro);text-decoration:line-through;text-decoration-color:rgba(82,183,136,.4)}
+.item-corpo{padding:0 18px 16px 52px;font-size:13px;color:rgba(245,240,232,.6);line-height:1.85;display:none}
+.item-corpo.aberto{display:block}
+.item-corpo p{margin-bottom:10px}
+.item-corpo p:last-child{margin-bottom:0}
+.item-corpo strong{color:var(--creme);font-weight:500}
+
+/* AVISO LEGAL */
+.aviso-legal{background:rgba(107,26,42,.08);border:1px solid rgba(107,26,42,.25);padding:20px 24px;margin-top:48px}
+.aviso-legal p{font-size:12px;color:rgba(245,240,232,.5);line-height:1.8}
+.aviso-legal strong{color:var(--dourado);font-weight:500}
+.numeros{display:flex;flex-direction:column;gap:4px;margin-top:12px}
+.numero{font-size:13px;color:var(--creme);font-weight:500}
+.numero span{color:var(--cinza);font-size:11px;font-weight:300;margin-left:6px}
+
+/* SEPARADOR */
+.separador{border:none;border-top:1px solid var(--borda);margin:48px 0 0}
+</style>
+</head>
+<body>
+
+<div id="acesso-negado" style="display:none">
+  <p style="font-size:13px;color:var(--cinza)">Este conteúdo é de acesso exclusivo para quem adquiriu a Operação Liberdade.<br>Verifique o link no seu e-mail de confirmação.</p>
+</div>
+
+<div id="conteudo-principal" style="display:none">
+
+<div class="confidencial-banner">🔒 Documento confidencial · Proibida qualquer divulgação, compartilhamento ou reprodução · Criado exclusivamente para mulheres em situação de vulnerabilidade</div>
+
+<div class="header">
+  <div class="header-logo">
+    <img src="https://www.guardiasos.com.br/logovertical.png" alt="Guardiã SOS">
+    <span>Guardiã SOS</span>
+  </div>
+  <h1>Operação <em>Liberdade</em></h1>
+  <p class="header-sub">Seu plano completo de saída segura — 4 fases, passo a passo, do planejamento ao primeiro dia livre.</p>
+  <div class="progresso-wrap">
+    <div class="progresso-label">
+      <span>Seu progresso</span>
+      <span id="progresso-texto">0 de 0 etapas concluídas</span>
+    </div>
+    <div class="progresso-bar"><div class="progresso-fill" id="progresso-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="conteudo">
+
+<!-- FASE 1 -->
+<div class="fase">
+  <div class="fase-header">
+    <div class="fase-numero">Fase 01</div>
+    <div class="fase-titulo">Investigação</div>
+    <div class="motivacional">
+      <p>Eu sei o que você está sentindo agora. O medo que não passa. O choro que vem do nada. A sensação de estar presa numa prisão sem grades visíveis, onde ninguém de fora consegue enxergar as paredes. Eu tremia enquanto fazia cada passo do que você vai fazer agora. Tinha frio na barriga. Chorava todos os dias. Sentia como se estivesse vivendo um filme de terror onde qualquer movimento errado poderia ser o último. E não tinha ninguém para me dar coragem. Só uma pessoa me destruindo todos os dias. Mas eu saí. E você também vai sair. Não porque é fácil. Porque você já está aqui. E chegar até aqui foi o ato de coragem mais difícil. O resto é plano. E você tem um. Respira. Começa.</p>
+    </div>
+    <div class="fase-intro">Antes de qualquer movimento, você precisa entender o que pode usar legalmente contra ele e começar a documentar tudo com inteligência. Essa fase é sobre construir sua base de provas de forma invisível. Nada fora da rotina. Nada que ele possa questionar.</div>
+  </div>
+
+  <div class="checklist" id="fase1">
+
+    <div class="item" data-id="f1i1" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Entenda o que o juiz aceita como prova — leia isso primeiro</div>
+      </div>
+      <div class="item-corpo">
+        <p>No Brasil, provas digitais são aceitas em processos de violência doméstica e divórcio desde que mostrem claramente a identidade de quem enviou, a data e o horário.</p>
+        <p><strong>São válidas:</strong> capturas de tela com nome, foto e número visíveis. Gravações de áudio feitas por você em uma conversa que você participou. Vídeos de situações que você presenciou. Documentos físicos que você fotografou estando na sua própria casa.</p>
+        <p><strong>Não são aceitas:</strong> provas obtidas invadindo dispositivos sem autorização ou gravando conversas que você não participou. Isso pode te prejudicar no processo.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f1i2" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Crie um diário de episódios no seu e-mail novo</div>
+      </div>
+      <div class="item-corpo">
+        <p>Depois de cada situação de abuso, abra o seu e-mail novo e escreva um e-mail para você mesma com a data no assunto. Descreva o que aconteceu com detalhes: data, horário, o que ele disse palavra por palavra se conseguir, o que ele fez, quem estava presente, como você ficou depois.</p>
+        <p><strong>Exemplo do que funciona:</strong> "Dia 15 de maio, às 22h, ele gritou que eu era idiota na frente das crianças e jogou o copo na parede."</p>
+        <p><strong>O que não funciona:</strong> "Ele sempre foi agressivo." Detalhes convencem juízes. Esse diário acumulado ao longo de semanas é uma das provas mais poderosas que você pode apresentar.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f1i3" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Instale uma câmera discreta nos ambientes comuns</div>
+      </div>
+      <div class="item-corpo">
+        <p>Existem câmeras pequenas disfarçadas de objetos comuns como relógio de parede, carregador de celular ou detector de fumaça. Pesquise no Google "câmera espiã disfarçada" ou no Mercado Livre.</p>
+        <p>Instale em um ambiente onde os conflitos costumam acontecer, como a sala ou a cozinha. Ela grava automaticamente e você resgata as gravações quando ele não está. Envie os vídeos mais relevantes para o seu e-mail novo imediatamente.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f1i4" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Grave os episódios de abuso com o celular</div>
+      </div>
+      <div class="item-corpo">
+        <p>Quando sentir que uma situação vai escalar, abra o gravador de voz nativo do celular e deixe gravando com o celular virado para baixo ou dentro da bolsa. Não precisa de aplicativo especial. O gravador nativo já funciona.</p>
+        <p>Salve o arquivo imediatamente depois e envie para o e-mail novo. Grave apenas conversas que você participou. Nunca grave ele falando com outras pessoas sem você estar presente.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f1i5" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Documente as conversas do WhatsApp e redes sociais</div>
+      </div>
+      <div class="item-corpo">
+        <p>Faça capturas de tela de todas as conversas relevantes: ameaças, agressões verbais, mensagens que provam o comportamento dele. Cada captura precisa mostrar claramente o nome do contato, a foto do perfil e o número de telefone.</p>
+        <p>Para mensagens de áudio graves, use o aplicativo <strong>Verifact</strong>. Pesquise "Verifact autenticar mensagem" no Google. É pago e gera um certificado digital reconhecido em processos judiciais.</p>
+        <p>Envie todas as capturas para o e-mail novo imediatamente. Faça isso continuamente, sempre que algo relevante acontecer.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="motivacional-fim">
+    <p>Você acabou de dar o primeiro passo. Agora você sabe o que tem valor legal e já começou a construir seu dossiê. Isso muda tudo. Você não está mais no escuro. Continue.</p>
+    <p style="margin-top:8px;font-size:11px;color:rgba(82,183,136,.6)">Este guia não substitui acompanhamento psicológico, assessoria jurídica ou atendimento policial. Se estiver em risco imediato, ligue agora para o 180 (Central de Atendimento à Mulher, gratuito, 24h, sigiloso) ou 190.</p>
+  </div>
+</div>
+
+<hr class="separador">
+
+<!-- FASE 2 -->
+<div class="fase">
+  <div class="fase-header">
+    <div class="fase-numero">Fase 02</div>
+    <div class="fase-titulo">Preparação Silenciosa</div>
+    <div class="motivacional">
+      <p>Essa é a fase onde você vai começar a construir sua saída enquanto ele acha que nada mudou. Cada coisa que você fizer aqui vai parecer completamente normal para ele. Mas para você, é a fundação da sua liberdade. O frio na barriga que você sente agora é coragem disfarçada de medo. Continue.</p>
+    </div>
+    <div class="fase-intro">Você já tem provas. Agora é hora de construir sua infraestrutura de saída em silêncio absoluto. Tudo precisa parecer normal. Nada fora da rotina. Nada que ele possa questionar.</div>
+  </div>
+
+  <div class="checklist" id="fase2">
+
+    <div class="item" data-id="f2i1" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Escolha seu contato de segurança</div>
+      </div>
+      <div class="item-corpo">
+        <p>Escolha uma pessoa — só uma — em quem você confia de olhos fechados. Alguém que nunca te trairia, não importa o que aconteça. Pode ser sua mãe, sua irmã, uma amiga de infância, qualquer pessoa desde que você tenha certeza absoluta da lealdade dela.</p>
+        <p>Essa pessoa vai saber de tudo, guardar cópias de tudo e monitorar sua segurança todos os dias. Avise ela que a partir de agora toda conversa entre vocês precisa ser apagada imediatamente depois de lida. Falou, a pessoa leu, deletou. Sem exceção.</p>
+        <p>No WhatsApp você apaga a mensagem dos dois lados segurando a mensagem e escolhendo <strong>"apagar para todos"</strong>.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i2" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Crie o sistema de palavra-chave diária</div>
+      </div>
+      <div class="item-corpo">
+        <p>Com seu contato de segurança, combine um esquema usando o alfabeto da música da Xuxa: A de Amor, B de Baixinho, C de Coração, D de Doçura, e assim por diante.</p>
+        <p>Todo dia de manhã você manda uma mensagem normal para ela com a palavra do dia incluída naturalmente, como se fosse parte de qualquer conversa. Ela saberá que é você e que está bem. Combinam isso uma vez só.</p>
+        <p><strong>Se um dia você não mandar a palavra, ela liga para o 190 imediatamente.</strong> Apague essa conversa logo depois de combinar.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i3" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Crie um e-mail novo que só você conhece</div>
+      </div>
+      <div class="item-corpo">
+        <p>Esse e-mail será sua base de operações. Tudo que você documentar, provar e guardar vai para cá.</p>
+        <p>Abra o navegador e ative a <strong>aba anônima</strong>. No Chrome, toque nos três pontinhos no canto superior direito e escolha "Nova guia anônima". No Safari, toque em "Abas" e escolha "Privado". Na aba anônima nada fica salvo no histórico.</p>
+        <p>Acesse <strong>gmail.com</strong> e crie uma conta com um nome que não tem nada a ver com você. Não use seu nome, sua data de nascimento ou qualquer coisa que ele poderia adivinhar. Use algo aleatório como flor472brasil.</p>
+        <p>Crie uma senha com três palavras aleatórias que só fazem sentido para você. Exemplo: abacaxiPortugalcaneta. <strong>Não salve em nenhum lugar. Decore.</strong></p>
+        <p>Quando terminar, feche a aba anônima. Apague o histórico do navegador todo dia: no Chrome, toque nos três pontinhos, "Histórico", "Limpar dados de navegação", marque tudo e confirme.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i4" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Compre um chip novo só seu</div>
+      </div>
+      <div class="item-corpo">
+        <p>Vá a qualquer loja de celular ou mercado e compre um chip pré-pago no seu CPF. Pague em dinheiro. Guarde esse chip fora de casa, na bolsa do seu contato de segurança ou no seu local de trabalho.</p>
+        <p>Escolha um momento em que ele não está por perto para ativar. Se o seu celular tem dois slots de chip, você pode usar os dois ao mesmo tempo — mas <strong>sempre que ele chegar perto, remova o chip novo e esconda.</strong> Nunca deixe os dois chips no aparelho quando ele estiver presente.</p>
+        <p>Esse chip vai ser o número cadastrado no banco novo e no e-mail novo.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i5" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Abra uma conta bancária só sua</div>
+      </div>
+      <div class="item-corpo">
+        <p>Com o chip novo em mãos, baixe o aplicativo de um banco digital que você ainda não usa, como <strong>Nubank, Inter ou C6</strong>. Crie a conta usando o seu e-mail novo e o número do chip novo. A abertura é toda pelo celular.</p>
+        <p>Depois de criar a conta, esconda o aplicativo. No iPhone: segure o ícone, toque em "Remover app" e escolha "Remover da tela inicial". No Android: vá em Configurações, Aplicativos, toque no app e procure "Ocultar". Se não tiver essa opção, coloque dentro de uma pasta com nome neutro como "Ferramentas".</p>
+        <p>Nunca acesse esse aplicativo quando ele estiver perto.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i6" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Comece a construir sua reserva de saída</div>
+      </div>
+      <div class="item-corpo">
+        <p>Nunca transfira dinheiro direto para a conta nova pelo aplicativo. Ele pode monitorar seu extrato.</p>
+        <p>Quando for ao mercado, feira, farmácia ou qualquer saída rotineira, saque um valor que tenha justificativa natural. Esses lugares costumam receber em dinheiro, então o saque não levanta suspeita.</p>
+        <p>Deposite esse dinheiro direto na conta nova pelo caixa eletrônico usando o envelope de depósito, ou na boca do caixa em uma lotérica. Faça isso com frequência e em valores pequenos.</p>
+        <p>Calcule quanto você vai precisar: mudança, primeiro mês de aluguel, primeiros dias da nova vida. Vá construindo essa reserva aos poucos.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i7" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Separe seus documentos pessoais</div>
+      </div>
+      <div class="item-corpo">
+        <p>RG, CPF, certidão de nascimento, passaporte, carteira de trabalho, diplomas, certificados, certidão de casamento se houver. Junte tudo em um envelope.</p>
+        <p>Leve para a casa do seu contato de segurança ou para seu local de trabalho. <strong>Esses documentos precisam sair de casa antes de você.</strong> Se ele ficar com eles você vai perder tempo e energia para tirar segunda via de tudo na hora mais difícil da sua vida.</p>
+        <p>Se tiver filhos, inclua também: certidão de nascimento, cartão de vacinação, documentos escolares, passaporte.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i8" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Crie um perfil secreto no Instagram</div>
+      </div>
+      <div class="item-corpo">
+        <p>Crie um perfil novo e privado no Instagram usando o e-mail novo e o chip novo. Use um nome que não tem nada a ver com você.</p>
+        <p>Adicione <strong>apenas seu contato de segurança</strong> — mais ninguém por enquanto. Bloqueie todos os perfis dele e de pessoas próximas a ele para que não apareça como sugestão.</p>
+        <p>Deixe o perfil em modo privado até o processo estar encerrado. Nunca acesse esse perfil pelo celular principal enquanto estiver logada na sua conta normal.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i9" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Inicie acompanhamento psicológico online</div>
+      </div>
+      <div class="item-corpo">
+        <p>Pesquise no Google "psicóloga online especializada em relacionamento abusivo". Marque consultas online que você pode fazer do celular em qualquer lugar com privacidade.</p>
+        <p>Isso serve para três coisas: apoio emocional para aguentar o processo mantendo a aparência de normalidade; orientação profissional segura; e documentação oficial do seu estado de saúde mental durante o relacionamento.</p>
+        <p>Se conseguir incluir ele nas sessões também, faça. O laudo dele pode ser sua maior vantagem legal. <strong>Tudo que a psicóloga recomendar que mude na sua rotina, use como justificativa para ele.</strong></p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i10" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Planeje para onde você vai</div>
+      </div>
+      <div class="item-corpo">
+        <p>Defina um destino. Casa de quem. Em qual cidade. Quanto mais longe e mais inesperado, melhor. Um lugar que ele jamais associaria a você. Com uma pessoa que ele nunca imaginaria que você procuraria.</p>
+        <p>Avise essa pessoa com antecedência. Ela precisa estar preparada para te receber sem aviso prévio se necessário.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f2i11" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Continue parecendo absolutamente normal</div>
+      </div>
+      <div class="item-corpo">
+        <p>Essa é a instrução mais importante da Fase 2. Nada pode parecer diferente. Não demonstre que algo mudou. Não fique mais distante, não fique mais carinhosa, não mude sua rotina de forma perceptível.</p>
+        <p>Use a psicóloga como justificativa para qualquer mudança de comportamento que ele questionar. <strong>"A psicóloga disse que faz bem para mim organizar minhas coisas."</strong> Quanto menos explicação você der, melhor.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="motivacional-fim">
+    <p>Sua infraestrutura está montada. Sua reserva está crescendo. Ele não sabe de nada. Isso é poder. Você está mais forte do que parece. Vai para a Fase 3.</p>
+    <p style="margin-top:8px;font-size:11px;color:rgba(82,183,136,.6)">Este guia não substitui acompanhamento psicológico, assessoria jurídica ou atendimento policial. Se estiver em risco imediato, ligue para o 180 ou 190.</p>
+  </div>
+</div>
+
+<hr class="separador">
+
+<!-- FASE 3 -->
+<div class="fase">
+  <div class="fase-header">
+    <div class="fase-numero">Fase 03</div>
+    <div class="fase-titulo">Coleta de Provas</div>
+    <div class="motivacional">
+      <p>Você não vai sair de mãos vazias. Tudo que ele fez, tudo que ele tomou, tudo que ele destruiu — precisa estar documentado. Essa fase é sobre transformar anos de abuso em evidências que o sistema vai precisar enxergar. Você vai sair com sua história nas mãos.</p>
+    </div>
+    <div class="fase-intro">Agora é hora de organizar, autenticar e transformar o que você coletou em um dossiê que uma advogada consegue usar. Qualidade, não quantidade. Uma prova bem documentada vale mais que cem capturas de tela bagunçadas.</div>
+  </div>
+
+  <div class="checklist" id="fase3">
+
+    <div class="item" data-id="f3i1" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Monitore e documente o que está visível sem precisar invadir nada</div>
+      </div>
+      <div class="item-corpo">
+        <p>Fique atenta ao computador ou celular compartilhado que você tem acesso legítimo. Se ele deixou o e-mail aberto, o WhatsApp aberto, o Instagram aberto — print imediatamente e mande para o seu e-mail novo.</p>
+        <p>Notificações que aparecem na tela sem precisar desbloquear nada, print. Histórico de pesquisa do computador da casa que vocês usam juntos, print. <strong>Tudo que está visível sem você precisar de senha é prova legal.</strong></p>
+        <p>Faça isso em momentos seguros, quando ele não está perto.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i2" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Monitore a atividade dele nas redes sociais</div>
+      </div>
+      <div class="item-corpo">
+        <p>No Instagram, acesse o perfil dele e toque em "Seguindo". Você consegue ver as contas que ele segue e as curtidas recentes. No TikTok, acesse o perfil e veja os vídeos curtidos se estiverem públicos.</p>
+        <p>No Instagram também é possível ver quando a pessoa estava ativa pela última vez na conversa do Direct. <strong>Print com data e horário visíveis.</strong> Compare com o que ele disse que estava fazendo naquele momento.</p>
+        <p>Faça capturas de tela de tudo que parecer relevante e envie para o e-mail novo.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i3" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Fotografe todos os documentos dele que estão em casa</div>
+      </div>
+      <div class="item-corpo">
+        <p>RG, CPF, CNH, passaporte, comprovante de residência, documentos do veículo, contrato de aluguel ou escritura do imóvel, notas fiscais de bens, extratos impressos, contratos de financiamento.</p>
+        <p>Faça isso aos poucos, em momentos tranquilos, sem pressa. Fotografe com boa iluminação para que os dados fiquem legíveis. <strong>Envie tudo para o e-mail novo imediatamente depois.</strong></p>
+        <p>Você vai precisar do endereço e documentos dele na delegacia. Tenha tudo em mãos.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i4" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Documente todos os bens em nome dele comprados durante o relacionamento</div>
+      </div>
+      <div class="item-corpo">
+        <p>Tudo que foi comprado durante o relacionamento é patrimônio do casal, independente de estar no nome dele. Para cada bem, você precisa provar que existe e quando foi comprado.</p>
+        <p>Fotografe o carro mostrando a placa e o documento. Fotografe móveis, eletrodomésticos, eletrônicos com a nota fiscal ao lado quando possível. Se ele tem empresa, guarde qualquer documento que prove a existência e o patrimônio dela.</p>
+        <p>Documente as dívidas também: boletos, contratos de financiamento, extratos de cartão. <strong>Dívidas contraídas durante o relacionamento também são do casal.</strong></p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i5" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Documente irregularidades que ele comete</div>
+      </div>
+      <div class="item-corpo">
+        <p>Se ele faz algo errado nos negócios, sonega impostos, tem dinheiro não declarado ou qualquer irregularidade que você tem acesso a provas, guarde tudo. Fotografe, salve documentos, encaminhe para o e-mail novo.</p>
+        <p>Isso não é chantagem. É proteção. Se ele tentar te ameaçar depois da saída, você não estará de mãos vazias.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i6" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Autentique suas provas mais importantes</div>
+      </div>
+      <div class="item-corpo">
+        <p>Não precisa autenticar tudo. Escolha as provas mais graves e contundentes: a ameaça mais explícita, o áudio mais claro, a mensagem mais comprometedora.</p>
+        <p>Para essas, use o serviço <strong>Verifact</strong>. Pesquise "Verifact autenticar mensagem" no Google. É pago mas gera um certificado digital reconhecido em processos judiciais que prova que a prova é autêntica e não foi alterada.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f3i7" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Consulte uma advogada especializada em direito de família</div>
+      </div>
+      <div class="item-corpo">
+        <p>Pesquise no Google "advogada direito de família violência doméstica online". Não precisa ser na sua cidade — advogadas atendem online e conhecem a legislação nacional. Muitas oferecem primeira consulta gratuita ou acessível.</p>
+        <p>Leve seu dossiê completo. Ela vai te dizer exatamente o que você tem, o que ainda precisa e como usar cada prova. <strong>Fazer isso antes da saída muda completamente o resultado.</strong> Você não enfrenta o processo no desespero. Você entra preparada.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="motivacional-fim">
+    <p>Você tem um dossiê. Você tem provas. Você tem uma advogada orientando. Agora você está armada com tudo que precisa. A Fase 4 é a mais importante. É onde tudo que você construiu até aqui se torna liberdade.</p>
+    <p style="margin-top:8px;font-size:11px;color:rgba(82,183,136,.6)">Este guia não substitui acompanhamento psicológico, assessoria jurídica ou atendimento policial. Se estiver em risco imediato, ligue para o 180 ou 190.</p>
+  </div>
+</div>
+
+<hr class="separador">
+
+<!-- FASE 4 -->
+<div class="fase">
+  <div class="fase-header">
+    <div class="fase-numero">Fase 04</div>
+    <div class="fase-titulo">Saída Segura</div>
+    <div class="motivacional">
+      <p>Você investigou. Você se preparou em silêncio. Você construiu seu dossiê. Agora é a fase mais importante de todo o processo. A saída precisa ser executada com sangue frio, no momento certo, sem hesitação. Você não vai improvisar. Você vai executar um plano que já está pronto. Esse é o último capítulo dessa história. E o primeiro da sua liberdade.</p>
+    </div>
+    <div class="fase-intro">Essa fase não admite improviso. Cada passo foi pensado para te manter segura antes, durante e depois da saída. Execute exatamente como está aqui.</div>
+  </div>
+
+  <div class="checklist" id="fase4">
+
+    <div class="item" data-id="f4i1" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Escolha o momento certo</div>
+      </div>
+      <div class="item-corpo">
+        <p>Saia quando ele não estiver em casa. Academia, trabalho, mercado, qualquer compromisso que te dê pelo menos duas horas. Nunca saia durante uma briga. Nunca saia quando ele está em casa. Nunca avise antes.</p>
+        <p><strong>O elemento surpresa é sua proteção.</strong></p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i2" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Avise seu contato de segurança com antecedência</div>
+      </div>
+      <div class="item-corpo">
+        <p>Na véspera ou na manhã do dia escolhido, avise seu contato de segurança que é hoje. Ela precisa estar disponível, com o celular na mão, pronta para acionar ajuda se você sumir.</p>
+        <p>Combine um horário para você dar sinal de que chegou com segurança.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i3" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Leve o essencial e nada mais</div>
+      </div>
+      <div class="item-corpo">
+        <p>Documentos seus e dos filhos. Dinheiro em espécie. Remédios de uso contínuo. Carregadores. Roupas para alguns dias. Objetos de valor pequeno e sentimental.</p>
+        <p>Não tente levar tudo. Você vai recuperar o resto pela via legal. <strong>O que importa agora é sair.</strong></p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i4" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Verifique se o celular tem rastreador</div>
+      </div>
+      <div class="item-corpo">
+        <p>Pesquise no Google "como verificar rastreador no celular Android" ou "iPhone". Verifique os aplicativos instalados e as permissões de localização.</p>
+        <p>Se encontrar algo suspeito, não delete ainda. Delete apenas na hora de sair. Se tiver condições, troque de aparelho nesse dia. Se não tiver, coloque em <strong>modo avião</strong> assim que sair de casa e só ligue quando estiver em segurança.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i5" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Saia e não olhe para trás</div>
+      </div>
+      <div class="item-corpo">
+        <p>Chame o Uber ou táxi antes de sair de casa. Assim que entrar no carro, coloque o celular em modo avião. Não ligue para ninguém pelo celular principal. Use o chip novo se precisar se comunicar.</p>
+        <p>Vá direto para o lugar combinado. Não pare em lugar nenhum no caminho. Não mude o destino por impulso.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i6" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Mude todas as senhas imediatamente ao chegar</div>
+      </div>
+      <div class="item-corpo">
+        <p>Assim que chegar em segurança, mude a senha de tudo que ele tem acesso: e-mail principal, Instagram, Facebook, TikTok, aplicativo do banco, iCloud ou Google, qualquer serviço que você usa.</p>
+        <p><strong>Faça isso antes de qualquer outra coisa.</strong> Enquanto ele não sabe que você saiu, você tem uma janela de tempo para fechar todas as portas.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i7" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Bloqueie ele em tudo</div>
+      </div>
+      <div class="item-corpo">
+        <p>Depois de mudar as senhas, bloqueie ele em todas as redes sociais, no WhatsApp e no telefone. Bloqueie também as pessoas próximas a ele que podem repassar informações sobre onde você está.</p>
+        <p>Não é hora de deixar canais abertos. É hora de fechar tudo.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i8" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Avise pessoas próximas para bloquearem ele também</div>
+      </div>
+      <div class="item-corpo">
+        <p>Ligue para sua família e amigos de confiança e avise que você saiu e que ele pode tentar entrar em contato. Peça para bloquearem ele nas redes sociais e no celular.</p>
+        <p>Quanto menos acesso ele tiver às pessoas ao seu redor, menos informação ele consegue sobre você.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i9" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Vá à Delegacia da Mulher no mesmo dia</div>
+      </div>
+      <div class="item-corpo">
+        <p>Não deixe para amanhã. Vá no mesmo dia que você saiu. Leve todos os seus documentos e o dossiê que você construiu.</p>
+        <p>Na delegacia, relate tudo com detalhes. Diga que sofreu abuso psicológico, que precisou planejar a saída em segredo porque se sentia em risco e que precisa de medida protetiva.</p>
+        <p>Não minimize nada. Se tentarem te fazer desistir ou diminuir sua dor, seja firme. Diga que não se sente segura. <strong>Não saia de lá sem a medida protetiva.</strong> Ela impede que ele se aproxime de você, da sua família e que te contate online, sob risco de prisão.</p>
+      </div>
+    </div>
+
+    <div class="item" data-id="f4i10" onclick="toggleItem(this)">
+      <div class="item-header">
+        <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="item-titulo">Não volte para buscar nada sozinha</div>
+      </div>
+      <div class="item-corpo">
+        <p>Depois que você saiu e a medida protetiva foi emitida, não volte sozinha em hipótese alguma. Se precisar buscar pertences, acione a polícia para te acompanhar. Você tem direito a isso.</p>
+        <p>Pesquise "como buscar pertences com escolta policial" na sua cidade. <strong>Voltar sozinha é o maior risco que você pode correr nesse momento.</strong></p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="motivacional-fim">
+    <p>Você fez. Você saiu. Você está livre. O que vem agora vai ser difícil de formas diferentes — mas você já provou que tem o que precisa para atravessar. A mulher que planejou tudo isso em silêncio, com medo, tremendo, não vai ceder agora. Você é mais forte do que ele fez você acreditar. Sempre foi.</p>
+    <p style="margin-top:8px;font-size:11px;color:rgba(82,183,136,.6)">Este guia não substitui acompanhamento psicológico, assessoria jurídica ou atendimento policial. Se estiver em risco imediato, ligue para o 180 ou 190.</p>
+  </div>
+</div>
+
+<!-- AVISO FINAL -->
+<div class="aviso-legal">
+  <p>Este guia foi criado por alguém que viveu o que você está vivendo e sobreviveu. Ele não substitui acompanhamento psicológico, assessoria jurídica ou atendimento policial. Cada situação é única. Busque sempre o apoio de uma psicóloga especializada em relacionamentos abusivos, uma advogada de família e, quando necessário, a Delegacia da Mulher.</p>
+  <p style="margin-top:8px"><strong>Este documento é estritamente confidencial.</strong> Foi criado exclusivamente para mulheres em situação de vulnerabilidade. É proibida qualquer divulgação, compartilhamento ou reprodução deste conteúdo para homens ou qualquer pessoa não autorizada.</p>
+  <div class="numeros">
+    <div class="numero">180 <span>Central de Atendimento à Mulher — gratuito, 24h, sigiloso</span></div>
+    <div class="numero">190 <span>Emergência</span></div>
+    <div class="numero">181 <span>Disque Denúncia</span></div>
+  </div>
+</div>
+
+</div><!-- fim conteudo -->
+</div><!-- fim conteudo-principal -->
+
+<script>
+// SISTEMA DE TOKEN
+const params = new URLSearchParams(window.location.search);
+const token = params.get('token');
+
+if(!token){
+  document.getElementById('acesso-negado').style.display = 'flex';
+} else {
+  document.getElementById('conteudo-principal').style.display = 'block';
+  carregarProgresso();
+}
+
+// TOGGLE ITEM
+function toggleItem(el){
+  const id = el.dataset.id;
+  const corpo = el.querySelector('.item-corpo');
+  
+  // Abre/fecha descrição
+  corpo.classList.toggle('aberto');
+  
+  // Marca como concluído ao clicar no checkbox
+  const checkbox = el.querySelector('.checkbox');
+  if(event.target === checkbox || event.target.closest('.checkbox') === checkbox){
+    el.classList.toggle('concluido');
+    salvarProgresso();
+    atualizarProgresso();
+  }
+}
+
+// SALVAR PROGRESSO
+function salvarProgresso(){
+  const concluidos = [];
+  document.querySelectorAll('.item.concluido').forEach(item => {
+    concluidos.push(item.dataset.id);
+  });
+  localStorage.setItem('ol_progresso_' + token, JSON.stringify(concluidos));
+}
+
+// CARREGAR PROGRESSO
+function carregarProgresso(){
+  const salvo = localStorage.getItem('ol_progresso_' + token);
+  if(salvo){
+    const concluidos = JSON.parse(salvo);
+    concluidos.forEach(id => {
+      const item = document.querySelector(`[data-id="${id}"]`);
+      if(item) item.classList.add('concluido');
+    });
+  }
+  atualizarProgresso();
+}
+
+// ATUALIZAR BARRA DE PROGRESSO
+function atualizarProgresso(){
+  const total = document.querySelectorAll('.item').length;
+  const concluidos = document.querySelectorAll('.item.concluido').length;
+  const pct = total > 0 ? Math.round(concluidos/total*100) : 0;
+  document.getElementById('progresso-fill').style.width = pct + '%';
+  document.getElementById('progresso-texto').textContent = `${concluidos} de ${total} etapas concluídas`;
+}
+</script>
+</body>
+</html>
