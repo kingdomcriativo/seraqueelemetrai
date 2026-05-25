@@ -66,17 +66,22 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
 .item:hover{border-color:rgba(201,168,76,.2);background:rgba(201,168,76,.03)}
 .item.concluido{background:rgba(45,106,79,.08);border-color:rgba(82,183,136,.25)}
 .item-header{display:flex;align-items:flex-start;gap:14px;padding:16px 18px}
+.item-header-right{flex:1;display:flex;flex-direction:column;gap:4px}
 .checkbox{width:20px;height:20px;border:1.5px solid rgba(255,255,255,.2);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .25s}
 .item.concluido .checkbox{background:var(--verde);border-color:var(--verde)}
 .checkbox svg{opacity:0;transition:opacity .2s}
 .item.concluido .checkbox svg{opacity:1}
 .item-titulo{font-size:14px;font-weight:500;color:var(--creme);line-height:1.5;transition:color .25s}
+.item-hint{font-size:10px;color:rgba(201,168,76,.5);letter-spacing:.5px;display:flex;align-items:center;gap:4px;transition:color .25s}
+.item-hint svg{transition:transform .25s}
+.item.aberto .item-hint svg{transform:rotate(180deg)}
 .item.concluido .item-titulo{color:var(--verde-claro);text-decoration:line-through;text-decoration-color:rgba(82,183,136,.4)}
-.item-corpo{padding:0 18px 16px 52px;font-size:13px;color:rgba(245,240,232,.6);line-height:1.85;display:none}
+.item.concluido .item-hint{color:rgba(82,183,136,.4)}
+.item-corpo{padding:0 18px 20px 52px;font-size:14px;color:rgba(245,240,232,.7);line-height:2;display:none}
 .item-corpo.aberto{display:block}
-.item-corpo p{margin-bottom:10px}
-.item-corpo p:last-child{margin-bottom:0}
-.item-corpo strong{color:var(--creme);font-weight:500}
+.item-corpo p{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.item-corpo p:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.item-corpo strong{color:var(--creme);font-weight:500;display:block;margin-bottom:4px}
 
 /* AVISO LEGAL */
 .aviso-legal{background:rgba(107,26,42,.08);border:1px solid rgba(107,26,42,.25);padding:20px 24px;margin-top:48px}
@@ -139,7 +144,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f1i1" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Entenda o que o juiz aceita como prova — leia isso primeiro</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Entenda o que o juiz aceita como prova — leia isso primeiro</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>No Brasil, provas digitais são aceitas em processos de violência doméstica e divórcio desde que mostrem claramente a identidade de quem enviou, a data e o horário.</p>
@@ -151,7 +159,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f1i2" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Crie um diário de episódios no seu e-mail novo</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Crie um diário de episódios no seu e-mail novo</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Depois de cada situação de abuso, abra o seu e-mail novo e escreva um e-mail para você mesma com a data no assunto. Descreva o que aconteceu com detalhes: data, horário, o que ele disse palavra por palavra se conseguir, o que ele fez, quem estava presente, como você ficou depois.</p>
@@ -163,7 +174,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f1i3" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Instale uma câmera discreta nos ambientes comuns</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Instale uma câmera discreta nos ambientes comuns</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Existem câmeras pequenas disfarçadas de objetos comuns como relógio de parede, carregador de celular ou detector de fumaça. Pesquise no Google "câmera espiã disfarçada" ou no Mercado Livre.</p>
@@ -174,7 +188,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f1i4" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Grave os episódios de abuso com o celular</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Grave os episódios de abuso com o celular</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Quando sentir que uma situação vai escalar, abra o gravador de voz nativo do celular e deixe gravando com o celular virado para baixo ou dentro da bolsa. Não precisa de aplicativo especial. O gravador nativo já funciona.</p>
@@ -185,7 +202,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f1i5" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Documente as conversas do WhatsApp e redes sociais</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Documente as conversas do WhatsApp e redes sociais</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Faça capturas de tela de todas as conversas relevantes: ameaças, agressões verbais, mensagens que provam o comportamento dele. Cada captura precisa mostrar claramente o nome do contato, a foto do perfil e o número de telefone.</p>
@@ -220,7 +240,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i1" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Escolha seu contato de segurança</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Escolha seu contato de segurança</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Escolha uma pessoa — só uma — em quem você confia de olhos fechados. Alguém que nunca te trairia, não importa o que aconteça. Pode ser sua mãe, sua irmã, uma amiga de infância, qualquer pessoa desde que você tenha certeza absoluta da lealdade dela.</p>
@@ -232,7 +255,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i2" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Crie o sistema de palavra-chave diária</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Crie o sistema de palavra-chave diária</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Com seu contato de segurança, combine um esquema usando o alfabeto da música da Xuxa: A de Amor, B de Baixinho, C de Coração, D de Doçura, e assim por diante.</p>
@@ -244,7 +270,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i3" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Crie um e-mail novo que só você conhece</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Crie um e-mail novo que só você conhece</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Esse e-mail será sua base de operações. Tudo que você documentar, provar e guardar vai para cá.</p>
@@ -258,7 +287,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i4" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Compre um chip novo só seu</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Compre um chip novo só seu</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Vá a qualquer loja de celular ou mercado e compre um chip pré-pago no seu CPF. Pague em dinheiro. Guarde esse chip fora de casa, na bolsa do seu contato de segurança ou no seu local de trabalho.</p>
@@ -270,7 +302,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i5" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Abra uma conta bancária só sua</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Abra uma conta bancária só sua</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Com o chip novo em mãos, baixe o aplicativo de um banco digital que você ainda não usa, como <strong>Nubank, Inter ou C6</strong>. Crie a conta usando o seu e-mail novo e o número do chip novo. A abertura é toda pelo celular.</p>
@@ -282,7 +317,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i6" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Comece a construir sua reserva de saída</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Comece a construir sua reserva de saída</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Nunca transfira dinheiro direto para a conta nova pelo aplicativo. Ele pode monitorar seu extrato.</p>
@@ -295,7 +333,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i7" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Separe seus documentos pessoais</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Separe seus documentos pessoais</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>RG, CPF, certidão de nascimento, passaporte, carteira de trabalho, diplomas, certificados, certidão de casamento se houver. Junte tudo em um envelope.</p>
@@ -307,7 +348,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i8" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Crie um perfil secreto no Instagram</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Crie um perfil secreto no Instagram</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Crie um perfil novo e privado no Instagram usando o e-mail novo e o chip novo. Use um nome que não tem nada a ver com você.</p>
@@ -319,7 +363,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i9" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Inicie acompanhamento psicológico online</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Inicie acompanhamento psicológico online</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Pesquise no Google "psicóloga online especializada em relacionamento abusivo". Marque consultas online que você pode fazer do celular em qualquer lugar com privacidade.</p>
@@ -331,7 +378,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i10" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Planeje para onde você vai</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Planeje para onde você vai</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Defina um destino. Casa de quem. Em qual cidade. Quanto mais longe e mais inesperado, melhor. Um lugar que ele jamais associaria a você. Com uma pessoa que ele nunca imaginaria que você procuraria.</p>
@@ -342,7 +392,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f2i11" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Continue parecendo absolutamente normal</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Continue parecendo absolutamente normal</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Essa é a instrução mais importante da Fase 2. Nada pode parecer diferente. Não demonstre que algo mudou. Não fique mais distante, não fique mais carinhosa, não mude sua rotina de forma perceptível.</p>
@@ -376,7 +429,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i1" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Monitore e documente o que está visível sem precisar invadir nada</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Monitore e documente o que está visível sem precisar invadir nada</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Fique atenta ao computador ou celular compartilhado que você tem acesso legítimo. Se ele deixou o e-mail aberto, o WhatsApp aberto, o Instagram aberto — print imediatamente e mande para o seu e-mail novo.</p>
@@ -388,7 +444,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i2" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Monitore a atividade dele nas redes sociais</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Monitore a atividade dele nas redes sociais</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>No Instagram, acesse o perfil dele e toque em "Seguindo". Você consegue ver as contas que ele segue e as curtidas recentes. No TikTok, acesse o perfil e veja os vídeos curtidos se estiverem públicos.</p>
@@ -400,7 +459,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i3" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Fotografe todos os documentos dele que estão em casa</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Fotografe todos os documentos dele que estão em casa</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>RG, CPF, CNH, passaporte, comprovante de residência, documentos do veículo, contrato de aluguel ou escritura do imóvel, notas fiscais de bens, extratos impressos, contratos de financiamento.</p>
@@ -412,7 +474,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i4" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Documente todos os bens em nome dele comprados durante o relacionamento</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Documente todos os bens em nome dele comprados durante o relacionamento</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Tudo que foi comprado durante o relacionamento é patrimônio do casal, independente de estar no nome dele. Para cada bem, você precisa provar que existe e quando foi comprado.</p>
@@ -424,7 +489,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i5" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Documente irregularidades que ele comete</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Documente irregularidades que ele comete</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Se ele faz algo errado nos negócios, sonega impostos, tem dinheiro não declarado ou qualquer irregularidade que você tem acesso a provas, guarde tudo. Fotografe, salve documentos, encaminhe para o e-mail novo.</p>
@@ -435,7 +503,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i6" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Autentique suas provas mais importantes</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Autentique suas provas mais importantes</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Não precisa autenticar tudo. Escolha as provas mais graves e contundentes: a ameaça mais explícita, o áudio mais claro, a mensagem mais comprometedora.</p>
@@ -446,7 +517,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f3i7" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Consulte uma advogada especializada em direito de família</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Consulte uma advogada especializada em direito de família</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Pesquise no Google "advogada direito de família violência doméstica online". Não precisa ser na sua cidade — advogadas atendem online e conhecem a legislação nacional. Muitas oferecem primeira consulta gratuita ou acessível.</p>
@@ -480,7 +554,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i1" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Escolha o momento certo</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Escolha o momento certo</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Saia quando ele não estiver em casa. Academia, trabalho, mercado, qualquer compromisso que te dê pelo menos duas horas. Nunca saia durante uma briga. Nunca saia quando ele está em casa. Nunca avise antes.</p>
@@ -491,7 +568,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i2" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Avise seu contato de segurança com antecedência</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Avise seu contato de segurança com antecedência</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Na véspera ou na manhã do dia escolhido, avise seu contato de segurança que é hoje. Ela precisa estar disponível, com o celular na mão, pronta para acionar ajuda se você sumir.</p>
@@ -502,7 +582,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i3" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Leve o essencial e nada mais</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Leve o essencial e nada mais</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Documentos seus e dos filhos. Dinheiro em espécie. Remédios de uso contínuo. Carregadores. Roupas para alguns dias. Objetos de valor pequeno e sentimental.</p>
@@ -513,7 +596,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i4" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Verifique se o celular tem rastreador</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Verifique se o celular tem rastreador</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Pesquise no Google "como verificar rastreador no celular Android" ou "iPhone". Verifique os aplicativos instalados e as permissões de localização.</p>
@@ -524,7 +610,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i5" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Saia e não olhe para trás</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Saia e não olhe para trás</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Chame o Uber ou táxi antes de sair de casa. Assim que entrar no carro, coloque o celular em modo avião. Não ligue para ninguém pelo celular principal. Use o chip novo se precisar se comunicar.</p>
@@ -535,7 +624,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i6" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Mude todas as senhas imediatamente ao chegar</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Mude todas as senhas imediatamente ao chegar</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Assim que chegar em segurança, mude a senha de tudo que ele tem acesso: e-mail principal, Instagram, Facebook, TikTok, aplicativo do banco, iCloud ou Google, qualquer serviço que você usa.</p>
@@ -546,7 +638,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i7" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Bloqueie ele em tudo</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Bloqueie ele em tudo</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Depois de mudar as senhas, bloqueie ele em todas as redes sociais, no WhatsApp e no telefone. Bloqueie também as pessoas próximas a ele que podem repassar informações sobre onde você está.</p>
@@ -557,7 +652,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i8" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Avise pessoas próximas para bloquearem ele também</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Avise pessoas próximas para bloquearem ele também</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Ligue para sua família e amigos de confiança e avise que você saiu e que ele pode tentar entrar em contato. Peça para bloquearem ele nas redes sociais e no celular.</p>
@@ -568,7 +666,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i9" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Vá à Delegacia da Mulher no mesmo dia</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Vá à Delegacia da Mulher no mesmo dia</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Não deixe para amanhã. Vá no mesmo dia que você saiu. Leve todos os seus documentos e o dossiê que você construiu.</p>
@@ -580,7 +681,10 @@ body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif
     <div class="item" data-id="f4i10" onclick="toggleItem(this)">
       <div class="item-header">
         <div class="checkbox"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="item-titulo">Não volte para buscar nada sozinha</div>
+        <div class="item-header-right">
+          <div class="item-titulo">Não volte para buscar nada sozinha</div>
+          <div class="item-hint"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> clique para ler os detalhes</div>
+        </div>
       </div>
       <div class="item-corpo">
         <p>Depois que você saiu e a medida protetiva foi emitida, não volte sozinha em hipótese alguma. Se precisar buscar pertences, acione a polícia para te acompanhar. Você tem direito a isso.</p>
@@ -629,6 +733,7 @@ function toggleItem(el){
   
   // Abre/fecha descrição
   corpo.classList.toggle('aberto');
+  el.classList.toggle('aberto');
   
   // Marca como concluído ao clicar no checkbox
   const checkbox = el.querySelector('.checkbox');
