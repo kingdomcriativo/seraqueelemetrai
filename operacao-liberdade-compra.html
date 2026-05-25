@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '951646650965700');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=951646650965700&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operação Liberdade — Guardiã SOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0d0d0d;--vinho:#6b1a2a;--vinho-claro:#8b2238;--dourado:#c9a84c;--dourado-claro:#e2c47a;--creme:#f5f0e8;--muted:#888}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--preto);color:var(--creme);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.wrap{max-width:480px;width:100%;position:relative;z-index:10}
+.logo-area{text-align:center;margin-bottom:32px}
+.logo-area img{width:56px;margin-bottom:12px}
+.logo-area p{font-size:10px;letter-spacing:3px;color:var(--dourado);text-transform:uppercase}
+.produto{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.2);padding:28px 24px;margin-bottom:24px}
+.produto-eyebrow{font-size:10px;letter-spacing:2px;color:var(--dourado);text-transform:uppercase;margin-bottom:10px}
+.produto-titulo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--creme);line-height:1;margin-bottom:16px}
+.produto-titulo span{color:var(--dourado)}
+.produto-desc{font-size:13px;color:#aaa;line-height:1.8;margin-bottom:20px}
+.fases{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.fase-item{display:flex;gap:10px;font-size:12px;color:#888}
+.fase-item span{color:var(--dourado);font-weight:500;flex-shrink:0}
+.preco-area{border-top:1px solid rgba(255,255,255,.06);padding-top:20px}
+.preco-big{font-size:40px;color:var(--dourado-claro);font-weight:500;line-height:1}
+.preco-label{font-size:11px;color:#555;margin-top:4px}
+.form-area{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:28px 24px}
+.form-area.hide{display:none}
+.form-title{font-size:16px;font-weight:500;color:var(--creme);margin-bottom:20px}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.input-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:14px;padding:13px 16px;outline:none;transition:border-color .2s}
+.input-group input:focus{border-color:rgba(201,168,76,.4)}
+.input-group input::placeholder{color:#444}
+.btn-pix{width:100%;padding:15px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;margin-top:8px}
+.btn-pix:hover{background:var(--vinho-claro)}
+.btn-pix:disabled{opacity:.4;cursor:not-allowed}
+.selos{margin-top:16px;border-top:1px solid rgba(255,255,255,.06);padding-top:16px}
+.selos-top{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px}
+.selos-top span{font-size:12px;color:#aaa}
+.selos-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.selo{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px;text-align:center}
+.selo-icon{font-size:15px;margin-bottom:2px}
+.selo-text{font-size:10px;color:#888;line-height:1.4}
+.selos-bottom{font-size:10px;color:#444;text-align:center;line-height:1.5}
+.pix-area{display:none}
+.pix-area.show{display:block}
+.pix-title{font-size:14px;font-weight:500;color:var(--creme);margin-bottom:20px;text-align:center}
+.qr-wrap{background:rgba(255,255,255,.96);padding:16px;display:flex;justify-content:center;margin-bottom:16px}
+.qr-wrap img{width:180px;height:180px;display:none}
+.qr-fallback{width:180px;height:180px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#666;text-align:center;padding:12px}
+.pix-code-label{font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.pix-code{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:10px 14px;font-family:monospace;font-size:10px;color:#888;word-break:break-all;margin-bottom:10px}
+.btn-copy{background:none;border:1px solid rgba(201,168,76,.3);color:var(--dourado);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 20px;cursor:pointer;display:block;margin:0 auto 16px;font-family:'DM Sans',sans-serif}
+.timer-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:12px;color:var(--muted)}
+.timer-val{color:var(--dourado-claro);font-weight:500}
+.checking-row{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:#555;margin-top:10px}
+.dot-pulse{display:flex;gap:3px}
+.dot-pulse span{width:4px;height:4px;border-radius:50%;background:var(--dourado);animation:pulse 1.2s infinite}
+.dot-pulse span:nth-child(2){animation-delay:.2s}
+.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sucesso{display:none;text-align:center;padding:32px 24px;background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.2)}
+.sucesso.show{display:block}
+.sucesso h2{font-size:22px;font-weight:500;color:var(--creme);margin-bottom:12px}
+.sucesso p{font-size:13px;color:#aaa;line-height:1.8;margin-bottom:20px}
+.btn-acessar{display:inline-block;padding:14px 32px;background:var(--vinho);border:1px solid var(--vinho-claro);color:var(--creme);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.footer-text{text-align:center;font-size:10px;letter-spacing:2px;color:#333;text-transform:uppercase;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+  <div class="logo-area">
+    <img src="https://www.guardiasos.com.br/logovertical.png" alt="Guardiã SOS">
+    <p>Guardiã SOS</p>
+  </div>
+
+  <div class="produto">
+    <div class="produto-eyebrow">Seu próximo passo</div>
+    <div class="produto-titulo">Operação <span>Liberdade</span></div>
+    <div class="produto-desc">Um plano completo criado por alguém que viveu o que você está vivendo e saiu. Passo a passo de como sair com segurança, com provas, com dinheiro e com a cabeça erguida.</div>
+    <div class="fases">
+      <div class="fase-item"><span>Fase 1</span> Investigação — como documentar provas que o juiz aceita</div>
+      <div class="fase-item"><span>Fase 2</span> Preparação Silenciosa — e-mail secreto, conta nova, reserva financeira</div>
+      <div class="fase-item"><span>Fase 3</span> Coleta de Provas — dossiê completo, Verifact, advogada</div>
+      <div class="fase-item"><span>Fase 4</span> Saída Segura — o primeiro dia livre, delegacia, medida protetiva</div>
+    </div>
+    <div class="preco-area">
+      <div class="preco-big">R$ 27,90</div>
+      <div class="preco-label">pagamento único via Pix · acesso imediato · checklist interativo</div>
+    </div>
+  </div>
+
+  <div class="form-area" id="form-area">
+    <div class="form-title">Finalize seu acesso</div>
+    <div class="input-group">
+      <label>Seu e-mail</label>
+      <input type="email" id="inp-email" placeholder="Para onde envio seu acesso">
+    </div>
+    <button class="btn-pix" id="btn-gerar-pix" onclick="gerarPix()">Gerar QR Code Pix</button>
+    <div class="selos">
+      <div class="selos-top"><span>🔒</span><span>Pagamento 100% seguro via Pix</span></div>
+      <div class="selos-grid">
+        <div class="selo"><div class="selo-icon">✓</div><div class="selo-text">Aprovado pelo<br>Mercado Pago</div></div>
+        <div class="selo"><div class="selo-icon">🛡️</div><div class="selo-text">Site protegido<br>por SSL</div></div>
+        <div class="selo"><div class="selo-icon">↩️</div><div class="selo-text">Garantia de<br>7 dias</div></div>
+        <div class="selo"><div class="selo-icon">🔐</div><div class="selo-text">Seus dados<br>estão seguros</div></div>
+      </div>
+      <div class="selos-bottom">Aprovação em segundos · Acesso imediato após o pagamento</div>
+    </div>
+  </div>
+
+  <div class="pix-area" id="pix-area">
+    <div class="form-area">
+      <div class="pix-title">Escaneie o QR Code para pagar</div>
+      <div class="qr-wrap">
+        <img id="qr-img" alt="QR Code Pix">
+        <div class="qr-fallback" id="qr-fallback">QR Code sendo gerado...</div>
+      </div>
+      <div class="pix-code-label">Código Pix — copia e cola</div>
+      <div class="pix-code" id="pix-code"></div>
+      <button class="btn-copy" onclick="copiarCodigo()">Copiar código</button>
+      <div class="timer-row">Expira em <span class="timer-val" id="timer">15:00</span></div>
+      <div class="checking-row">Aguardando pagamento <div class="dot-pulse"><span></span><span></span><span></span></div></div>
+      <p style="font-size:10px;color:#444;text-align:center;margin-top:12px;line-height:1.6">O pagamento pode aparecer como <strong style="color:#c9a84c;font-weight:600">Kingdom Criativo</strong> no seu extrato — é nossa empresa parceira de pagamentos. Totalmente seguro.</p>
+    </div>
+  </div>
+
+  <div class="sucesso" id="sucesso">
+    <h2>Acesso liberado. 🔓</h2>
+    <p>Seu link da Operação Liberdade foi enviado para o seu e-mail. Verifique sua caixa de entrada — incluindo o spam.<br><br>Clique abaixo para acessar agora.</p>
+    <a href="#" id="btn-acessar" class="btn-acessar">Acessar meu plano</a>
+  </div>
+
+  <div class="footer-text">guardiasos.com.br · confidencial</div>
+</div>
+
+<script>
+const ACCESS_TOKEN='SEU_ACCESS_TOKEN_AQUI';
+const MAKE_WEBHOOK='https://hook.eu1.make.com/tja3f1x6pti9sik18mill9spq2cod8a2';
+const BASE_URL='https://www.guardiasos.com.br';
+const PRECO=27.90;
+const DEV_MODE=ACCESS_TOKEN==='SEU_ACCESS_TOKEN_AQUI';
+let timerInterval=null,pollInterval=null;
+
+function gerarToken(){return Math.random().toString(36).substring(2,10)+Date.now().toString(36);}
+
+async function gerarPix(){
+  fbq('track','InitiateCheckout',{value:PRECO,currency:'BRL'});
+  const email=document.getElementById('inp-email').value.trim();
+  if(!email){alert('Preencha seu e-mail para continuar.');return;}
+  const btn=document.getElementById('btn-gerar-pix');
+  btn.disabled=true;btn.textContent='Gerando...';
+  if(DEV_MODE){
+    mostrarQR({qr_code:'00020126580014BR.GOV.BCB.PIX013636b8e5a7-demo52040000530986540727.9055020BR63041234',qr_code_base64:null,id:'demo-'+Date.now()});
+    return;
+  }
+  try{
+    const res=await fetch('https://api.mercadopago.com/v1/payments',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+ACCESS_TOKEN,'X-Idempotency-Key':'ol-'+Date.now()},
+      body:JSON.stringify({transaction_amount:PRECO,description:'Operação Liberdade — Guardiã SOS',payment_method_id:'pix',payer:{email,first_name:'Cliente'}})
+    });
+    if(!res.ok)throw new Error(res.status);
+    const data=await res.json();
+    const px=data.point_of_interaction?.transaction_data;
+    if(!px)throw new Error('Resposta inesperada');
+    mostrarQR({qr_code:px.qr_code,qr_code_base64:px.qr_code_base64,id:data.id});
+  }catch(e){btn.disabled=false;btn.textContent='Gerar QR Code Pix';alert('Não foi possível gerar o Pix. Tente novamente.');}
+}
+
+function mostrarQR({qr_code,qr_code_base64,id}){
+  document.getElementById('form-area').classList.add('hide');
+  document.getElementById('pix-area').classList.add('show');
+  if(qr_code_base64){
+    const img=document.getElementById('qr-img');
+    img.src='data:image/png;base64,'+qr_code_base64;
+    img.style.display='block';
+    document.getElementById('qr-fallback').style.display='none';
+  }
+  document.getElementById('pix-code').textContent=qr_code;
+  let secs=900;
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    secs--;
+    const m=Math.floor(secs/60),s=secs%60;
+    document.getElementById('timer').textContent=m+':'+String(s).padStart(2,'0');
+    if(secs<=0){clearInterval(timerInterval);clearInterval(pollInterval);}
+  },1000);
+  if(DEV_MODE){setTimeout(()=>pagamentoAprovado(),8000);}
+  else{pollInterval=setInterval(()=>verificarPagamento(id),4000);}
+}
+
+async function verificarPagamento(id){
+  try{
+    const res=await fetch('https://api.mercadopago.com/v1/payments/'+id,{headers:{'Authorization':'Bearer '+ACCESS_TOKEN}});
+    const data=await res.json();
+    if(data.status==='approved'){clearInterval(pollInterval);clearInterval(timerInterval);pagamentoAprovado();}
+  }catch(e){}
+}
+
+async function pagamentoAprovado(){
+  const email=document.getElementById('inp-email').value.trim();
+  const token=gerarToken();
+  const linkAcesso=BASE_URL+'/operacao-liberdade.html?token='+token;
+  fbq('track','Purchase',{value:PRECO,currency:'BRL'});
+  document.getElementById('pix-area').classList.remove('show');
+  document.getElementById('sucesso').classList.add('show');
+  document.getElementById('btn-acessar').href=linkAcesso;
+  try{
+    await fetch(MAKE_WEBHOOK,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,link_resultado:linkAcesso,faixa:'operacao-liberdade',tipo:'operacao-liberdade',valor:PRECO})
+    });
+  }catch(e){console.error('Make webhook error:',e);}
+}
+
+function copiarCodigo(){
+  const code=document.getElementById('pix-code').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn=document.querySelector('.btn-copy');
+    btn.textContent='Copiado!';
+    setTimeout(()=>btn.textContent='Copiar código',2000);
+  });
+}
+</script>
+</body>
+</html>
